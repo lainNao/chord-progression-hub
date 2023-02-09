@@ -1,0 +1,26 @@
+{
+  "name": "chord-progression-analysis-portal",
+  "version": "1.0.0",
+  "description": "Source code of chord progression analysis portal.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "_regexp": "ts-node _playground/regexp.ts"
+  },
+  "keywords": ["chord", "progression", "analysis", "portal"],
+  "author": "laiNao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lainNao/chord-progression-analysis-portal/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lainNao/chord-progression-analysis-portal.git"
+  },
+  "homepage": "https://github.com/lainNao/chord-progression-analysis-portal#readme",
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
