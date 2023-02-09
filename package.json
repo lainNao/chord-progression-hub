@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "_regexp": "ts-node _playground/regexp.ts"
+    "test:regex": "ts-node _playground/matchChordProgressionMarkdown/matchChordProgressionMarkdown.test.ts"
   },
   "keywords": ["chord", "progression", "analysis", "portal"],
   "author": "laiNao",

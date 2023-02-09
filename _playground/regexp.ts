@@ -1,3 +1,6 @@
+import assert from "assert";
+import { abort } from "process";
+
 const matchWholeString = (str: string) => `^${str}$`;
 const oneOrMore = (str: string) => `(${str})+`;
 const START_BAR_REGEXP = "\\|";
@@ -6,16 +9,17 @@ const OPTIONAL_SHARP_FLAT_REGEXP = "(#|b)?";
 const OPTIONAL_CHORD_TYPE_REGEXP = "(m|M|aug|dim|add|sus2|sus4)?";
 const OPTIONAL_CHORD_MODIFIER_REGEXP = "(2|3|4|b5|5|6|7|b9|9|b11|11|b13|13)?";
 const OPTIONAL_CHORD_ADDITIONAL_MODIFIER_REGEXP = "(-5|b5)?";
+const CODE_EXPRESSION = CHORD_REGEXP +
+  OPTIONAL_SHARP_FLAT_REGEXP +
+  OPTIONAL_CHORD_TYPE_REGEXP +
+  OPTIONAL_CHORD_MODIFIER_REGEXP +
+  OPTIONAL_CHORD_ADDITIONAL_MODIFIER_REGEXP
 const END_BAR_REGEXP = "\\|";
 
 const CHORD_PROGRESSION_REGEXP = matchWholeString(
   START_BAR_REGEXP +
     oneOrMore(
-      CHORD_REGEXP +
-        OPTIONAL_SHARP_FLAT_REGEXP +
-        OPTIONAL_CHORD_TYPE_REGEXP +
-        OPTIONAL_CHORD_MODIFIER_REGEXP +
-        OPTIONAL_CHORD_ADDITIONAL_MODIFIER_REGEXP +
+      CODE_EXPRESSION +
         END_BAR_REGEXP
     )
 );
@@ -43,9 +47,9 @@ const ng = [
   "|C|C",
 ]
 
-console.log("ok---------------------")
+assert(true)
 ok.forEach((target) => {
-  console.log(target.match(chordReg), chordReg.test(target));
+  assert(chordReg.test(target));
 });
 
 console.log("ng---------------------")
