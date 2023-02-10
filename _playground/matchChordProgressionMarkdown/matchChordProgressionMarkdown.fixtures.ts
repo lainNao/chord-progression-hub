@@ -1,5 +1,9 @@
 export const ok = [
   // 基本的なコード
+  "|C|",
+  "|Cm|",
+  "|CM|",
+  "|CM7|",
   "|Bbm|",
   "|Bbm|",
   "|Bbm7|",

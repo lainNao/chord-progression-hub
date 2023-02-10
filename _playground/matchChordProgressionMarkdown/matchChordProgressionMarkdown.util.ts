@@ -20,10 +20,10 @@ const META_REGEXP = {
 
 const CHORD_REGEXP = {
   CHORD: "([A-G])",
-  SHARP_FLAT: "(#|b)?",
-  TYPE: "(m|M|aug|dim|add|sus2|sus4)?",
+  SHARP_FLAT: "(#|b)",
+  TYPE: "(m|M|aug|dim|add|sus2|sus4)",
   MODIFIER: "(2|3|b3|4|b5|5|#5|b6|6|7|b9|9|#9|b11|11|#11|b13|13|#13)",
-  ADDITIONAL_MODIFIER: "(-5|b5)?",
+  ADDITIONAL_MODIFIER: "(-5|b5)",
 } as const;
 
 //(9,13) など
