@@ -21,6 +21,9 @@ export const ok = [
     |C|C|C|C|`,
   // csv
   "|Bb7-5(9,13),C,C,C|C , C,C,C|",
+  // メタ情報あり
+  "|(key=C)C|Dm|G7|C|",
+  "|(key=C)C|(key=Eb)Fm7|Bb7|EbM7|",
 ];
 
 export const ng = ["", "|", "|C", "|C|C"];
