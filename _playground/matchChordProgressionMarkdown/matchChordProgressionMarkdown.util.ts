@@ -1,4 +1,3 @@
-
 // 全体にマッチさせる
 const matchWholeString = (str: string) => `^${str}$`;
 
@@ -14,8 +13,13 @@ const optional = (str: string) => `(${str})?`;
 // CSV化
 const csv = (str: string) => `${str}(,${str})*`;
 
+// スペースを両端に挟んでOK
+const maybeSpaceAround = (str: string) => `(\\s)*${str}(\\s)*`;
+
 const META_REGEXP = {
   BAR: "\\|",
+  COMMA: ",",
+  NEW_LINE: "(\\r\\n|\\r|\\n)",
 } as const;
 
 const CHORD_REGEXP = {
@@ -40,5 +44,9 @@ const CHORD_EXPRESSION_REGEXP =
 
 // |Cm7|F7|Bb7|Eb7| など
 export const CHORD_PROGRESSION_REGEXP = matchWholeString(
-  META_REGEXP.BAR + oneOrMore(CHORD_EXPRESSION_REGEXP + META_REGEXP.BAR)
+  oneOrMore(
+    maybeSpaceAround(optional(META_REGEXP.NEW_LINE)) +
+    META_REGEXP.BAR +
+    oneOrMore(maybeSpaceAround(CHORD_EXPRESSION_REGEXP) + META_REGEXP.BAR)
+  )
 );
