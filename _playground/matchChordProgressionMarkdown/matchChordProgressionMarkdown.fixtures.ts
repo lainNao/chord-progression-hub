@@ -19,6 +19,8 @@ export const ok = [
   // 改行コード&連続バー
   `|C|C|C|C|
     |C|C|C|C|`,
+  // csv
+  "|Bb7-5(9,13),C,C,C|C , C,C,C|",
 ];
 
 export const ng = ["", "|", "|C", "|C|C"];

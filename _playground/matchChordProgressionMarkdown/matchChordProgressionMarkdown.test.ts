@@ -3,11 +3,11 @@ import { matchChordExpressionMarkdown } from "./matchChordProgressionMarkdown";
 import { difficultButOk, ng, ok } from "./matchChordProgressionMarkdown.fixtures";
 
 ok.forEach((target) => {
-  assert(matchChordExpressionMarkdown(target), `${target}はマッチする`);
+  assert(matchChordExpressionMarkdown(target), `\n\n${target}\nはマッチする\n`);
 });
 
 ng.forEach((target) => {
-  assert(!matchChordExpressionMarkdown(target), `${target}はマッチしない`);
+  assert(!matchChordExpressionMarkdown(target), `\n\n${target}\nはマッチしない\n`);
 });
 
 // difficultButOk.forEach((target) => {
