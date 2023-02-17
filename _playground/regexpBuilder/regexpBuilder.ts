@@ -15,6 +15,7 @@ export const optional = (str: string) => `(${str})?`;
 export const zeroOrMore = (str: string) => `(${str})*`;
 
 //一つ以上必須にする
+//TODO: これだけがリッチなのおかしい?
 export const oneOrMore = (str: string, option?: {
   delimiter: string
 } | {
