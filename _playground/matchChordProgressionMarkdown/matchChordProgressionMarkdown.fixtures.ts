@@ -1,6 +1,6 @@
 export const ok = [
   // 基本的なコード
-  "|C|", 
+  "|C|",
   "|Cm|",
   "|CM|",
   "|CM7|",
@@ -26,7 +26,14 @@ export const ok = [
   "|(key=C)C|(key=Eb)Fm7|Bb7|EbM7|",
 ];
 
-export const ng = ["", "|", "|C", "|C|C"];
+export const ng = [
+  "", 
+  "|", 
+  "|C", 
+  "|C|C", 
+  "|(key=C=)C|",
+  "|(key=C)(key=C)C|"
+];
 
 export const difficultButOk = [
   `
