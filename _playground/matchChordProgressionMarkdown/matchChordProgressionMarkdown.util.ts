@@ -1,34 +1,4 @@
-// 全体にマッチさせる
-const matchWholeString = (exp: string) => `^${exp}$`;
-
-//一つ以上必須にする
-const oneOrMore = (exp: string) => `(${exp})+`;
-
-// ()で囲う
-const withParentheses = (exp: string) => `\\(${exp}\\)`;
-
-// オプショナル化
-const optional = (exp: string) => `(${exp})?`;
-
-// スペースを両端に挟んでOK
-const maybeSpaceAround = (exp: string) => `(\\s)*${exp}(\\s)*`;
-
-// 挟む
-const sand = (arg: {
-  center: string;
-  lr: string;
-}) => `(${arg.lr}${arg.center}${arg.lr})`;
-
-// CSV化
-const csv = (exp: string) => `${exp}(${maybeSpaceAround(",")}${exp})*`;
-
-const META_REGEXP = {
-  BAR: "\\|",
-  COMMA: ",",
-  SLASH: "/",
-  NEW_LINE: "(\\r\\n|\\r|\\n)",
-  ENGLISH_OR_NUMBER: "[a-zA-Z0-9]",
-} as const;
+import { csv, matchWholeString, maybeSpaceAround, META_REGEXP, oneOrMore, optional, sand, withParentheses } from "../regexpBuilder/regexpBuilder";
 
 const CHORD_REGEXP = {
   CHORD: "([A-G])",

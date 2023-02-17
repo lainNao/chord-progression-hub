@@ -4,6 +4,7 @@ export const META_REGEXP = {
   SLASH: "/",
   SPACE: "\\s",
   NEW_LINE: "(\\r\\n|\\r|\\n)",
+  ENGLISH_OR_NUMBER: "[a-zA-Z0-9]",
 } as const;
 
 // 全体にマッチさせる
@@ -15,7 +16,7 @@ export const optional = (str: string) => `(${str})?`;
 export const zeroOrMore = (str: string) => `(${str})*`;
 
 //一つ以上必須にする
-//TODO: これだけがリッチなのおかしい?
+//TODO: これだけがリッチなのおかしい。zeroOrMoreでもこのリッチ差ほしいはずなので
 export const oneOrMore = (str: string, option?: {
   delimiter: string
 } | {
@@ -38,11 +39,6 @@ export const oneOrMore = (str: string, option?: {
 
   throw new Error("Invalid option: " + option);
 };
-
-// CSV化
-export const csv = (str: string) => oneOrMore(str, {
-  delimiter: META_REGEXP.COMMA
-})
 
 // 両端を囲む
 export const withAround = (str: string, parentheses: {
@@ -81,3 +77,12 @@ export const withParentheses = (str: string) => withAround(str, {
 export const withBarAround = (str: string) => withAround(str, META_REGEXP.BAR, {
   parenthesesQuantity: "one"
 });
+
+// CSV化
+export const csv = (exp: string) => `${exp}(${maybeSpaceAround(META_REGEXP.COMMA)}${exp})*`;
+
+// 挟む
+export const sand = (arg: {
+  center: string;
+  lr: string;
+}) => `(${arg.lr}${arg.center}${arg.lr})`;
