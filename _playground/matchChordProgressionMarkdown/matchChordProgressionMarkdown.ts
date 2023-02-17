@@ -1,13 +1,12 @@
 // TODO
 // key=などのメタ情報を許容
-// あと改行した時は「|」が2回続くことになるのを許すとか？
-// 分数コード
 // カンマ区切りでの1小節に複数コード
 // 改行文字やスペースはよくわからないので許容しない。前処理で消す。と思ったけど最後に対応したいな。
 //     改行についてはsplit("\r")とかの類でもいいのかも
+// マークダウンってどうリントしてるんだ？ これのコード読みたい https://github.com/DavidAnson/markdownlint
 
-import { CHORD_PROGRESSION_REGEXP } from "./matchChordProgressionMarkdown.util";
+import { MULTI_LINE_CODE_EXPRESSION_REGEXP } from "./matchChordProgressionMarkdown.util";
 
 export const matchChordExpressionMarkdown = (markdown: string) => {
-  return new RegExp(CHORD_PROGRESSION_REGEXP, "g").test(markdown);
+  return new RegExp(MULTI_LINE_CODE_EXPRESSION_REGEXP, "g").test(markdown);
 };

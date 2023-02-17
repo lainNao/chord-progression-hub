@@ -19,6 +19,7 @@ const maybeSpaceAround = (str: string) => `(\\s)*${str}(\\s)*`;
 const META_REGEXP = {
   BAR: "\\|",
   COMMA: ",",
+  SLASH: "/",
   NEW_LINE: "(\\r\\n|\\r|\\n)",
 } as const;
 
@@ -34,7 +35,7 @@ const CHORD_REGEXP = {
 const MODIFIER_WITH_PARENTHESES = withParentheses(csv(CHORD_REGEXP.MODIFIER));
 
 // Bb7-5(9,13) など
-const CHORD_EXPRESSION_REGEXP =
+const CHORD_EXPRESSION_WITHOUT_SLASH_REGEXP =
   CHORD_REGEXP.CHORD +
   optional(CHORD_REGEXP.SHARP_FLAT) +
   optional(CHORD_REGEXP.TYPE) +
@@ -42,11 +43,16 @@ const CHORD_EXPRESSION_REGEXP =
   optional(CHORD_REGEXP.ADDITIONAL_MODIFIER) +
   optional(MODIFIER_WITH_PARENTHESES);
 
+// Bb7-5(9,13)/A など
+const CHORD_EXPRESSION_REGEXP = CHORD_EXPRESSION_WITHOUT_SLASH_REGEXP +
+  optional(META_REGEXP.SLASH + CHORD_EXPRESSION_WITHOUT_SLASH_REGEXP);
+
 // |Cm7|F7|Bb7|Eb7| など
-export const CHORD_PROGRESSION_REGEXP = matchWholeString(
-  oneOrMore(
-    maybeSpaceAround(optional(META_REGEXP.NEW_LINE)) +
-    META_REGEXP.BAR +
-    oneOrMore(maybeSpaceAround(CHORD_EXPRESSION_REGEXP) + META_REGEXP.BAR)
-  )
+const ONE_LINE_CODE_EXPRESSION_REGEXP = maybeSpaceAround(optional(META_REGEXP.NEW_LINE)) +
+  META_REGEXP.BAR +
+  oneOrMore(maybeSpaceAround(CHORD_EXPRESSION_REGEXP) + META_REGEXP.BAR)
+
+// 複数行対応
+export const MULTI_LINE_CODE_EXPRESSION_REGEXP = matchWholeString(
+  oneOrMore(ONE_LINE_CODE_EXPRESSION_REGEXP)
 );
