@@ -1,4 +1,13 @@
-import { csv, matchWholeString, maybeSpaceAround, META_REGEXP, oneOrMore, optional, sand, withParentheses } from "../regexpBuilder/regexpBuilder";
+import { META_REGEXP } from "../regex-util/consts";
+import {
+  csv,
+  matchWholeString,
+  maybeSpaceAround,
+  oneOrMore,
+  optional,
+  sand,
+  withParentheses,
+} from "../regex-util/regex-util";
 
 const CHORD_REGEXP = {
   CHORD: "([A-G])",
@@ -9,14 +18,12 @@ const CHORD_REGEXP = {
 
 // key=C など
 const KEY_VALUE_REGEXP = sand({
-  lr: oneOrMore(
-    META_REGEXP.ENGLISH_OR_NUMBER
-  ),
+  lr: oneOrMore(META_REGEXP.ENGLISH_OR_NUMBER),
   center: "=",
 });
 
 // (key=C, someKey=someValue) など
-const KEY_VALUE_CSV_PARENTHESES_REGEXP = withParentheses(csv(KEY_VALUE_REGEXP))
+const KEY_VALUE_CSV_PARENTHESES_REGEXP = withParentheses(csv(KEY_VALUE_REGEXP));
 
 // (9,13) など
 const MODIFIER_WITH_PARENTHESES = withParentheses(csv(CHORD_REGEXP.MODIFIER));
@@ -51,5 +58,5 @@ const ONE_LINE_CODE_EXPRESSION_REGEXP =
 // 複数行対応
 export const MULTI_LINE_CODE_EXPRESSION_REGEXP = matchWholeString(
   oneOrMore(ONE_LINE_CODE_EXPRESSION_REGEXP) +
-  maybeSpaceAround(optional(META_REGEXP.NEW_LINE))
+    maybeSpaceAround(optional(META_REGEXP.NEW_LINE))
 );

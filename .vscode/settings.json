@@ -6,5 +6,7 @@
     "qwik",
     "Supabase",
     "Upstash"
-  ]
+  ],
+  // prettier
+  "editor.formatOnSave": true,
 }
