@@ -1,7 +1,7 @@
 import _escapeStringRegexp from "escape-string-regexp";
-import { RegexpString } from "./types";
+import { RegexpString } from "./regex-util.types";
 
-// TODO escapeStringRegexpはここでしか使えないようにリントかける
+// TODO(refactor) escapeStringRegexpはここでしか使えないようにリントかける
 
 export const escapeStringRegexp = (str: string): RegexpString => {
   return _escapeStringRegexp(str) as RegexpString;

@@ -1,17 +1,19 @@
-import { META_REGEXP } from "./consts";
-import { RegexpString } from "./types";
+import { META_REGEXP } from "./regex-util.consts";
+import { RegexpString } from "./regex-util.types";
 
 // TODO orMoreとそれに依存してるものにバグがあるっぽい。そもそも引数が変な気がする
 
 /**
  * 全体にマッチさせる
  */
-export const matchWholeString = (str: RegexpString) => `^${str}$`;
+export const matchWholeString = (str: RegexpString): RegexpString =>
+  `^${str}$` as RegexpString;
 
 /**
  * オプショナルにする
  */
-export const optional = (str: RegexpString) => `(${str})?`;
+export const optional = (str: RegexpString): RegexpString =>
+  `(${str})?` as RegexpString;
 
 /**
  * 0か1つ以上必須にする
@@ -32,14 +34,14 @@ export const orMore = (
               right: RegexpString;
             };
       }
-) => {
+): RegexpString => {
   const repeater = count === 0 ? "*" : "+";
   if (!option) {
-    return `(${str})${repeater}`;
+    return `(${str})${repeater}` as RegexpString;
   }
   if ("delimiter" in option) {
     const escapedDelimiter = option.delimiter;
-    return `(${str})(${escapedDelimiter}(${str}))${repeater}`;
+    return `(${str})(${escapedDelimiter}(${str}))${repeater}` as RegexpString;
   }
   if ("parentheses" in option) {
     const left =
@@ -50,7 +52,7 @@ export const orMore = (
       typeof option.parentheses === "string"
         ? option.parentheses
         : option.parentheses.right;
-    return `${left}(${str}(${right}))${repeater}`;
+    return `${left}(${str}(${right}))${repeater}` as RegexpString;
   }
 
   throw new Error("Invalid option: " + option);
@@ -59,12 +61,12 @@ export const orMore = (
 /**
  * 0か1つ以上必須にする
  */
-export const zeroOrMore = (str: RegexpString) => orMore(str, 0);
+export const zeroOrMore = (str: RegexpString): RegexpString => orMore(str, 0);
 
 /**
  * 1つ以上必須にする
  */
-export const oneOrMore = (str: RegexpString) => orMore(str, 1);
+export const oneOrMore = (str: RegexpString): RegexpString => orMore(str, 1);
 
 /**
  * 両端を囲む
@@ -80,7 +82,7 @@ export const withAround = (
   option?: {
     parenthesesQuantity: "one" | "zeroOrMore" | "oneOrMore";
   }
-) => {
+): RegexpString => {
   const left = typeof parentheses === "string" ? parentheses : parentheses.left;
   const right =
     typeof parentheses === "string" ? parentheses : parentheses.right;
@@ -88,18 +90,18 @@ export const withAround = (
 
   switch (parenthesesQuantity) {
     case "one":
-      return `${left}${str}${right}`;
+      return `${left}${str}${right}` as RegexpString;
     case "zeroOrMore":
-      return `${zeroOrMore(left)}${str}${zeroOrMore(left)}`;
+      return `${zeroOrMore(left)}${str}${zeroOrMore(left)}` as RegexpString;
     case "oneOrMore":
-      return `${oneOrMore(left)}${str}${oneOrMore(right)}`;
+      return `${oneOrMore(left)}${str}${oneOrMore(right)}` as RegexpString;
   }
 };
 
 /**
  * スペースを両端に挟んでOK
  */
-export const maybeSpaceAround = (str: RegexpString) =>
+export const maybeSpaceAround = (str: RegexpString): RegexpString =>
   withAround(str, META_REGEXP.SPACE, {
     parenthesesQuantity: "zeroOrMore",
   });
@@ -107,7 +109,7 @@ export const maybeSpaceAround = (str: RegexpString) =>
 /**
  * ()で囲う
  */
-export const withParentheses = (str: RegexpString) =>
+export const withParentheses = (str: RegexpString): RegexpString =>
   withAround(
     str,
     {
@@ -121,7 +123,7 @@ export const withParentheses = (str: RegexpString) =>
 /**
  * |で囲う
  */
-export const withBarAround = (str: RegexpString) =>
+export const withBarAround = (str: RegexpString): RegexpString =>
   withAround(str, META_REGEXP.BAR, {
     parenthesesQuantity: "one",
   });
@@ -129,14 +131,16 @@ export const withBarAround = (str: RegexpString) =>
 /**
  * CSV形式にする
  */
-export const csv = (exp: RegexpString) =>
+export const csv = (exp: RegexpString): RegexpString =>
   `${exp}${orMore(
     `${maybeSpaceAround(META_REGEXP.COMMA)}${exp}` as RegexpString,
     0
-  )}`;
+  )}` as RegexpString;
 
 /**
  * 指定の文字で囲む
  */
-export const sand = (arg: { center: RegexpString; lr: RegexpString }) =>
-  `(${arg.lr}${arg.center}${arg.lr})`;
+export const sand = (arg: {
+  center: RegexpString;
+  lr: RegexpString;
+}): RegexpString => `(${arg.lr}${arg.center}${arg.lr})` as RegexpString;

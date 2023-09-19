@@ -1,5 +1,4 @@
 // TODO: Iなどの記法を許容（これはCとかと混在しないように関数自体分けたほうが良いのかも）
-//
 // TODO スペース許容をあれこれ
 // TODO マークダウンってどうリントしてるんだ？ これのコード読みたい https://github.com/DavidAnson/markdownlint
 // TODO regression testもつけたい。出力されたcsvが同じかどうかのテスト
