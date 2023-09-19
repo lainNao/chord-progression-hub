@@ -1,8 +1,6 @@
 import { META_REGEXP } from "./regex-util.consts";
 import { RegexpString } from "./regex-util.types";
 
-// TODO orMoreとそれに依存してるものにバグがあるっぽい。そもそも引数が変な気がする
-
 /**
  * 全体にマッチさせる
  */
@@ -21,7 +19,6 @@ export const optional = (str: RegexpString): RegexpString =>
 export const orMore = (
   str: RegexpString,
   count: 0 | 1,
-  // TODO: delimiter入れたら実質countが2以上になるはず。整合性取る
   option?:
     | {
         delimiter: RegexpString;
