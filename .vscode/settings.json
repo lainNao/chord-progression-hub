@@ -5,8 +5,9 @@
     "lefthook",
     "qwik",
     "Supabase",
-    "Upstash"
+    "Upstash",
+    "varchar"
   ],
   // prettier
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": true
 }
