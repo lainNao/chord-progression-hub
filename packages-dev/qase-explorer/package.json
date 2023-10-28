@@ -1,0 +1,9 @@
+{
+  "name": "qase-explorer",
+  "version": "1.0.0",
+  "description": "Qaseのtest caseを一覧するサイト",
+  "private": true,
+  "scripts": {
+    "start": "bun ./src/index.ts"
+  }
+}

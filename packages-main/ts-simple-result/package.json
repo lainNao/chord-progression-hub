@@ -1,0 +1,11 @@
+{
+  "name": "ts-simple-result",
+  "version": "1.0.0",
+  "description": "A simple result type for TypeScript",
+  "private": true,
+  "scripts": {
+    "start": "bun ./src/index.ts",
+    "test": "bun test"
+  },
+  "exports": "./src/index.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "common-test-case-templates",
+  "version": "1.0.0",
+  "description": "Common test case runners",
+  "private": true,
+  "scripts": {
+    "start": "bun ./src/index.ts"
+  }
+}
