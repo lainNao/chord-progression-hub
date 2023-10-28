@@ -1,4 +1,4 @@
-import { runAllUnionCases } from "./matchPaths/matchPaths";
+import { runAllUnionCases } from "./runAllUnionCases/runAllUnionCases";
 import { BACK } from "./testCases/back";
 import { FRONT } from "./testCases/front";
 import { ObjectToPathsArrayRecursive } from "./types";

@@ -1,5 +1,5 @@
 import t from "bun:test";
-import { runAllUnionCases } from "./matchPaths";
+import { runAllUnionCases } from "./runAllUnionCases";
 
 t.describe("runAllUnionCases", () => {
   // REFACTOR: toHaveBeenCalledWithがまだbun.jestに無かったので後対応
