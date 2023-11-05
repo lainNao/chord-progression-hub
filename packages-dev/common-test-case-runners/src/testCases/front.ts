@@ -1,5 +1,5 @@
 const UI_COMPONENT = {
-  BASE: ["a11y", "themes", "language", "responsive"],
+  BASE: ["a11y", "themes", "multiple language", "responsive"],
   EXTRA_STYLE: ["hover", "focus"],
   STATE: [
     "active(open/checked/expanded)",
