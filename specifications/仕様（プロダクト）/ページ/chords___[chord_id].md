@@ -11,7 +11,6 @@
       - raw textをコピーする機能（<https://www.npmjs.com/package/copy-to-clipboard>等）
 - サブ
   - youtubeの検索結果
-  - 「他の人はこの曲も見ています」機能
 
 ## デザイン
 

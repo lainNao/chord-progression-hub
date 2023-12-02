@@ -1,4 +1,9 @@
 {
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#202e45",
+    "titleBar.inactiveBackground": "#202e45"
+  },
+
   "cSpell.words": [
     "Bandcamp",
     "Chordify",
