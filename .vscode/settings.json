@@ -6,10 +6,12 @@
 
   "cSpell.words": [
     "Bandcamp",
+    "chadcn",
     "Chordify",
     "codecademy",
     "Couchbase",
     "denormal",
+    "Kysely",
     "lefthook",
     "lslint",
     "Pathify",
@@ -18,9 +20,13 @@
     "shadcn",
     "soundcloudならsoundcloudプレイヤーとして表示したり",
     "ssrf",
+    "stylelint",
     "Supabase",
+    "trgm",
+    "Turso",
     "Upstash",
-    "varchar"
+    "varchar",
+    "Zenn"
   ],
   // prettier
   "editor.formatOnSave": true
