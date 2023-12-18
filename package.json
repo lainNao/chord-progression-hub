@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "test": "npm run common-test-case-runners:test & npm run ts-simple-result:test",
-    "qase-explorer:start": "cd packages-dev/qase-explorer && npm run start",
-    "common-test-case-runners:test": "cd packages-dev/common-test-case-runners && npm run test",
-    "ts-simple-result:test": "cd packages-main/ts-simple-result && npm run test"
+    "qase-explorer:start": "npm run start --workspace=qase-explorer",
+    "common-test-case-runners:test": "npm run test --workspace=-test-case-runners",
+    "ts-simple-result:test": "npm run test --workspace=ts-simple-result"
   },
   "workspaces": [
     "packages-main/*",
