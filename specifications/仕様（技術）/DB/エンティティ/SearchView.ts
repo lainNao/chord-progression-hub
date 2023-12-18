@@ -7,7 +7,7 @@ import { CreatedInfo, IdField, UpdatedInfo } from "./_util";
 export type LookupChordProgressionBySection = IdField &
   CreatedInfo &
   UpdatedInfo & {
-    section: Section;
+    section?: Section;
     music: Music;
     chordProgression: ChordProgression;
     /**
@@ -23,12 +23,14 @@ export type LookupChordProgressionBySection = IdField &
      * 1.まず、`#`を全部`b`のコードに変換しておく
      * 2.次に、pg_trgmに対応してる文字に置き換える。以下文字列の置き換えは「Base, accidental, Extension」にある文字とかぶらないことがルール。（bはかぶってもOK）
      *  ・`#`→（これは1をクリアすれば存在しないはずであるのでスルー）
-     *  ・`/`→`X`
      *  ・`,`→`Y`
      *  ・`@`→`V`
      *  ・`=`→`W`
      *  ・`-`→`半角スペース`
-     * 3.なので`D#m(7,9)/G - A`は例えば`Ebm1X2YGZ A`のような文字列になる
+     *  ・`_`→`S`
+     *  ・`?`→`Q`
+     *  ・`%`→`R`
+     * 3.また、分母は検索の都合上無視する（複雑すぎるので）
      */
     normalized: string;
     /**
