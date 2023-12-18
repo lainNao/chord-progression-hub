@@ -3,31 +3,6 @@
     "titleBar.activeBackground": "#202e45",
     "titleBar.inactiveBackground": "#202e45"
   },
-
-  "cSpell.words": [
-    "Bandcamp",
-    "chadcn",
-    "Chordify",
-    "codecademy",
-    "Couchbase",
-    "denormal",
-    "Kysely",
-    "lefthook",
-    "lslint",
-    "Pathify",
-    "Qase",
-    "qwik",
-    "shadcn",
-    "soundcloudならsoundcloudプレイヤーとして表示したり",
-    "ssrf",
-    "stylelint",
-    "Supabase",
-    "trgm",
-    "Turso",
-    "Upstash",
-    "varchar",
-    "Zenn"
-  ],
   // prettier
   "editor.formatOnSave": true
 }

@@ -4,6 +4,10 @@
   "description": "Qaseのtest caseを一覧するサイト",
   "private": true,
   "scripts": {
-    "start": "bun ./src/index.ts"
+    "start": "node --env-file .env --import tsx ./src/index.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
   }
 }

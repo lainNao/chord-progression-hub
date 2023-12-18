@@ -1,9 +1,10 @@
 import { qaseApi, getQaseTestCaseUrl } from "./qaseApi";
 import { makeTestSuiteNamesBreadCrumbStringRecursively } from "./util";
+import http from "http";
 
-const server = Bun.serve({
-  port: 3000,
-  fetch: async () => {
+const PORT = 8976;
+http
+  .createServer(async (_, response) => {
     const getAllTestSuites = await qaseApi.getAllTestSuites();
 
     const suites = makeTestSuiteNamesBreadCrumbStringRecursively(
@@ -84,12 +85,9 @@ const server = Bun.serve({
       </body>
     `;
 
-    return new Response(html, {
-      headers: {
-        "Content-Type": "text/html",
-      },
-    });
-  },
-});
+    response.writeHead(200, { "Content-Type": "text/html" });
+    response.end(html);
+  })
+  .listen(PORT);
 
-console.log(`Listening on localhost: http://localhost:${server.port}`);
+console.log(`Listening on: http://localhost:${PORT}`);

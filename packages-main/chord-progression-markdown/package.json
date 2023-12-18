@@ -4,12 +4,6 @@
   "scripts": {
     "test": "bun test"
   },
-  "engines": {
-    "bun": ">=1.0.1",
-    "node": "Please use bun",
-    "yarn": "Please use bun",
-    "pnpm": "Please use bun"
-  },
   "exports": {
     ".": "./index.ts"
   },

@@ -16,7 +16,7 @@
 
 - `一般`
   - playwright
-  - bun:test
+  - jest
   - @storybook/addon-interactions
   - prettier
   - eslint

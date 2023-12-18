@@ -1,4 +1,3 @@
-import { test, describe, expect } from "bun:test";
 import { Result } from ".";
 
 describe("Result", () => {

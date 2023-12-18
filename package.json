@@ -4,11 +4,10 @@
   "description": "Source code of chord progression hub.",
   "private": true,
   "scripts": {
-    "test": "bun test",
-    "qase-explorer:start": "bun run --cwd packages-dev/qase-explorer start",
-    "base-test-case-generator:test": "bun run --cwd packages-dev/base-test-case-generator test",
-    "extract-paths:test": "bun run --cwd packages-dev/extract-paths test",
-    "ts-simple-result:test": "bun run --cwd packages/ts-simple-result test"
+    "test": "npm run common-test-case-runners:test & npm run ts-simple-result:test",
+    "qase-explorer:start": "cd packages-dev/qase-explorer && npm run start",
+    "common-test-case-runners:test": "cd packages-dev/common-test-case-runners && npm run test",
+    "ts-simple-result:test": "cd packages-main/ts-simple-result && npm run test"
   },
   "workspaces": [
     "packages-main/*",
@@ -23,14 +22,14 @@
   "author": "laiNao",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lainNao/chord-progression-analysis-portal/issues"
+    "url": "https://github.com/lainNao/chord-progression-hub/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lainNao/chord-progression-analysis-portal.git"
+    "url": "git+https://github.com/lainNao/chord-progression-hub.git"
   },
-  "homepage": "https://github.com/lainNao/chord-progression-analysis-portal#readme",
+  "homepage": "https://github.com/lainNao/chord-progression-hub#readme",
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "cspell": "^8.1.3"
   }
 }
