@@ -33,6 +33,8 @@
   },
   "homepage": "https://github.com/lainNao/chord-progression-hub#readme",
   "devDependencies": {
-    "cspell": "^8.1.3"
+    "cspell": "^8.1.3",
+    "markdownlint-cli2": "^0.11.0",
+    "spec-checklist": "^1.0.0"
   }
 }
