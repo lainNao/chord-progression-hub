@@ -4,10 +4,11 @@
   "description": "Source code of chord progression hub.",
   "private": true,
   "scripts": {
-    "test": "npm run common-test-case-runners:test & npm run ts-simple-result:test",
+    "test:all": "npm run common-test-case-runners:test & npm run ts-simple-result:test && npm run spec-checklist:test",
     "qase-explorer:start": "npm run start --workspace=qase-explorer",
     "common-test-case-runners:test": "npm run test --workspace=-test-case-runners",
-    "ts-simple-result:test": "npm run test --workspace=ts-simple-result"
+    "ts-simple-result:test": "npm run test --workspace=ts-simple-result",
+    "spec-checklist:test": "npm run test --workspace=spec-checklist"
   },
   "engines": {
     "node": ">=20.6.0"

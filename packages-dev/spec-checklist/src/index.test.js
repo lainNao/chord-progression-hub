@@ -4,6 +4,10 @@ describe("spec-checklist", () => {
   test("正常系", () => {
     const params = {
       lines: [
+        // 通常の文はスルーなのでOK
+        "",
+        "aaa",
+        // チェックリスト項目であるが、末尾に (spec-${id}) がちゃんとあるものはOK
         "- [x] aa (spec-111)",
         "- [ ] aa (spec-111)",
         "  - [x] aa (spec-111)",
