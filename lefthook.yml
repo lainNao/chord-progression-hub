@@ -1,0 +1,17 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+#
+pre-push:
+  commands:
+    test-all:
+      glob: "*"
+      run: npm run test:all
+
+pre-commit:
+  parallel: true
+  commands:
+    secretlint:
+      glob: "*"
+      run: npm run secretlint

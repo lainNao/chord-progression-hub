@@ -6,6 +6,7 @@
   "scripts": {
     "--------------------root----------------": "",
     "test:all": "npm run common-test-case-runners:test && npm run ts-simple-result:test && npm run spec-checklist:test && npm run spec-checklist-parser-runner:test && npm run spec-checklist-parser-runner:test:ids-unique",
+    "secretlint": "npx secretlint '**/*'",
     "---------------packages-main----------------": "",
     "ts-simple-result:test": "npm run test --workspace=ts-simple-result",
     "----------------packages-dev----------------": "",
@@ -41,8 +42,11 @@
   },
   "homepage": "https://github.com/lainNao/chord-progression-hub#readme",
   "devDependencies": {
+    "@secretlint/secretlint-rule-preset-recommend": "^8.0.0",
     "cspell": "^8.1.3",
+    "lefthook": "^1.5.5",
     "markdownlint-cli2": "^0.11.0",
+    "secretlint": "^8.0.0",
     "spec-checklist": "^1.0.0"
   }
 }
