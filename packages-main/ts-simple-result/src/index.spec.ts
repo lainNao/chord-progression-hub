@@ -13,7 +13,7 @@ describe("Result", () => {
   });
 
   describe("failure", () => {
-    test("成功時、errorが入る", () => {
+    test("失敗時、errorが入る", () => {
       const error = new Error("Something went wrong");
       const result = Result.failure(error);
       if (result.isSuccess) {

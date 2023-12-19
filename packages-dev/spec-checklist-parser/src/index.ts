@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-interface Spec {
+export interface Spec {
   id: string;
   description: string;
   done: boolean;
