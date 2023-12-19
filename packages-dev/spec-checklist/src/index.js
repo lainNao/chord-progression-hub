@@ -30,7 +30,7 @@ function isCheckListItem(str) {
 
 module.exports = {
   names: ["spec-checklist"],
-  description: "チェックリストの末尾に (spec-${id}) が必要です",
+  description: "チェックリストの末尾には (spec-${id}) を追加してください",
   tags: ["spec", "todo", "list"],
   function: function rule(params, onError) {
     params.lines.forEach((line, lineIndex) => {
