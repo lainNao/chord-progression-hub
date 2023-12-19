@@ -1,2 +1,6 @@
+# common
 node_modules
 .env
+
+# generated files
+specs.generated.json

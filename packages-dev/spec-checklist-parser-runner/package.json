@@ -1,0 +1,25 @@
+{
+  "name": "spec-checklist-parser-runner",
+  "version": "1.0.0",
+  "description": "spec-checklist-parserを使って、各処理を行う",
+  "private": true,
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "test:ids-unique": "tsx src/test-ids-unique.ts",
+    "generate-specs-json": "tsx src/generate-specs-json.ts"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "spec-checklist-parser": "^1.0.0"
+  }
+}
