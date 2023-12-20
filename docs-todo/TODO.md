@@ -11,6 +11,10 @@
   - なんか自分でUIライブラリ作ってもいいのかもしれない。ちょっとマット（うっすら粒子が見えるような）な感じのUIライブラリが無いけどそういうのもありだと思う。
 
 - `技術調査`
+  - `Next.jsとCloud Run`
+    - <https://zenn.dev/team_zenn/articles/nextjs-standalone-mode-cloudrun#%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%89%E3%82%A2%E3%83%AD%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%89%E3%82%92%E4%BD%BF%E3%82%8F%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88%E3%81%A8%E6%AF%94%E8%BC%83>
+  - `Cloud Runとジョブ`
+    - <https://zenn.dev/t_hayashi/articles/81568469119480>
   - 以下気になる
     - <https://zenn.dev/mizchi/articles/fullstack-remix-d1-boilerplate>
     - <https://note.com/jnlmyz/n/n51dd526fbac0>
@@ -105,7 +109,6 @@
       - GraphQL
       - REST
       - WebSockets
-
   - レートリミット設計
     - これ、一応IPアドレスでもやりたいね。Zennの人がやってたように
   - インフラ最低限な状態でまず動くか試してみたいね

@@ -11,7 +11,7 @@ describe("spec-checklist", () => {
         "- [x] aa (spec-111)",
         "- [ ] aa (spec-111)",
         "  - [x] aa (spec-111)",
-        "  - [x] bb (spec-111)",
+        "  - [x] bb(spec-111)",
       ],
     };
     const mockOnError = jest.fn();

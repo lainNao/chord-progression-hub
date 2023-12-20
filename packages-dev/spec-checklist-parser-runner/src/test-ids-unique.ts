@@ -3,7 +3,7 @@ import { parseSpecsFromMarkdownUnderDir } from "spec-checklist-parser";
 
 function testIdsAreUnique(): boolean {
   const specs = parseSpecsFromMarkdownUnderDir({
-    absoluteDir: path.join(__dirname, "../../../specifications"),
+    absoluteDir: path.join(__dirname, "../../../docs-spec"),
   });
 
   // バリデーション（idの重複がある場合はエラーにする）

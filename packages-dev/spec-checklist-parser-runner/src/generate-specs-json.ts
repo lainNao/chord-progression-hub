@@ -4,10 +4,12 @@ import { parseSpecsFromMarkdownUnderDir } from "spec-checklist-parser";
 
 /**
  * specs.generated.jsonを生成する
+ *
+ * TODO: ここ、パス指定が追従漏れ起こしそうなのでどうにかできるならしたいね
  */
 function generateSpecsJson() {
   const specs = parseSpecsFromMarkdownUnderDir({
-    absoluteDir: path.join(__dirname, "../../../specifications"),
+    absoluteDir: path.join(__dirname, "../../../docs-spec"),
   });
 
   // specs.jsonを生成

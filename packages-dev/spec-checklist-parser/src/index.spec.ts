@@ -12,7 +12,7 @@ bbb
 - [ ] ccc (spec-1)
 - [x] ddd (spec-2)
   - [ ] eee (spec-3)
-  - [x] fff (spec-4)
+  - [x] fff(spec-4)
 `;
     const specs = extractSpecs(fileContent);
     expect(specs).toEqual([

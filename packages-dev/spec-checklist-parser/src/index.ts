@@ -14,7 +14,7 @@ export function extractSpecs(content: string): Spec[] {
   const specs: Spec[] = [];
   const lines = content.split("\n");
   lines.forEach((line: string) => {
-    const match = line.match(/- \[(.+)\] (.+) \(spec-(.+)\)/);
+    const match = line.match(/- \[(.+)\](.+)\(spec-(.+)\)/);
     if (match) {
       const done = match[1] === "x";
       const description = match[2];
@@ -63,16 +63,23 @@ export function parseSpecsFromMarkdownUnderDir({
 }: {
   absoluteDir: string;
 }): Spec[] {
-  return getAllFileAbsolutePathsUnder({
+  const files = getAllFileAbsolutePathsUnder({
     absolutePath: absoluteDir,
     extname: ".md",
-  }).flatMap((file: string) => {
+  });
+
+  console.log(111, files);
+  const result = files.flatMap((file: string) => {
     if (path.extname(file) !== ".md") {
       return [];
     }
     const fileContent = fs.readFileSync(file, "utf8");
     return extractSpecs(fileContent);
   });
+
+  console.log(222, result);
+
+  return result;
 }
 
 const result = parseSpecsFromMarkdownUnderDir({
