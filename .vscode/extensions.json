@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "jsynowiec.vscode-insertdatestring",
+    "dbaeumer.vscode-eslint",
+    "davidanson.vscode-markdownlint",
+    "esbenp.prettier-vscode"
+  ]
+}

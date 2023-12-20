@@ -33,6 +33,7 @@ module.exports = {
   description: "チェックリストの末尾には (spec-${id}) を追加してください",
   tags: ["spec", "todo", "list"],
   function: function rule(params, onError) {
+    console.log(params);
     params.lines.forEach((line, lineIndex) => {
       if (!isCheckListItem(line)) {
         return;
