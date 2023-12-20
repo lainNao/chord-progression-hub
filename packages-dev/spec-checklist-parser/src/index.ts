@@ -68,7 +68,6 @@ export function parseSpecsFromMarkdownUnderDir({
     extname: ".md",
   });
 
-  console.log(111, files);
   const result = files.flatMap((file: string) => {
     if (path.extname(file) !== ".md") {
       return [];
@@ -76,8 +75,6 @@ export function parseSpecsFromMarkdownUnderDir({
     const fileContent = fs.readFileSync(file, "utf8");
     return extractSpecs(fileContent);
   });
-
-  console.log(222, result);
 
   return result;
 }
