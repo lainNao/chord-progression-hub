@@ -19,7 +19,8 @@ function testIdsAreUnique(): boolean {
 }
 
 if (testIdsAreUnique()) {
-  console.log("OK");
+  const green = "\u001b[32m";
+  console.log(`${green}[SUCCESS] All ids are unique`);
   process.exit(0);
 } else {
   process.exit(1);

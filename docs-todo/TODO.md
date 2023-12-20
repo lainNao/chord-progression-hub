@@ -2,6 +2,7 @@
 
 - `成功設計`
   - 成功しているサービスを分析し、その成功の抽象的な理由を一つずつ列挙し、踏襲する
+
 - `UIデザイン`
   - 参考サイトをまず色々見つけたい
     - <https://www.landingfolio.com/>
@@ -109,8 +110,6 @@
       - GraphQL
       - REST
       - WebSockets
-  - レートリミット設計
-    - これ、一応IPアドレスでもやりたいね。Zennの人がやってたように
   - インフラ最低限な状態でまず動くか試してみたいね
     - 例えばなんかNext.jsをvercel以外で動くかどうかはコンテナを使わないといけないらしい <https://zenn.dev/morinokami/articles/why-nextjs-summary#independence-(vercel-%E3%81%A8%E3%81%AE%E7%99%92%E7%9D%80)>
     - あとキャッシュ、CDN、IP固定、ServerActionsとか、VercelとGCPで違いあるのかとかね
