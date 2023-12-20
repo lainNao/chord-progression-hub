@@ -14,7 +14,7 @@ export function extractSpecs(content: string): Spec[] {
   const specs: Spec[] = [];
   const lines = content.split("\n");
   lines.forEach((line: string) => {
-    const match = line.match(/- \[(.+)\](.+)\(spec-(.+)\)/);
+    const match = line.match(/- \[(.+)\]\s*(.+?)\s*\(spec-(.+)\)/);
     if (match) {
       const done = match[1] === "x";
       const description = match[2];
