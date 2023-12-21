@@ -33,17 +33,12 @@
     - <https://zenn.dev/team_zenn/articles/nextjs-standalone-mode-cloudrun#%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%89%E3%82%A2%E3%83%AD%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%89%E3%82%92%E4%BD%BF%E3%82%8F%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88%E3%81%A8%E6%AF%94%E8%BC%83>
     - <https://zenn.dev/shoito/articles/nextjs-on-google-appengine>
     - ライブラリのバージョンをrenovateとかdepenadabotとかで上げるの、メジャーバージョンアップ追従or脆弱性対応or「この機能が必要だから今すぐ上げたい」の3種類だけでいいのでは感が出てきた。細かく上げていたらCI代がかかりそう
-    - PgBouncer等のコネクションプール
     - VRT、こういうのが安くてクロスブラウザでよさそうかもね <https://speakerdeck.com/kubotak/storybookwoshu-kudakederiguretusiyontesutoga-shi-xing-sarerushi-jie-heyoukoso?slide=57>
       - S3でVRTして料金あんまかけたくないな…
     - playwrightのUIモード？でやればstorybookいらないのでは
       - playwrightのVRTは直接リポジトリ内に画像を保存するのが基本かもだけど、S3に置くやり方もあるし、ただS3に置くのが嫌ならもうリポジトリ内に置いちゃって、リポジトリにコミットしちゃうのもありだと思う。そのリポジトリを別リポジトリにして、仮にgit的に重くなってきたらまた新規でリポジトリを作り直すとかすれば。
         - または特定ディレクトリ以下のgit履歴を完全破棄するみたいなことができれば、スクショを入れておくフォルダを定期的にそうやってリセットするとか（できるならば）
   - 技術選定前のハローワールドを一通りしてもいいかも
-    - Next.js+RSCでTODOアプリ
-      - RSC使えばPHPっぽくなってGraphQLいらんかも説を試したい
-    - HONO+htmxでTODOアプリ
-    - HTTP/3
     - 認証認可周り（パスキー、Google、Apple、メールアドレスの3つ）
     - google analytics
     - DB系
@@ -51,8 +46,6 @@
         - <https://www.postgresql.jp/document/9.0/html/functions-matching.html>
         - <https://www.postgresql.jp/docs/9.0/datatype-textsearch.html>
         - pg_stat_statments
-      - ElasticSearch
-      - kibana
       - D1
         - maximum db sizeが少ない？ <https://developers.cloudflare.com/d1/platform/limits/>
       - PlanetScale
@@ -61,13 +54,6 @@
       - Terraform
       - Ansible
       - Packer
-      - Vagrant
-      - VirtualBox
-      - Vagrant Cloud
-      - Docker Hub
-      - Docker Compose
-      - Docker Swarm
-      - Docker
       - Kubernetes
       - Istio
       - Linkerd
@@ -77,11 +63,6 @@
       - Envoy
       - CloudFlare
       - R2 <https://twitter.com/catnose99/status/1713828706928783773>
-      - AWS
-      - GCP
-      - Azure
-      - Heroku
-      - Netlify
       - Vercel
       - Firebase
       - CloudFront
@@ -92,7 +73,6 @@
       - Grafana
       - Prometheus
       - Fluentd
-      - Kibana
       - Logstash
       - Jaeger
       - OpenTelemetry
@@ -102,25 +82,16 @@
       - OpenAPI
       - OpenID
       - OpenID Connect
-      - OAuth
-      - OAuth2
       - SAML
-      - JWT
       - gRPC
-      - GraphQL
-      - REST
-      - WebSockets
   - インフラ最低限な状態でまず動くか試してみたいね
     - 例えばなんかNext.jsをvercel以外で動くかどうかはコンテナを使わないといけないらしい <https://zenn.dev/morinokami/articles/why-nextjs-summary#independence-(vercel-%E3%81%A8%E3%81%AE%E7%99%92%E7%9D%80)>
     - あとキャッシュ、CDN、IP固定、ServerActionsとか、VercelとGCPで違いあるのかとかね
   - CI/CI周りの調査
     - オープンソースのCI/CDを見まくる
-      - .github配下とか、docker周りとか、CODE_OF_CONDUCT.mdとかCONTRIBUTING.mdとか大量に見逃しありそう
-        - <https://github.com/seizadi/cube.js>
-        - <https://zenn.dev/morinokami/articles/dot-github-directory>
-    - ChatGPTに聞きまくって新しいアイデアを聞く
     - lighthouse、core web vitals、a11y、エラー検知、ロギング、とか全部やりたい
   - タイムゾーン別の日時表示とかどうするか考えないと。特にDBとか
+    - とりあえずdate-fnsがよさそう
   - wasmのやつをcloudflare workersで使えるのか見れてないからそこを見ておきたいところ
     - <https://developers.cloudflare.com/workers/runtime-apis/webassembly/>
       - 1MB制限に引っかかる…？
@@ -151,3 +122,6 @@
     - GitHubだってSNSではないしいいねとかはない（スターはあるけど）。そもそも他人のコード進行を書いてスターもらうのもおかしい。
   - コード進行の勉強のためのリンク集とか載せても良いのかもね
     - 場合によっては有料のを乗せる場合は追加料金でPRという形で乗せるとか（別によいサービスならば無料で勧めるし、よくないサービスなら載せないけど）
+
+- `余裕あれば`
+  - 正常系のメトリクスや監視技術（お金かかるのは最初は特にいらないので、あとで）

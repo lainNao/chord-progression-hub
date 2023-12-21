@@ -1,18 +1,27 @@
-module.exports = {
+{
   // Version of the setting file.  Always 0.2
-  version: "0.2",
+  "version": "0.2",
   // language - current active spelling language
-  language: "en",
+  "language": "en",
   // words - list of words to be always considered correct
-  words: [
+  "words": [
     "Bandcamp",
     "chadcn",
     "Chordify",
     "codecademy",
     "Couchbase",
     "denormal",
+    "depenadabot",
+    "Fluentd",
+    "HONO",
+    "htmx",
+    "Inno",
+    "ISAM",
+    "Istio",
     "Kysely",
     "lefthook",
+    "Linkerd",
+    "localstack",
     "lslint",
     "Pathify",
     "Qase",
@@ -25,6 +34,6 @@ module.exports = {
     "Turso",
     "Upstash",
     "varchar",
-    "Zenn",
-  ],
-};
+    "Zenn"
+  ]
+}
