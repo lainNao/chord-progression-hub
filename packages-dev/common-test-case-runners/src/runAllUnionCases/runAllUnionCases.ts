@@ -5,7 +5,7 @@
  * @example
  * type SomeStringUnionType = "a" | "b" | "c"
  *
- * matchPaths<SomeStringUnionType>({
+ * runAllUnionCases<SomeStringUnionType>({
  *   "a": () => {...},
  *   "b": () => {...},
  *   "c": () => {...},
