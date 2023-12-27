@@ -49,26 +49,25 @@
       - D1
         - maximum db sizeが少ない？ <https://developers.cloudflare.com/d1/platform/limits/>
       - PlanetScale
-    - IaC系（Terraform、Pulumi、Ansible、etc）
+    - IaC系（Terraform、Pulumi、etc）
+      - Neon使うなら現状なPulumiは無理なのでTerraformしかない…
+      - 感覚的にはPulumiが好きかもしれない。軽くTerraformやってみて、なんかファイル数が増大したりするわりにコード補完とかも効きづらいしでPHPのレガシーなでっかいグローバル変数を作ったり拡張したり触ったりしまくってる気分になってしまったので
+        - 有名でないプロバイダやリソースに対応してないのもあるかもだけど有名でないプロバイダやリソースを使うべきでないので <https://zenn.dev/koheiyamayama/articles/dd2129eee9f145#3.-%E7%AE%A1%E7%90%86%E3%81%A7%E3%81%8D%E3%82%8B%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%AE%E7%A8%AE%E9%A1%9E>
+          - Pulumi Cloudは個人で使う分には無料？
+        - 廃れるかもしれないけどどうしてもなんかTerraformが違和感まだあるので一旦Pulumiで概念に慣れるという体でやるのもありかなという、、
     - 以下その他あれこれ
       - Terraform
-      - Ansible
-      - Packer
       - Kubernetes
       - Istio
       - Linkerd
-      - Nomad
-      - Vault
-      - Consul
       - Envoy
       - CloudFlare
       - R2 <https://twitter.com/catnose99/status/1713828706928783773>
       - Vercel
-      - Firebase
+      - Firebase内の付属機能達全部
       - CloudFront
       - CloudWatch
       - Datadog
-      - Sentry
       - New Relic
       - Grafana
       - Prometheus
