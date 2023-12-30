@@ -39,3 +39,13 @@ module "main_cloud_run_service" {
   # other
   depends_on = [module.artifact_registry_for_container_image]
 }
+
+####################### NOTE: 現状IAM類は直接mainに書いちゃう
+
+# Cloud Runを未認証で外部公開する
+resource "google_cloud_run_service_iam_policy" "noauth" {
+  location    = var.region
+  project     = var.project_id
+  service     = var.cloud_run_service_name
+  policy_data = data.google_iam_policy.noauth_policy.policy_data
+}

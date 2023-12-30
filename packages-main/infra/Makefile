@@ -11,11 +11,11 @@ plan-stag:
 # apply
 apply-prod:
 	cd environments/production && \
-	terraform apply && \
+	terraform apply -auto-approve && \
 	cd ../../
 apply-stag:
 	cd environments/staging && \
-	terraform apply && \
+	terraform apply -auto-approve && \
 	cd ../../
 
 # init

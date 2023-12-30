@@ -7,6 +7,14 @@ resource "google_cloud_run_v2_service" "main" {
 
     containers {
       image = var.container_image_path
+      ports {
+        container_port = 8080
+      }
+
+      # env {
+      #   name  = "DATABASE_URL"
+      #   value = "..."
+      # }
 
       resources {
         limits = {
