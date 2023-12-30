@@ -7,6 +7,10 @@ plan-stag:
 	cd environments/staging && \
 	terraform plan && \
 	cd ../../
+plan-shared:
+	cd environments/shared && \
+	terraform plan && \
+	cd ../../
 
 # apply
 apply-prod:
@@ -15,6 +19,10 @@ apply-prod:
 	cd ../../
 apply-stag:
 	cd environments/staging && \
+	terraform apply -auto-approve && \
+	cd ../../
+apply-shared:
+	cd environments/shared && \
 	terraform apply -auto-approve && \
 	cd ../../
 
@@ -27,6 +35,10 @@ init-stag:
 	cd environments/staging && \
 	terraform init && \
 	terraform apply -target=module.artifact_registry_for_container_image && \
+	cd ../../
+init-shared:
+	cd environments/shared && \
+	terraform init && \
 	cd ../../
 
 

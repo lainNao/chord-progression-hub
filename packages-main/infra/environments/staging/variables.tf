@@ -1,5 +1,3 @@
-# NOTE: This values are set at Terraform Cloud
-
 # meta
 
 variable "region" {

@@ -28,7 +28,7 @@ module "artifact_registry_for_container_image" {
   repository_id = var.artifact_registry_repository_id
 }
 
-module "main_cloud_run_service" {
+module "cloud_run_service_main" {
   source = "../../modules/cloud_run_service"
   # variables
   project_id            = var.project_id
