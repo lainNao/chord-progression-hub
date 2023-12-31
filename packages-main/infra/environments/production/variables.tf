@@ -32,27 +32,27 @@ variable "cloud_run_service_container_image_path" {
   type        = string
 }
 
-variable "neon_api_key" {
-  description = "Neon API key."
-  type        = string
-}
-
-variable "neon_project_name" {
-  description = "Neon project name."
-  type        = string
-}
-
-variable "neon_branch_name" {
-  description = "Neon branch name."
-  type        = string
-}
-
-variable "neon_role_name" {
-  description = "Neon role name."
+variable "neon_host" {
+  description = "Neon host."
   type        = string
 }
 
 variable "neon_db_name" {
   description = "Neon db name."
+  type        = string
+}
+
+variable "neon_user_name" {
+  description = "Neon user name."
+  type        = string
+}
+
+variable "neon_password" {
+  description = "Neon password."
+  type        = string
+}
+
+variable "neon_endpoint_id" {
+  description = "Neon endpoint id."
   type        = string
 }

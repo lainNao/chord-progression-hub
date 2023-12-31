@@ -29,3 +29,28 @@ variable "cloud_run_service_container_image_path" {
   description = "Cloud Run Service container image path. e.g. REGION-docker.pkg.dev/PROJECT_ID/ARTIFACT_REGISTRY_ID/IMAGE_NAME:IMAGE_TAG_NAME"
   type        = string
 }
+
+variable "neon_host" {
+  description = "Neon host."
+  type        = string
+}
+
+variable "neon_db_name" {
+  description = "Neon db name."
+  type        = string
+}
+
+variable "neon_user_name" {
+  description = "Neon user name."
+  type        = string
+}
+
+variable "neon_password" {
+  description = "Neon password."
+  type        = string
+}
+
+variable "neon_endpoint_id" {
+  description = "Neon endpoint id."
+  type        = string
+}

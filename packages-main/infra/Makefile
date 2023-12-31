@@ -52,14 +52,3 @@ init-artifact-registry-stag:
 	cd environments/staging && \
 	terraform apply -target=module.artifact_registry_for_container_image -auto-approve && \
 	cd ../../
-
-reset-tf:
-	rm -rf .terraform
-	rm -rf terraform.tfstate
-	rm -rf terraform.tfstate.backup
-	rm -rf .terraform.lock.hcl
-	rm -rf .terraform.tfstate.lock.info
-	rm -rf terraform.tfstate.d
-
-
-###################### common ##################

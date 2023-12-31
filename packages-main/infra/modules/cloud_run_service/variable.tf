@@ -22,3 +22,23 @@ variable "service_account_email" {
   description = "Service account email."
   type        = string
 }
+
+variable "secret_names" {
+  description = "Secret manager secret names to be injected into the container."
+  type = map(object({
+    secret_id = string
+    version   = string
+  }))
+
+  /* constraints: required keys below
+    NEON_HOST
+    NEON_DB_NAME
+    NEON_USER_NAME
+    NEON_PASSWORD
+    NEON_ENDPOINT_ID
+  */
+  validation {
+    condition     = contains(keys(var.secret_names), "NEON_HOST") && contains(keys(var.secret_names), "NEON_DB_NAME") && contains(keys(var.secret_names), "NEON_USER_NAME") && contains(keys(var.secret_names), "NEON_PASSWORD") && contains(keys(var.secret_names), "NEON_ENDPOINT_ID")
+    error_message = "All required keys (NEON_HOST, NEON_DB_NAME, NEON_USER_NAME, NEON_PASSWORD, NEON_ENDPOINT_ID) must be present in the secrets map."
+  }
+}
