@@ -141,8 +141,9 @@
     make init-artifact-registry-prod
     make init-artifact-registry-stg
 
-    # TODO それぞれにサンプルのコンテナファイルアップ
+    # それぞれにサンプルのコンテナファイルアップ
     # _temp-app/README.mdを参照
+    # （_temp-app2というのもあるが、そっちはもはや完全に個人的な動作確認のためのものなので、ダミーのコンテナをアップするだけの用途ではそっちはスルーしていい）
     
     ```
   
