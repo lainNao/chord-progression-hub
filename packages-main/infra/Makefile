@@ -41,6 +41,9 @@ init-shared:
 	terraform init && \
 	cd ../../
 
+# 他
+# terraform taint module.cloud_run_service_main
+# terraform init -upgrade
 
 ###################### only use at specifig case ##################
 

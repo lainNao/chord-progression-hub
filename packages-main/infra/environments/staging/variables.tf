@@ -30,6 +30,8 @@ variable "cloud_run_service_container_image_path" {
   type        = string
 }
 
+# neon
+
 variable "neon_host" {
   description = "Neon host."
   type        = string
