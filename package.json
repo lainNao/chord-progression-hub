@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/lainNao/chord-progression-hub#readme",
   "devDependencies": {
-    "@secretlint/secretlint-rule-preset-recommend": "^8.0.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^8.1.0",
     "cspell": "^8.2.3",
     "lefthook": "^1.5.5",
     "markdownlint-cli2": "^0.11.0",
