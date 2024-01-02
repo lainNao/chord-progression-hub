@@ -46,7 +46,7 @@
     "cspell": "^8.2.3",
     "lefthook": "^1.5.5",
     "markdownlint-cli2": "^0.11.0",
-    "secretlint": "^8.0.0",
+    "secretlint": "^8.1.0",
     "spec-checklist": "^1.0.0"
   }
 }
