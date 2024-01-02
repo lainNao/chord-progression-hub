@@ -17,13 +17,10 @@ apply-shared:
 # init
 init-prod:
 	terraform -chdir=environments/production init
-	terraform -chdir=environments/production apply -target=module.artifact_registry_for_container_image -auto-approve
 init-stag:
 	terraform -chdir=environments/staging init
-	terraform -chdir=environments/staging apply -target=module.artifact_registry_for_container_image -auto-approve
 init-shared:
 	terraform -chdir=environments/shared init
-	terraform -chdir=environments/shared apply -target=module.artifact_registry_for_container_image -auto-approve
 
 # validate
 validate-prod:

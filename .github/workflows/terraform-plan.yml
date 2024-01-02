@@ -52,9 +52,7 @@ jobs:
       ############## Execute
 
       - name: Terraform Init
-        run: |
-          export TF_LOG=DEBUG
-          make init-stag
+        run: make init-stag
 
       - name: Terraform Plan
         run: make plan-stag
