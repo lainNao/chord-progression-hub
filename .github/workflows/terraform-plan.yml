@@ -32,7 +32,7 @@ jobs:
         uses: "google-github-actions/auth@v2"
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          # project_id: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROJECT_ID }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account: ${{ secrets.GCP_MAIN_SERVICE_ACCOUNT_EMAIL }}
 
       - name: "Setup gcloud CLI"
