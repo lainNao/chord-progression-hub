@@ -163,6 +163,9 @@
 - 次に、ようやく`terraform apply`をする（IAMの設定やAPI有効化等が不遡行してるとエラー出るかも）
   - `make apply-stag`
   - `make apply-prod`
+
+- あと以下もやる（github actionsで必要になるので）
+  - IAMのAPI有効化 <https://console.cloud.google.com/apis/library/iam.googleapis.com>
 - 最後に、それぞれにアクセスできるか確かめてみる
   - stagingはとりあえず`gcloud run services proxy YOUR_CLOUD_RUN_SERVICE_NAME --project YOUR_PROJECT_ID`を実行してproxyを通してアクセスしてくれ
   - productionは普通にできたURLにアクセスしてもらえればOKにしてあるので、URLをGCPコンソールとかから調べてくれ
@@ -252,10 +255,3 @@ gcloud secrets add-iam-policy-binding "シークレットの名前！！！！�
 
 
 ```
-
-あと以下もやる
-
-- IAMのAPI有効化 <https://console.cloud.google.com/apis/library/iam.googleapis.com>
-- サービスアカウント作って以下の権限を付与
-  - artifactregistry.repositories.get
-  - secretmanager.secrets.get
