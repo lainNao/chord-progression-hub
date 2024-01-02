@@ -1,54 +1,55 @@
 # plan
 plan-prod:
-	cd environments/production && \
-	terraform plan && \
-	cd ../../
+	terraform -chdir=environments/production plan
 plan-stag:
-	cd environments/staging && \
-	terraform plan && \
-	cd ../../
+	terraform -chdir=environments/staging plan
 plan-shared:
-	cd environments/shared && \
-	terraform plan && \
-	cd ../../
+	terraform -chdir=environments/shared plan
 
 # apply
 apply-prod:
-	cd environments/production && \
-	terraform apply -auto-approve && \
-	cd ../../
+	terraform -chdir=environments/production apply -auto-approve
 apply-stag:
-	cd environments/staging && \
-	terraform apply -auto-approve && \
-	cd ../../
+	terraform -chdir=environments/staging apply -auto-approve
 apply-shared:
-	cd environments/shared && \
-	terraform apply -auto-approve && \
-	cd ../../
+	terraform -chdir=environments/shared apply -auto-approve
 
 # init
 init-prod:
-	cd environments/production && \
-	terraform init && \
-	cd ../../
+	terraform -chdir=environments/production init
+	terraform -chdir=environments/production apply -target=module.artifact_registry_for_container_image -auto-approve
 init-stag:
-	cd environments/staging && \
-	terraform init && \
-	terraform apply -target=module.artifact_registry_for_container_image && \
-	cd ../../
+	terraform -chdir=environments/staging init
+	terraform -chdir=environments/staging apply -target=module.artifact_registry_for_container_image -auto-approve
 init-shared:
-	cd environments/shared && \
-	terraform init && \
-	cd ../../
+	terraform -chdir=environments/shared init
+	terraform -chdir=environments/shared apply -target=module.artifact_registry_for_container_image -auto-approve
 
+# validate
+validate-prod:
+	terraform -chdir=environments/production validate
+validate-stag:
+	terraform -chdir=environments/staging validate
+validate-shared:
+	terraform -chdir=environments/shared validate
+validate-all:
+	make validate-prod
+	make validate-stag
+	make validate-shared
+
+# fmt
+fmt-all:
+	terraform fmt -recursive
+
+# 他
+# terraform taint module.cloud_run_service_main
+# terraform init -upgrade
+# docker run --rm -it -v "$(pwd):/src" aquasec/tfsec /src
 
 ###################### only use at specifig case ##################
 
+# TODO: これ、sharedにあるのとどっちかに寄せられそう？
 init-artifact-registry-prod:
-	cd environments/production && \
-	terraform apply -target=module.artifact_registry_for_container_image -auto-approve && \
-	cd ../../
+	terraform -chdir=environments/production apply -target=module.artifact_registry_for_container_image -auto-approve
 init-artifact-registry-stag:
-	cd environments/staging && \
-	terraform apply -target=module.artifact_registry_for_container_image -auto-approve && \
-	cd ../../
+	terraform -chdir=environments/staging apply -target=module.artifact_registry_for_container_image -auto-approve

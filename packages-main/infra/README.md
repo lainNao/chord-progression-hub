@@ -1,13 +1,28 @@
 # 目次
 
+- [概要](#概要)
 - [留意](#留意)
 - [コードの説明](#コードの説明)
-- デプロイの流れ
+- IaC管理してるやつのデプロイの流れ
   - [1.まずインフラの事前準備](#1まずインフラの事前準備) TODO
   - [2.デプロイ（ローカルでやる場合）](#2デプロイローカルでやる場合) TODO
   - [2.デプロイ（CIでやる場合）](#2デプロイciでやる場合) TODO
-- DB周り
+- 他
   - [DBマイグレーション](#dbマイグレーション) TODO
+  - [Identity Workload](#identity-workload)
+
+## 概要
+
+- 以下のリソースのTerraformのコードを置いてみています
+  - `Cloud Run`　・・・Dockerイメージを動かす場所
+  - `Artifact Registry`　・・・Dockerイメージを置く場所
+  - `Secret Manager`　・・・シークレットを置く場所
+  - `Service Account`　・・・各サービスアカウント
+- ただ、以下は手動で管理してみているので、コード化はしないので手順書を書きます
+  - `Neon`　・・・なぜかTerraformでエラーが出るため
+  - `Identity Workload`　・・・GitHub Actionsに使いたいだけなのにTerraform化したらコードが長すぎるのと、そもそも一度作成した後はそのままにしておくものな気がしてIaC化するのが気持ち的に向かなかったため
+    - TODO: いや、でもmodule使えば楽そうなので書き換えたいかも <https://github.com/terraform-google-modules/terraform-google-github-actions-runners/blob/master/examples/oidc-simple/main.tf> 
+- GitHub Actionsで環境変数として色々使ったりしますが、Environment Secretsも使います（指定ブランチでしか読み取れない環境変数を作れそうで、それがセキュリティ上便利そうだったため）
 
 ## 留意
 
@@ -128,12 +143,9 @@
       neon_db_name      = 値
       ```
 
-- 次に以下手順で共通リソースを作る
-
-    ```sh
-    make init-shared
-    make apply-shared
-    ```
+- 次に以下手コマンドで共通リソースを作る
+  - `make init-shared`
+  - `make apply-shared`
 
 - 次に以下手順でartifact registryだけ作って、そこに先にイメージをアップロードする（理由： そうしないとCloud Runのデプロイ時に「そのコンテナのパスにファイル無いぞ」ってエラー出る）
 
@@ -182,3 +194,61 @@
 ## DBマイグレーション
 
 - TODO
+
+## Identity Workload
+
+<https://github.com/google-github-actions/auth>に従ってどうにか。
+
+```sh
+
+PROJECT_ID="cph-workload-identity-pj"
+
+# create project
+gcloud projects create "${PROJECT_ID}"
+
+# 作ったプロジェクトを請求アカウントと関連付けておこう
+
+# Create a Workload Identity Pool
+gcloud iam workload-identity-pools create "github" \
+  --project="${PROJECT_ID}" \
+  --location="global" \
+  --display-name="GitHub Actions Pool"  
+
+# Get the full ID of the Workload Identity Pool
+gcloud iam workload-identity-pools describe "github" \
+  --project="${PROJECT_ID}" \
+  --location="global" \
+  --format="value(name)"
+
+# すると何やらIDっぽい文字列が出てくるのでそれをメモ
+
+# Create a Workload Identity Provider in that pool
+gcloud iam workload-identity-pools providers create-oidc "my-repo" \
+  --project="${PROJECT_ID}" \
+  --location="global" \
+  --workload-identity-pool="github" \
+  --display-name="My GitHub repo Provider" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
+  --issuer-uri="https://token.actions.githubusercontent.com"
+
+# Extract the Workload Identity Provider resource name
+gcloud iam workload-identity-pools providers describe "my-repo" \
+  --project="${PROJECT_ID}" \
+  --location="global" \
+  --workload-identity-pool="github" \
+  --format="value(name)"
+
+# すると何やらIDっぽい文字列が出てくるのでそれをメモ
+# workload_identity_providerの値にはそれを使う
+
+# 以下で必要に応じてgithub actionsからSecret ManagerにあるSecretへのアクセスを許可する
+# TODO(developer): Update this value to your GitHub repository.
+export REPO="値！！！！！！！！！！！！！！"
+export WORKLOAD_IDENTITY_POOL_ID="値！！！！！！！！！！！！！！"
+gcloud secrets add-iam-policy-binding "シークレットの名前！！！！！！！" \
+  --project="${PROJECT_ID}" \
+  --role="roles/secretmanager.secretAccessor" \
+  --member="principalSet://iam.googleapis.com/${WORKLOAD_IDENTITY_POOL_ID}/attribute.repository/${REPO}"
+
+
+```
