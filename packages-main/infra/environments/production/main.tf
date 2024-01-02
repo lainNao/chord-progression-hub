@@ -69,7 +69,6 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   policy_data = data.google_iam_policy.noauth_policy.policy_data
 }
 
-# Cloud RunにSecret Managerへのアクセス権を付与する
 resource "google_project_iam_member" "artifact_registry_reader" {
   project = var.project_id
   role    = "roles/artifactregistry.reader"

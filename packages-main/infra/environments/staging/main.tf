@@ -70,14 +70,6 @@ module "cloud_run_service_main" {
 #   policy_data = data.google_iam_policy.noauth_policy.policy_data
 # }
 
-# Cloud RunにSecret Managerへのアクセス権を付与する
-resource "google_project_iam_member" "secret_accessor" {
-  project = var.project_id
-  role    = "roles/secretmanager.secretAccessor"
-  member  = "serviceAccount:${google_service_account.main_service_account.email}"
-}
-
-# github actions用の各種権限（必要になったら追加
 resource "google_project_iam_member" "artifact_registry_reader" {
   project = var.project_id
   role    = "roles/artifactregistry.reader"
