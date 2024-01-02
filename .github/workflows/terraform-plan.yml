@@ -18,6 +18,7 @@ defaults:
 
 jobs:
   plan-staging:
+    timeout-minutes: 3
     if: github.ref == 'refs/heads/staging'
     runs-on: ubuntu-latest
     environment: staging
