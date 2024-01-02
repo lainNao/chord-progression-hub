@@ -51,6 +51,14 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_TEAM_TOKEN }}
           # below is workaround for issue https://github.com/hashicorp/setup-terraform/issues/152
           terraform_wrapper: false
+
+      ############## Execute
+
+      - name: Terraform Init
+        run: make init-stag
+
+      - name: Terraform Plan
+        run: make plan-stag
         env:
           # meta
           TF_VAR_region: ${{ secrets.GCP_REGION }}
@@ -67,14 +75,6 @@ jobs:
           TF_VAR_neon_user_name: ${{ secrets.NEON_USER_NAME }}
           TF_VAR_neon_password: ${{ secrets.NEON_PASSWORD }}
           TF_VAR_neon_endpoint_id: ${{ secrets.NEON_ENDPOINT_ID }}
-
-      ############## Execute
-
-      - name: Terraform Init
-        run: make init-stag
-
-      - name: Terraform Plan
-        run: make plan-stag
 
       # TODO: 以下は別のに切り出す
       # TODO: planはPRコメントに切り出す。なのでstagingでなくdevelopからstagingへのPRで出すやつに変える等いろいろする
