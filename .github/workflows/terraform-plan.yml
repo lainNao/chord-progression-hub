@@ -51,6 +51,9 @@ jobs:
 
       ############## Execute
 
+      - name: Terraform Init
+        run: make init-stag
+
       - name: Terraform Plan
         run: make plan-stag
 
