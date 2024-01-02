@@ -27,13 +27,8 @@ module "app_secrets" {
   }
 }
 
-resource "google_service_account" "service_account_for_cloud_run" {
-  account_id   = "sa-for-cloud-run"
-  display_name = "service account for cloud run"
-}
-
-resource "google_service_account" "service_account_for_github_actions" {
-  account_id   = "sa-for-github-actions"
+resource "google_service_account" "main_service_account" {
+  account_id   = "main-service-account"
   display_name = "service account for github actions"
 }
 
@@ -50,7 +45,7 @@ module "cloud_run_service_main" {
   project_id            = var.project_id
   region                = var.region
   name                  = var.cloud_run_service_name
-  service_account_email = google_service_account.service_account_for_cloud_run.email
+  service_account_email = google_service_account.main_service_account.email
   container_image_path  = var.cloud_run_service_container_image_path
   secret_names = {
     "NEON_HOST"        = module.app_secrets.secrets["NEON_HOST"]
@@ -78,17 +73,17 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
 resource "google_project_iam_member" "artifact_registry_reader" {
   project = var.project_id
   role    = "roles/artifactregistry.reader"
-  member  = "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
+  member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
 
 resource "google_project_iam_member" "secret_manager_secret_accessor" {
   project = var.project_id
   role    = "roles/secretmanager.secretAccessor"
-  member  = "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
+  member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
 
 resource "google_project_iam_member" "service_account_token_creator" {
   project = var.project_id
   role    = "roles/iam.serviceAccountTokenCreator"
-  member  = "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
+  member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
