@@ -96,7 +96,7 @@ resource "google_project_iam_member" "secret_manager_secret_accessor" {
 }
 
 resource "google_project_iam_member" "service_account_token_creator" {
-  project = "your-gcp-project-id"
+  project = var.project_id
   role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
 }
