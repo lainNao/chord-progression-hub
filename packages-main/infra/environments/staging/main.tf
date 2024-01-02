@@ -27,11 +27,14 @@ module "app_secrets" {
   }
 }
 
-module "service_account_for_cloud_run" {
-  source = "../../modules/service_account"
-  # variables
+resource "google_service_account" "service_account_for_cloud_run" {
   account_id   = "sa-for-cloud-run"
   display_name = "service account for cloud run"
+}
+
+resource "google_service_account" "service_account_for_github_actions" {
+  account_id   = "sa-for-github-actions"
+  display_name = "service account for github actions"
 }
 
 module "artifact_registry_for_container_image" {
@@ -47,7 +50,7 @@ module "cloud_run_service_main" {
   project_id            = var.project_id
   region                = var.region
   name                  = var.cloud_run_service_name
-  service_account_email = module.service_account_for_cloud_run.info.email
+  service_account_email = google_service_account.service_account_for_cloud_run.email
   container_image_path  = var.cloud_run_service_container_image_path
   secret_names = {
     "NEON_HOST"        = module.app_secrets.secrets["NEON_HOST"]
@@ -76,5 +79,22 @@ module "cloud_run_service_main" {
 resource "google_project_iam_member" "secret_accessor" {
   project = var.project_id
   role    = "roles/secretmanager.secretAccessor"
-  member  = "serviceAccount:${module.service_account_for_cloud_run.info.email}"
+  member  = "serviceAccount:${google_service_account.service_account_for_cloud_run.email}"
+}
+
+# github actions用の各種権限（必要になったら追加
+resource "google_project_iam_binding" "artifact_registry_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
+  members = [
+    "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
+  ]
+}
+
+resource "google_project_iam_binding" "secret_manager_secret_accessor" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  members = [
+    "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
+  ]
 }

@@ -252,3 +252,10 @@ gcloud secrets add-iam-policy-binding "シークレットの名前！！！！�
 
 
 ```
+
+あと以下もやる
+
+- IAMのAPI有効化 <https://console.cloud.google.com/apis/library/iam.googleapis.com>
+- サービスアカウント作って以下の権限を付与
+  - artifactregistry.repositories.get
+  - secretmanager.secrets.get

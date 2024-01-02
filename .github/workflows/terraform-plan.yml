@@ -1,4 +1,4 @@
-name: plan
+name: Terraform Plan
 
 on:
   workflow_dispatch:
@@ -8,9 +8,6 @@ on:
 
 env:
   TF_VERSION: 1.6.6
-  #   PROJECT_ID: ${{ secrets.STAGING_GCP_PROJECT_ID }}
-  #   SERVICE_NAME: ${{ secrets.STAGING_GCP_SERVICE_NAME }}
-  #   IMAGE: ${{ secrets.STAGING_GCP_IMAGE }}
 
 defaults:
   run:
@@ -36,6 +33,7 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_FOR_GITHUB_ACTIONS_EMAIL }}
 
       - name: "Setup gcloud CLI"
         uses: "google-github-actions/setup-gcloud@v1"
