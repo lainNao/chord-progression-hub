@@ -49,6 +49,7 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
           cli_config_credentials_token: ${{ secrets.TF_TEAM_TOKEN }}
+          terraform_wrapper: false
 
       ############## Execute
 
@@ -56,9 +57,7 @@ jobs:
         run: make init-stag
 
       - name: Terraform Plan
-        run: |
-          TF_LOG=DEBUG
-          make plan-stag
+        run: make plan-stag
 
       # - name: Build
       #   run: docker build --platform linux/amd64 -f Dockerfile.prod -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$IMAGE:$TAG .
