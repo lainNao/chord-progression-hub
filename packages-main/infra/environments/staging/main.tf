@@ -83,18 +83,20 @@ resource "google_project_iam_member" "secret_accessor" {
 }
 
 # github actions用の各種権限（必要になったら追加
-resource "google_project_iam_binding" "artifact_registry_reader" {
+resource "google_project_iam_member" "artifact_registry_reader" {
   project = var.project_id
   role    = "roles/artifactregistry.reader"
-  members = [
-    "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
-  ]
+  member  = "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
 }
 
-resource "google_project_iam_binding" "secret_manager_secret_accessor" {
+resource "google_project_iam_member" "secret_manager_secret_accessor" {
   project = var.project_id
   role    = "roles/secretmanager.secretAccessor"
-  members = [
-    "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
-  ]
+  member  = "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
+}
+
+resource "google_project_iam_member" "service_account_token_creator" {
+  project = "your-gcp-project-id"
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:${google_service_account.service_account_for_github_actions.email}"
 }
