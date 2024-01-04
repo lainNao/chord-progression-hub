@@ -24,16 +24,17 @@ jobs:
     steps:
       ############## Setup
 
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: "Authenticate with Google Cloud"
+      - name: Authenticate with Google Cloud
         id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_ID }}
           service_account: ${{ secrets.GCP_MAIN_SERVICE_ACCOUNT_EMAIL }}
 
-      - name: "Setup gcloud CLI"
+      - name: Setup gcloud CLI
         uses: "google-github-actions/setup-gcloud@v1"
         with:
           version: ">= 363.0.0"
