@@ -92,7 +92,7 @@ resource "google_project_iam_member" "artifact_registry_reader" {
 
 resource "google_project_iam_member" "secret_manager_secret_accessor" {
   project = var.project_id
-  role    = "roles/secretmanager.secretAccessor"
+  role    = "roles/secretmanager.viewer"
   member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
 
