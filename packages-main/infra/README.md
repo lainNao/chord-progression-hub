@@ -106,7 +106,7 @@
   - `production`
   - `staging`
   - ~~`shared`~~
-- 次に、GCPのプロジェクトを作っておく
+- 次に、GCPのプロジェクトを作っておく。ステージング用と本番用で2つ分以下
   - `gcloud projects create <NEW_PROJECT_ID>`
   - `gcloud config get-value project`
 - 次に、Neonに登録しておく
@@ -116,13 +116,6 @@
   - `gcloud auth login`
   - `terraform login`
   - Neonは管理画面に行ってログインしておく（ついでにAPIキーをどうにか取得してくる。↓で使う）
-- 次に、gcloudのAPIをいくつか有効化する
-  - Secret Manager
-    - `gcloud services enable secretmanager.googleapis.com`
-  - Artifact Registry
-    - `gcloud services enable artifactregistry.googleapis.com`
-  - Cloud Run
-    - `gcloud services enable run.googleapis.com`
 - 次に、必要ファイルを作成。値の部分は他メンバーに聞いて書き換える。（1password等で管理してもいいのかな？）。（※TODO: 本当はここはTerraform Cloudで設定した値を勝手に使ってほしい）
   - `environments/production`と`environments/staging`の`terraform.tfvars`
 
@@ -132,9 +125,14 @@
       artifact_registry_repository_id        = 値
       cloud_run_service_name                 = 値
       cloud_run_service_container_image_path = 値
+      neon_host                              = 値
+      neon_db_name                           = 値
+      neon_user_name                         = 値
+      neon_password                          = 値
+      neon_endpoint_id                       = 値
       ```
 
-  - `environments/shared`の`terraform.tfvars`
+  - ~~`environments/shared`の`terraform.tfvars`~~
   
       ```txt
       neon_api_key      = 値
@@ -163,6 +161,9 @@
 - 次に、ようやく`terraform apply`をする（IAMの設定やAPI有効化等が不遡行してるとエラー出るかも）
   - `make apply-stag`
   - `make apply-prod`
+
+- あと以下もやる（github actionsで必要になるので）
+  - IAMのAPI有効化 <https://console.cloud.google.com/apis/library/iam.googleapis.com>
 - 最後に、それぞれにアクセスできるか確かめてみる
   - stagingはとりあえず`gcloud run services proxy YOUR_CLOUD_RUN_SERVICE_NAME --project YOUR_PROJECT_ID`を実行してproxyを通してアクセスしてくれ
   - productionは普通にできたURLにアクセスしてもらえればOKにしてあるので、URLをGCPコンソールとかから調べてくれ
@@ -252,3 +253,7 @@ gcloud secrets add-iam-policy-binding "シークレットの名前！！！！�
 
 
 ```
+
+## Identity Workload
+
+<https://github.com/google-github-actions/auth>や<https://zenn.dev/satohjohn/articles/1645be8e83eab6>に従ってどうにか。
