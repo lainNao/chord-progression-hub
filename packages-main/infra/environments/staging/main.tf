@@ -116,11 +116,11 @@ resource "google_project_iam_member" "service_usage_consumer" {
   member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
 
-# resource "google_project_iam_member" "project_iam_admin" {
-#   project = var.project_id
-#   role    = "roles/resourcemanager.projectIamAdmin"
-#   member  = "serviceAccount:${google_service_account.main_service_account.email}"
-# }
+resource "google_project_iam_member" "project_iam_admin" {
+  project = var.project_id
+  role    = "roles/resourcemanager.projectIamAdmin"
+  member  = "serviceAccount:${google_service_account.main_service_account.email}"
+}
 
 # resource "google_project_iam_member" "workload_identity_pool_admin" {
 #   project = var.project_id
