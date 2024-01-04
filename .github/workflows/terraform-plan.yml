@@ -1,11 +1,12 @@
 name: Terraform Plan
 
 on:
-  workflow_dispatch:
   push:
+    paths:
+      - "packages-main/infra/**"
   pull_request:
-
-# TODO: packages-main/infra配下に変更があった時のにに実行させる
+    paths:
+      - "packages-main/infra/**"
 
 env:
   TF_VERSION: 1.6.6
@@ -61,3 +62,18 @@ jobs:
         run: tfcmt plan -patch -- terraform plan -no-color -input=false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # meta
+          TF_VAR_region: ${{ secrets.GCP_REGION }}
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          # artifact registry
+          TF_VAR_artifact_registry_repository_id: ${{ secrets.GCP_ARTIFACT_REGISTRY_REPOSITORY_ID }}
+          # cloud run
+          TF_VAR_cloud_run_service_name: ${{ secrets.GCP_CLOUD_RUN_SERVICE_NAME }}
+          # TODO: 以下を動的にしないと、、
+          TF_VAR_cloud_run_service_container_image_path: ${{ secrets.GCP_CLOUD_RUN_SERVICE_CONTAINER_IMAGE_PATH }}
+          # neon
+          TF_VAR_neon_host: ${{ secrets.NEON_HOST }}
+          TF_VAR_neon_db_name: ${{ secrets.NEON_DB_NAME }}
+          TF_VAR_neon_user_name: ${{ secrets.NEON_USER_NAME }}
+          TF_VAR_neon_password: ${{ secrets.NEON_PASSWORD }}
+          TF_VAR_neon_endpoint_id: ${{ secrets.NEON_ENDPOINT_ID }}
