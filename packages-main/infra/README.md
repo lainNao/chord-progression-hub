@@ -123,6 +123,8 @@
     - `gcloud services enable artifactregistry.googleapis.com`
   - Cloud Run
     - `gcloud services enable run.googleapis.com`
+  - Cloud Resource Manager API
+    - `gcloud services enable cloudresourcemanager.googleapis.com`
 - 次に、必要ファイルを作成。値の部分は他メンバーに聞いて書き換える。（1password等で管理してもいいのかな？）。（※TODO: 本当はここはTerraform Cloudで設定した値を勝手に使ってほしい）
   - `environments/production`と`environments/staging`の`terraform.tfvars`
 

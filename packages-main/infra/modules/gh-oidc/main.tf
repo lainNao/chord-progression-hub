@@ -38,7 +38,6 @@ resource "google_iam_workload_identity_pool_provider" "main" {
   }
 }
 
-# NOTE: コピペ後、typoを若干修正しました
 resource "google_service_account_iam_member" "wif-sa" {
   for_each           = var.sa_mapping
   service_account_id = each.value.sa_name
