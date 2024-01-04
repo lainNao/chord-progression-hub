@@ -29,7 +29,7 @@ module "app_secrets" {
 
 resource "google_service_account" "main_service_account" {
   account_id   = "main-service-account"
-  display_name = "service account for github actions"
+  display_name = "main service account"
 }
 
 module "artifact_registry_for_container_image" {
@@ -60,16 +60,15 @@ module "cloud_run_service_main" {
 }
 
 module "oidc" {
-  source  = "terraform-google-modules/github-actions-runners/google//modules/gh-oidc"
-  version = "~> 3.0"
-
+  source = "../../modules/gh-oidc"
+  # variables
   project_id  = var.project_id
   pool_id     = "app-pool"
   provider_id = "app-gh-provider"
   sa_mapping = {
     (google_service_account.main_service_account.account_id) = {
       sa_name   = google_service_account.main_service_account.name
-      attribute = "attribute.repository/user/repo"
+      attribute = "attribute.repository/lainNao/chord-progression-hub"
     }
   }
 }
