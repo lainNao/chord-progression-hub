@@ -3,9 +3,9 @@ variable "project_id" {
   description = "The project id to create Workload Identity Pool"
 }
 
-variable "service_account_email" {
+variable "service_account_name" {
   type        = string
-  description = "Service Account email to grant access to"
+  description = "The service account name to create Workload Identity Pool"
 }
 
 variable "github_repository" {

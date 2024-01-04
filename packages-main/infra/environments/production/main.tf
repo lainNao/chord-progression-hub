@@ -70,9 +70,9 @@ module "cloud_run_service_main" {
 module "oidc" {
   source = "../../modules/gh-oidc"
   # variables
-  project_id            = var.project_id
-  github_repository     = "lainNao/chord-progression-hub"
-  service_account_email = google_service_account.main_service_account.email
+  project_id           = var.project_id
+  github_repository    = "lainNao/chord-progression-hub"
+  service_account_name = google_service_account.main_service_account.name
 }
 
 ####################### NOTE: 簡単なIAM類は直接mainに書いちゃう
