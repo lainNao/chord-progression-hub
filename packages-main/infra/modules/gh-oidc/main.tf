@@ -36,7 +36,7 @@ resource "google_iam_workload_identity_pool_provider" "main" {
     allowed_audiences = var.allowed_audiences
     issuer_uri        = var.issuer_uri
   }
-# }
+}
 
 # resource "google_service_account_iam_member" "wif-sa" {
 #   for_each           = var.sa_mapping
