@@ -116,6 +116,12 @@ resource "google_project_iam_member" "project_iam_admin" {
   member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
 
+resource "google_project_iam_member" "run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${google_service_account.main_service_account.email}"
+}
+
 # resource "google_project_iam_member" "workload_identity_pool_admin" {
 #   project = var.project_id
 #   role    = "roles/iam.workloadIdentityPoolAdmin"
