@@ -15,6 +15,14 @@ provider "google" {
   region  = var.region
 }
 
+## API の有効化(Workload Identity 用)
+resource "google_project_service" "enable_api" {
+  for_each                   = local.services
+  project                    = var.project_id
+  service                    = each.value
+  disable_dependent_services = true
+}
+
 module "app_secrets" {
   source = "../../modules/secrets"
   # variables
@@ -62,15 +70,9 @@ module "cloud_run_service_main" {
 module "oidc" {
   source = "../../modules/gh-oidc"
   # variables
-  project_id  = var.project_id
-  pool_id     = "app-pool"
-  provider_id = "app-gh-provider"
-  sa_mapping = {
-    (google_service_account.main_service_account.account_id) = {
-      sa_name   = google_service_account.main_service_account.name
-      attribute = "attribute.repository/lainNao/chord-progression-hub"
-    }
-  }
+  project_id            = var.project_id
+  github_repository     = "lainNao/chord-progression-hub"
+  service_account_email = google_service_account.main_service_account.email
 }
 
 ####################### NOTE: 簡単なIAM類は直接mainに書いちゃう
@@ -102,14 +104,14 @@ resource "google_project_iam_member" "service_account_token_creator" {
   member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
 
-resource "google_project_iam_member" "project_iam_admin" {
-  project = var.project_id
-  role    = "roles/resourcemanager.projectIamAdmin"
-  member  = "serviceAccount:${google_service_account.main_service_account.email}"
-}
+# resource "google_project_iam_member" "project_iam_admin" {
+#   project = var.project_id
+#   role    = "roles/resourcemanager.projectIamAdmin"
+#   member  = "serviceAccount:${google_service_account.main_service_account.email}"
+# }
 
-resource "google_project_iam_member" "workload_identity_pool_admin" {
-  project = var.project_id
-  role    = "roles/iam.workloadIdentityPoolAdmin"
-  member  = "serviceAccount:${google_service_account.main_service_account.email}"
-}
+# resource "google_project_iam_member" "workload_identity_pool_admin" {
+#   project = var.project_id
+#   role    = "roles/iam.workloadIdentityPoolAdmin"
+#   member  = "serviceAccount:${google_service_account.main_service_account.email}"
+# }
