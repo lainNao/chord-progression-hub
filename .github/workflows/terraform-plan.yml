@@ -1,10 +1,9 @@
 name: Terraform Plan
 
 on:
-  push:
-    paths:
-      - "packages-main/infra/**"
   pull_request:
+    branches:
+      - staging
     paths:
       - "packages-main/infra/**"
 
@@ -28,14 +27,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Authenticate with Google Cloud
-        id: "auth"
-        uses: "google-github-actions/auth@v2"
+        id: auth
+        uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_ID }}
-          service_account: ${{ secrets.GCP_MAIN_SERVICE_ACCOUNT_EMAIL }}
+          workload_identity_provider: ${{ secrets.STAGING_GCP_WORKLOAD_IDENTITY_PROVIDER_ID }}
+          service_account: ${{ secrets.STAGING_GCP_MAIN_SERVICE_ACCOUNT_EMAIL }}
 
       - name: Setup gcloud CLI
-        uses: "google-github-actions/setup-gcloud@v1"
+        uses: google-github-actions/setup-gcloud@v1
         with:
           version: ">= 363.0.0"
 
@@ -57,6 +56,22 @@ jobs:
       - name: Terraform Init
         working-directory: packages-main/infra
         run: make init-stag
+        env:
+          # meta
+          TF_VAR_region: ${{ secrets.STAGING_GCP_REGION }}
+          TF_VAR_project_id: ${{ secrets.STAGING_GCP_PROJECT_ID }}
+          # artifact registry
+          TF_VAR_artifact_registry_repository_id: ${{ secrets.STAGING_GCP_ARTIFACT_REGISTRY_REPOSITORY_ID }}
+          # cloud run
+          TF_VAR_cloud_run_service_name: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_NAME }}
+          # TODO: 以下を動的にしないと、、
+          TF_VAR_cloud_run_service_container_image_path: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_CONTAINER_IMAGE_PATH }}
+          # neon
+          TF_VAR_neon_host: ${{ secrets.STAGING_NEON_HOST }}
+          TF_VAR_neon_db_name: ${{ secrets.NEON_DB_NAME }}
+          TF_VAR_neon_user_name: ${{ secrets.NEON_USER_NAME }}
+          TF_VAR_neon_password: ${{ secrets.STAGING_NEON_PASSWORD }}
+          TF_VAR_neon_endpoint_id: ${{ secrets.STAGING_NEON_ENDPOINT_ID }}
 
       - name: Terraform plan
         working-directory: packages-main/infra/environments/staging
@@ -64,17 +79,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # meta
-          TF_VAR_region: ${{ secrets.GCP_REGION }}
-          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          TF_VAR_region: ${{ secrets.STAGING_GCP_REGION }}
+          TF_VAR_project_id: ${{ secrets.STAGING_GCP_PROJECT_ID }}
           # artifact registry
-          TF_VAR_artifact_registry_repository_id: ${{ secrets.GCP_ARTIFACT_REGISTRY_REPOSITORY_ID }}
+          TF_VAR_artifact_registry_repository_id: ${{ secrets.STAGING_GCP_ARTIFACT_REGISTRY_REPOSITORY_ID }}
           # cloud run
-          TF_VAR_cloud_run_service_name: ${{ secrets.GCP_CLOUD_RUN_SERVICE_NAME }}
+          TF_VAR_cloud_run_service_name: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_NAME }}
           # TODO: 以下を動的にしないと、、
-          TF_VAR_cloud_run_service_container_image_path: ${{ secrets.GCP_CLOUD_RUN_SERVICE_CONTAINER_IMAGE_PATH }}
+          TF_VAR_cloud_run_service_container_image_path: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_CONTAINER_IMAGE_PATH }}
           # neon
-          TF_VAR_neon_host: ${{ secrets.NEON_HOST }}
+          TF_VAR_neon_host: ${{ secrets.STAGING_NEON_HOST }}
           TF_VAR_neon_db_name: ${{ secrets.NEON_DB_NAME }}
           TF_VAR_neon_user_name: ${{ secrets.NEON_USER_NAME }}
-          TF_VAR_neon_password: ${{ secrets.NEON_PASSWORD }}
-          TF_VAR_neon_endpoint_id: ${{ secrets.NEON_ENDPOINT_ID }}
+          TF_VAR_neon_password: ${{ secrets.STAGING_NEON_PASSWORD }}
+          TF_VAR_neon_endpoint_id: ${{ secrets.STAGING_NEON_ENDPOINT_ID }}
