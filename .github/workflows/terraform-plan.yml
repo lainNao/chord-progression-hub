@@ -32,13 +32,14 @@ jobs:
         uses: "google-github-actions/auth@v2"
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account: ${{ secrets.GCP_MAIN_SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROJECT_ID }}
 
       - name: "Setup gcloud CLI"
         uses: "google-github-actions/setup-gcloud@v1"
         with:
           version: ">= 363.0.0"
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Configure Docker
         run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
