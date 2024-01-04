@@ -1,0 +1,88 @@
+name: Terraform Plan
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - staging
+
+env:
+  TF_VERSION: 1.6.6
+
+defaults:
+  run:
+    working-directory: packages-main/infra
+
+permissions:
+  contents: "read"
+  id-token: "write"
+
+jobs:
+  plan-staging:
+    timeout-minutes: 3
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      ############## Setup
+
+      - uses: actions/checkout@v4
+
+      - name: "Authenticate with Google Cloud"
+        id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_ID }}
+          service_account: ${{ secrets.GCP_MAIN_SERVICE_ACCOUNT_EMAIL }}
+
+      - name: "Setup gcloud CLI"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          version: ">= 363.0.0"
+
+      # - name: Configure Docker
+      #   run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          cli_config_credentials_token: ${{ secrets.TF_TEAM_TOKEN }}
+          # below is workaround for issue https://github.com/hashicorp/setup-terraform/issues/152
+          terraform_wrapper: false
+
+      ############## Execute
+
+      - name: Terraform Init
+        run: make init-stag
+
+      - name: Terraform Plan
+        run: make plan-stag
+        env:
+          # meta
+          TF_VAR_region: ${{ secrets.GCP_REGION }}
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          # artifact registry
+          TF_VAR_artifact_registry_repository_id: ${{ secrets.GCP_ARTIFACT_REGISTRY_REPOSITORY_ID }}
+          # cloud run
+          TF_VAR_cloud_run_service_name: ${{ secrets.GCP_CLOUD_RUN_SERVICE_NAME }}
+          # TODO: 以下を動的にしないと、、
+          TF_VAR_cloud_run_service_container_image_path: ${{ secrets.GCP_CLOUD_RUN_SERVICE_CONTAINER_IMAGE_PATH }}
+          # neon
+          TF_VAR_neon_host: ${{ secrets.NEON_HOST }}
+          TF_VAR_neon_db_name: ${{ secrets.NEON_DB_NAME }}
+          TF_VAR_neon_user_name: ${{ secrets.NEON_USER_NAME }}
+          TF_VAR_neon_password: ${{ secrets.NEON_PASSWORD }}
+          TF_VAR_neon_endpoint_id: ${{ secrets.NEON_ENDPOINT_ID }}
+
+      # TODO: 以下は別のに切り出す
+      # TODO: planはPRコメントに切り出す。なのでstagingでなくdevelopからstagingへのPRで出すやつに変える等いろいろする
+
+      # - name: Build
+      #   run: docker build --platform linux/amd64 -f Dockerfile.prod -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$IMAGE:$TAG .
+
+      # - name: Push
+      #   run: docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$IMAGE:$TAG
+
+      # - name: Deploy
+      #   run: gcloud run deploy $SERVICE_NAME --image asia-northeast1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$IMAGE:$TAG --platform managed --region $REGION --allow-unauthenticated
