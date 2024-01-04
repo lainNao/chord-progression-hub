@@ -29,6 +29,6 @@ resource "google_iam_workload_identity_pool_provider" "myprovider" {
 # サービスアカウントの IAM Policy 設定と GitHub リポジトリの指定
 resource "google_service_account_iam_member" "terraform_sa" {
   service_account_id = var.service_account_name
-  role               = "roles/iam.workloadIdentityUser"
+  role               = "roles/iam.serviceAccountViewer"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.mypool.name}/attribute.repository/${var.github_repository}"
 }
