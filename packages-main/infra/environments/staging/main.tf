@@ -104,6 +104,12 @@ resource "google_project_iam_member" "service_account_token_creator" {
   member  = "serviceAccount:${google_service_account.main_service_account.email}"
 }
 
+resource "google_project_iam_member" "project_viewer" {
+  project = var.project_id
+  role    = "roles/resourcemanager.projectViewer"
+  member  = "serviceAccount:${google_service_account.main_service_account.email}"
+}
+
 # resource "google_project_iam_member" "project_iam_admin" {
 #   project = var.project_id
 #   role    = "roles/resourcemanager.projectIamAdmin"
