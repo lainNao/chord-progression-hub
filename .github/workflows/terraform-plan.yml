@@ -19,7 +19,6 @@ jobs:
   plan-staging:
     timeout-minutes: 3
     runs-on: ubuntu-latest
-    environment: staging
     steps:
       ############## Setup
 
