@@ -41,8 +41,11 @@ jobs:
           version: ">= 363.0.0"
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Configure Docker
-        run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
+
+      # - name: Configure Docker
+      #   run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
 
       - uses: hashicorp/setup-terraform@v3
         with:
