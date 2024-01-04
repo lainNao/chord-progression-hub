@@ -198,4 +198,4 @@
 
 ## Identity Workload
 
-<https://github.com/google-github-actions/auth>や<https://zenn.dev/satohjohn/articles/1645be8e83eab6>に従ってどうにか。
+- <https://github.com/google-github-actions/auth>や<https://zenn.dev/satohjohn/articles/1645be8e83eab6>に従ってどうにか。
