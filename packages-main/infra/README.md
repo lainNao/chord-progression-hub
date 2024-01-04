@@ -106,7 +106,7 @@
   - `production`
   - `staging`
   - ~~`shared`~~
-- 次に、GCPのプロジェクトを作っておく
+- 次に、GCPのプロジェクトを作っておく。ステージング用と本番用で2つ分以下
   - `gcloud projects create <NEW_PROJECT_ID>`
   - `gcloud config get-value project`
 - 次に、Neonに登録しておく
@@ -125,9 +125,14 @@
       artifact_registry_repository_id        = 値
       cloud_run_service_name                 = 値
       cloud_run_service_container_image_path = 値
+      neon_host                              = 値
+      neon_db_name                           = 値
+      neon_user_name                         = 値
+      neon_password                          = 値
+      neon_endpoint_id                       = 値
       ```
 
-  - `environments/shared`の`terraform.tfvars`
+  - ~~`environments/shared`の`terraform.tfvars`~~
   
       ```txt
       neon_api_key      = 値
