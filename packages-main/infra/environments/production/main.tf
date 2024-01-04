@@ -59,6 +59,21 @@ module "cloud_run_service_main" {
   depends_on = [module.artifact_registry_for_container_image]
 }
 
+module "oidc" {
+  source  = "terraform-google-modules/github-actions-runners/google//modules/gh-oidc"
+  version = "~> 3.0"
+
+  project_id  = var.project_id
+  pool_id     = "app-pool"
+  provider_id = "app-gh-provider"
+  sa_mapping = {
+    (google_service_account.main_service_account.account_id) = {
+      sa_name   = google_service_account.main_service_account.name
+      attribute = "attribute.repository/user/repo"
+    }
+  }
+}
+
 ####################### NOTE: 簡単なIAM類は直接mainに書いちゃう
 
 # Cloud Runを未認証で外部公開する
