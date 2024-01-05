@@ -10,17 +10,6 @@ const {
   PORT,
 } = process.env;
 
-console.log(
-  "スタート！！！！！！！！！！！！！！！！！！",
-  NEON_HOST,
-  NEON_DB_NAME,
-  NEON_USER_NAME,
-  NEON_PASSWORD,
-  NEON_ENDPOINT_ID,
-  PORT,
-  process.env
-);
-
 const sql = postgres({
   host: NEON_HOST,
   database: NEON_DB_NAME,
