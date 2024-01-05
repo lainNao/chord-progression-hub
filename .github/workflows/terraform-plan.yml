@@ -1,9 +1,11 @@
 name: Terraform Plan
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - staging
+      # TODO: production
+      # - production
     paths:
       - packages-main/infra/**
 
@@ -17,6 +19,7 @@ permissions:
 
 jobs:
   plan-staging:
+    if: github.base_ref == 'staging'
     timeout-minutes: 3
     runs-on: ubuntu-latest
     steps:
