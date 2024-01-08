@@ -95,6 +95,8 @@
     - neonのブランチ名
 - `modules`　・・・Terraformのモジュール
 - `tests`　・・・テストコード（仮置き）
+- Terraform Cloudを使っているが、Execution ModeはLocalにしているので、ステート（やロック状態）を管理する場所として飲み使っている。secretsを勝手に読み込んでくれたりはしない。
+  - なぜそうしたのかは、また別の設定や連携をうまくやらないとplanとかが動かなくなり、いちいち動作確認をCloudで何度も確認しに行くよりもローカルでplanやって動くようにするほうが遥かに楽だったのと、Terraform Cloudをリモート実行にしたらGitHub Actionsとかとの連携（特にディレクトリで環境を分けたやつ）がもしかしたら面倒な気配を感じたから。
 
 ## 1.まずインフラの事前準備
 
@@ -102,7 +104,7 @@
   - `production`
   - `staging`
   - ~~`shared`~~
-- 次に、Terraform cloudのワークスペースを作ってなかったら作る
+- 次に、Terraform cloudのワークスペースを作ってなかったら作る。それぞれのExecution ModeはLocalにしておく
   - `production`
   - `staging`
   - ~~`shared`~~
@@ -116,7 +118,7 @@
   - `gcloud auth login`
   - `terraform login`
   - Neonは管理画面に行ってログインしておく（ついでにAPIキーをどうにか取得してくる。↓で使う）
-- 次に、必要ファイルを作成。値の部分は他メンバーに聞いて書き換える。（1password等で管理してもいいのかな？）。（※TODO: 本当はここはTerraform Cloudで設定した値を勝手に使ってほしい）
+- 次に、必要ファイルを作成。値の部分は他メンバーに聞いて書き換える。（1password等で管理してもいいのかな？）。
   - `environments/production`と`environments/staging`の`terraform.tfvars`
 
       ```txt

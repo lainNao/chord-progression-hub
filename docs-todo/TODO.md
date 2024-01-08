@@ -18,7 +18,7 @@
 ## `UIデザイン`
 
 - 参考サイトをまず色々見つけたい
-  - <https://www.landingfolio.com/>
+  - LP <https://www.landingfolio.com/>
   - <https://godly.website/?ref=dailydev>
   - ColorMagicのスマホ版のデザイン参考にしたいな
 - Figmaでやるなど
