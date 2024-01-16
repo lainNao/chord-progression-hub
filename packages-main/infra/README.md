@@ -20,8 +20,6 @@
   - `Service Account`　・・・各サービスアカウント
 - ただ、以下は手動で管理してみているので、コード化はしないので手順書を書きます
   - `Neon`　・・・なぜかTerraformでエラーが出るため
-  - `Identity Workload`　・・・GitHub Actionsに使いたいだけなのにTerraform化したらコードが長すぎるのと、そもそも一度作成した後はそのままにしておくものな気がしてIaC化するのが気持ち的に向かなかったため
-    - TODO: いや、でもmodule使えば楽そうなので書き換えたいかも <https://github.com/terraform-google-modules/terraform-google-github-actions-runners/blob/master/examples/oidc-simple/main.tf> 
 - GitHub Actionsで環境変数として色々使ったりしますが、Environment Secretsも使います（指定ブランチでしか読み取れない環境変数を作れそうで、それがセキュリティ上便利そうだったため）
 
 ## 留意
@@ -84,6 +82,7 @@
       - ブランチをstagingだけ作る
       - DB名はcphubとする
       - リージョンは安い＆Cloud Runと近いところにする
+      - できればIP制限をかける <https://neon.tech/blog/restrict-access-to-your-neon-database-with-ip-allow>
       - 一旦以上
 
 ## コードの説明

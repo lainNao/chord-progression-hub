@@ -8,7 +8,7 @@ export type Artist = IdField &
   UpdatedInfo & {
     name: string;
     albums: Album[];
-    musics: Music[];
+    tracks: Track[];
   };
 
 /**
@@ -23,13 +23,13 @@ export type Album = IdField &
      */
     nameHiragana?: string;
     artist: Artist;
-    musics: Music[];
+    tracks: Track[];
   };
 
 /**
  * 楽曲
  */
-export type Music = IdField &
+export type Track = IdField &
   CreatedInfo &
   UpdatedInfo & {
     name: string;
@@ -38,11 +38,13 @@ export type Music = IdField &
      */
     nameHiragana?: string;
     artist: Artist;
+    // TODO: 複数にする必要あるかも
+    // TODO: アルバムじゃなくEPとかシングルの付属とかな場合もある。albumというエンティティの名前を抽象的にするか…？
     album?: Album;
     musicUrls: {
       id: string;
       url: string;
-      music: Music;
+      music: Track;
     }[];
   };
 
@@ -57,7 +59,7 @@ export type MusicUrl = IdField &
   CreatedInfo &
   UpdatedInfo & {
     url: string;
-    music: Music;
+    music: Track;
   };
 
 /**
@@ -67,7 +69,7 @@ export type ChordProgression = IdField &
   CreatedInfo &
   UpdatedInfo & {
     artist: Artist;
-    music: Music;
+    music: Track;
     /**
      * 入力されたコード進行文字列
      * prettifyしてから入れたい
