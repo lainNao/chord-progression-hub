@@ -1,0 +1,47 @@
+■目次
+  ＜技術選定＞
+    ORM選定          //spec-20240203144028
+    
+  ＜＞
+
+
+■詳細
+  ＜ORM選定＞
+    ■決定
+      prisma
+    ■メモ
+      ＜検討1＞
+        ・まず、全部まともに触りきらないと選定はできないと思う
+        ・全部触り切っていないうちは、もはや勘で選定するしかない
+        ・で、勘のレベルではまずprismaが一番いいと思う
+          ■Drizzle
+          ・公式HPでの「Developers love Drizzle ORM」という項目が寒い気がする（「I hate Drizzle」「Prisma is amazing」「Y'all should just copy everything Eloquent has」「Django had it in 2008」「I hate @DrizzleOrm so much that I wrote the Auth.js adapter for it.」とか書かれている。これはネタ？使わないほうがいいということ？「i know this won't get me on the homepage, but@DrizzleORM is so good」とあるのは養護っぽいけどうーん）
+          ■kysely
+          ・なんかprismaとdrizzleの間にいるイメージが勝手にある
+          ■prisma
+          ・資金調達とかもしており規模が他のと比べ物にならないほどでかい、のかな？もしそうならあれこれ言われている箇所があろうがたぶん一番変な箇所が詰まるとかが無くて妥当だと思う
+        ・ただこのプロジェクト固有の要件としてtsvectorを使いたいというのがある
+          ■prisma
+          https://github.com/prisma/prisma/issues/5027
+          ・未対応っぽい、茨の道になるのかも
+          ・でもtsvector触るところだけ生クエリとかに隠蔽すればいいっちゃいいのかな
+          ・隠蔽してrepositoryから返すのはORMに依存しない型にすればいいのかな
+            ・あまり層を分け散らかしたくない思いがあるんだけどまあいいか… 
+      ＜検討2＞
+        ・tsvectorがprisma対応できてないので、面倒。生成される型が嘘つきになる可能性がある問題
+        ・あれ、でも対応している？
+          https://www.prisma.io/docs/orm/prisma-client/queries/full-text-search
+        ・なんか未解決のissue見たんだけどURL見失った。でも↑のURL見つかったからもうそれはそれでいいかな、？一旦やってみよう…
+          ・もし嘘つきになるなら以下の案
+            1.面倒なので、別パッケージにしてしまう案
+              ・そうすればメインはPlanetScale、コード進行検索はNeonにするという案もある
+                ・そうすれば無料枠も増えるので料金的にも効果あるかもね
+              ・別にNeonだけにして、prismaのschemaに書かなければいいという話でもあるけども
+            2.prismaを辞めて、クエリビルダ的なやつにしちゃう
+              ・そうすればNeonだけでいけるようになるはずで、二重管理しなくていい
+            3.モデルの一部嘘があってもスルーする
+              ・はい。コメントだけ書いておく等…
+                →これが妥当な気がするよ…
+            4.DBにアクセスするサーバーを別に立ててprismaじゃないのにする
+              ・大変
+              ・いろんな技術を試せて楽しいはわかるけど、楽しいだけでこれやるのは今回においてはかなりバッドなはず
