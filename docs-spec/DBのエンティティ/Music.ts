@@ -2,27 +2,29 @@ import { CreatedInfo, IdField, UpdatedInfo } from "./_util";
 
 /**
  * アーティスト
+ *
+ * TODO: こういうの、どっかの公開APIとかのjsonでもらえないかな…？GracenoteのAPIがpending approvalすぎて止まってるけど
  */
 export type Artist = IdField &
   CreatedInfo &
   UpdatedInfo & {
     name: string;
-    albums: Album[];
+    /** 検索用のひらがな名（日本語モードの時だけUIで入力させる）*/
+    nameHiragana?: string;
+    releases: Release[];
     tracks: Track[];
   };
 
 /**
- * アルバム
+ * 「アルバム・EP・シングル・コンピレーション・その他」等のリリース単位
  */
-export type Album = IdField &
+export type Release = IdField &
   CreatedInfo &
   UpdatedInfo & {
     name: string;
-    /**
-     * 検索用のひらがな名
-     */
+    /** 検索用のひらがな名（日本語モードの時だけUIで入力させる）*/
     nameHiragana?: string;
-    artist: Artist;
+    artists: Artist[];
     tracks: Track[];
   };
 
@@ -33,18 +35,14 @@ export type Track = IdField &
   CreatedInfo &
   UpdatedInfo & {
     name: string;
-    /**
-     * 検索用のひらがな名
-     */
+    /** 検索用のひらがな名（日本語モードの時だけUIで入力させる）*/
     nameHiragana?: string;
     artist: Artist;
-    // TODO: 複数にする必要あるかも
-    // TODO: アルバムじゃなくEPとかシングルの付属とかな場合もある。albumというエンティティの名前を抽象的にするか…？
-    album?: Album;
-    musicUrls: {
+    releases?: Release[];
+    trackUrls: {
       id: string;
       url: string;
-      music: Track;
+      track: Track;
     }[];
   };
 
@@ -53,13 +51,13 @@ export type Track = IdField &
  *
  * フロント側では「聴けるURL（ex. `https://youtube.com/...`）」のような項目で複数入力を可能にさせる
  * で、入力したURLがyoutubeならばフロント側でyoutubeとして表示などする。soundcloudならsoundcloudプレイヤーとして表示したり。spotifyならspotifyだし
- * URLが無効になった時は・・・どうする？
+ * TODO: URLが無効になった時は・・・どうする？UI側で「動画が無効ですか？変更する」のようなテキストボタン出せばいいかな
  */
-export type MusicUrl = IdField &
+export type TrackUrl = IdField &
   CreatedInfo &
   UpdatedInfo & {
     url: string;
-    music: Track;
+    track: Track;
   };
 
 /**
@@ -69,10 +67,9 @@ export type ChordProgression = IdField &
   CreatedInfo &
   UpdatedInfo & {
     artist: Artist;
-    music: Track;
+    track: Track;
     /**
      * 入力されたコード進行文字列
-     * prettifyしてから入れたい
      */
     value: string;
   };
