@@ -12,7 +12,7 @@ test__common-test-case-runners:
 
 ############################################### qase explorer
 
-qase-explorer__start:
+qase-explorer:
 	npm run start --workspace=qase-explorer
 
 ############################################### parseSpecComments
