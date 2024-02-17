@@ -3,7 +3,7 @@ locals {
   env    = "stage"
   region = "us-east-1"
   ecs = {
-    task_cpu    = "256"
-    task_memory = "1024"
+    task_cpu    = 256
+    task_memory = 512
   }
 }
