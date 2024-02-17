@@ -77,6 +77,9 @@ locals {
   ecr_image_newest_tags = jsondecode(data.external.ecr_image_newest.result.tags)
 }
 
+output "AAAAAAAAAAAAAAAAAAAAAAAAAAA" {
+  value = local.ecr_image_newest_tags
+}
 
 ####################################################
 # ECS Task Definition
@@ -85,46 +88,47 @@ resource "aws_ecs_task_definition" "main" {
   family                   = "main"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = 256
-  memory                   = 512
+  cpu                      = local.ecs.task_cpu
+  memory                   = local.ecs.task_memory
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
   # TODO: 戻す等する
-  container_definitions    = <<EOL
-[
-  {
-    "name": "${local.env}",
-    "image": "nginx:1.14",
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "hostPort": 80
-      }
-    ]
-  }
-]
-EOL
-  # container_definitions    = jsonencode([
-  #   {
-  #     name             = local.env
-  #     image            = "${aws_ecr_repository.main.repository_url}:${local.ecr_image_newest_tags[0]}"
-  #     portMappings     = [{ containerPort : 3000 }]
-  #     logConfiguration = {
-  #       logDriver = "awslogs"
-  #       options   = {
-  #         awslogs-region : local.region
-  #         awslogs-group : aws_cloudwatch_log_group.main.name
-  #         awslogs-stream-prefix : "ecs"
-  #       }
-  #     }
-  #   }
-  # ])
+  container_definitions = jsonencode([
+    {
+      "name" : "${local.env}-container",
+      "image" : "nginx:1.14",
+      "portMappings" : [
+        {
+          "containerPort" : 80,
+          "hostPort" : 80
+        }
+      ]
+    }
+    # ,
+    # {
+    #   name  = "${local.env}-container"
+    #   image = "${aws_ecr_repository.main.repository_url}:${local.ecr_image_newest_tags[0]}"
+    #   portMappings = [{
+    #     containerPort : 3000,
+    #     hostPort : 3000
+    #   }] # NOTE: 3000だったのでNext.jsなら3000になるかも
+    #   logConfiguration = {
+    #     logDriver = "awslogs"
+    #     options = {
+    #       awslogs-region : local.region
+    #       awslogs-group : aws_cloudwatch_log_group.main.name
+    #       awslogs-stream-prefix : "ecs"
+    #     }
+    #   }
+    # }
+  ])
 }
 
 
 
 ####################################################
 # ECS Cluster Service
+# TODO: オートスケーリングをONにして、常時2個稼働は辞める？
 ####################################################
 
 resource "aws_ecs_service" "main" {
@@ -144,6 +148,7 @@ resource "aws_ecs_service" "main" {
     rollback = true
   }
   network_configuration {
+    # TODO: いいの？
     assign_public_ip = true
     subnets = [
       aws_subnet.public_1a.id,
@@ -155,30 +160,42 @@ resource "aws_ecs_service" "main" {
   load_balancer {
     target_group_arn = aws_lb_target_group.main.arn
     container_name   = local.env
-    container_port   = 80 # NOTE: 3000だったのでNext.jsなら3000になるかも
+    container_port   = 3000 # NOTE: 3000だったのでNext.jsなら3000になるかも
   }
 }
 
 resource "aws_lb_target_group" "main" {
-  name                 = "${local.env}-service-tg-main"
+  name                 = "${local.env}-service-target-group"
   vpc_id               = aws_vpc.this.id
   target_type          = "ip"
   port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 60
-  health_check { path = "/api/healthcheck" }
+  health_check {
+    enabled = false
+    # path = "/api/healthcheck" 
+    path     = "/"
+    protocol = "HTTP"
+  }
 }
 
 resource "aws_lb_listener_rule" "main" {
-  listener_arn = aws_lb_listener.https.arn
-  priority     = 1
+  listener_arn = aws_lb_listener.https.arn # ルールを適用するリスナーのARN
+  priority     = 1                         #このルールがほかより最優先
+
   action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.main.arn
+    type             = "forward"                    # リクエストを転送する
+    target_group_arn = aws_lb_target_group.main.arn # 転送先のarn
   }
+
   condition {
+    # HTTPリクエストのHOSTヘッダがで指定された値に一致する場合にのみ、このルールを適用
     host_header {
-      values = [var.domain]
+      values = [
+        var.domain,
+        # "en.${var.domain}",
+        # "ja.${var.domain}"
+      ]
     }
   }
 }
@@ -186,8 +203,8 @@ resource "aws_lb_listener_rule" "main" {
 
 ####################################################
 # ALB maintenance HTML
-# NOTE: メンテしたい時にコメントアウト外して使えるかな？
 # TODO: aws_lb_listener側でやるのとの違いは？
+# TODO メンテナンスしたい時にコメントアウト外す？
 ####################################################
 
 # locals {
@@ -198,13 +215,13 @@ resource "aws_lb_listener_rule" "main" {
 
 # resource "aws_lb_listener_rule" "maintenance" {
 #   listener_arn = aws_lb_listener.https.arn
-#   priority = 100
+#   priority     = 100
 #   action {
 #     type = "fixed-response"
 #     fixed_response {
 #       content_type = "text/html"
 #       message_body = local.maintenance_body
-#       status_code = "503"
+#       status_code  = "503"
 #     }
 #   }
 #   condition {
