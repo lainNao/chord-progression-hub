@@ -243,7 +243,7 @@
         ・Route53 ・・・ドメイン
         ・VPC ・・・明示的なネットワーク設定（セキュリティの意図もあるとして）
         ・ALB ・・・ロードバランサー（一応）
-        ・ECS(fargateモード), ECR ・・・コンテナ実行環境。Grunge Stackでやってるようにlambda+API Gatewayのようにしないのは、変にlambdaの環境の制限をあれこれ受けたくないから＆別にECSそんなに高くないだろとなんとなく考えてるから
+        ・ECS(fargateモード), ECR ・・・コンテナ実行環境。Grunge Stackでやってるようにlambda+API Gatewayのようにしないのは、変にlambdaの環境の制限をあれこれ受けたくないから（Rustのwasmが面倒とか）＆別にECSそんなに高くないだろとなんとなく考えてるから
         ・SES ・・・メール
         ・CloudWatch ・・・ログ
         ・AWS Batch ・・・バッチ処理（あれば）
