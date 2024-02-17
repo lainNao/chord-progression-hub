@@ -7,6 +7,8 @@ stage_init:
 	AWS_PROFILE=cph-stage terraform -chdir=envs/stage init
 stage_validate:
 	AWS_PROFILE=cph-stage terraform -chdir=envs/stage validate
+stage_destroy:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage destroy -auto-approve
 
 # prod
 prod_plan:
@@ -17,6 +19,8 @@ prod_init:
 	AWS_PROFILE=cph-prod terraform -chdir=envs/prod init
 prod_validate:
 	AWS_PROFILE=cph-prod terraform -chdir=envs/prod validate
+prod_destroy:
+	AWS_PROFILE=cph-prod terraform -chdir=envs/prod destroy -auto-approve
 
 
 # all
