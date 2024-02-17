@@ -1,19 +1,21 @@
-# CAUTION: これは単なる動作確認用のサンプルです
-FROM public.ecr.aws/amazonlinux/amazonlinux:latest
+# ベースイメージを指定
+FROM nginx:alpine
 
-# Install dependencies
-RUN yum update -y && \
-  yum install -y httpd
+# Nginxのデフォルト設定を削除し、新しい設定ファイルを作成
+RUN rm /etc/nginx/conf.d/default.conf && \
+  echo "server {" > /etc/nginx/conf.d/default.conf && \
+  echo "    listen 3000;" >> /etc/nginx/conf.d/default.conf && \
+  echo "    location / {" >> /etc/nginx/conf.d/default.conf && \
+  echo "        root   /usr/share/nginx/html;" >> /etc/nginx/conf.d/default.conf && \
+  echo "        index  index.html index.htm;" >> /etc/nginx/conf.d/default.conf && \
+  echo "    }" >> /etc/nginx/conf.d/default.conf && \
+  echo "}" >> /etc/nginx/conf.d/default.conf
 
-# Install apache and write hello world message
-RUN echo 'Hello World!' > /var/www/html/index.html
+# 単純なHTMLページを作成
+RUN echo 'Hello World from Nginx running on port 3000!' > /usr/share/nginx/html/index.html
 
-# Configure apache
-RUN echo 'mkdir -p /var/run/httpd' >> /root/run_apache.sh && \
-  echo 'mkdir -p /var/lock/httpd' >> /root/run_apache.sh && \
-  echo '/usr/sbin/httpd -D FOREGROUND' >> /root/run_apache.sh && \
-  chmod 755 /root/run_apache.sh
+# ポート3000を開放
+EXPOSE 3000
 
-EXPOSE 80
-
-CMD /root/run_apache.sh
+# Nginxを前面で実行
+CMD ["nginx", "-g", "daemon off;"]
