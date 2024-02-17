@@ -9,10 +9,9 @@
  *
  * 使い方：
  *   node pushToEcr \
- *    [ECRリポジトリURI] \
- *    [コミットID] \
- *    [AWS_ACCESS_KEY_ID] \
- *    [AWS_SECRET_ACCESS_KEY]
+ *    [ecrRepositoryUri] \
+ *    [commitId] \
+ *    [awsProfileName]
  *
  * TODO: これは使わないはず。なぜならエラーが出た時にシークレットが漏れる懸念があるから。他にAWSのCodePipeline周りで案を考える
  *
@@ -39,8 +38,7 @@ const vars = {
   awsRegion: constants.AWS_REGION,
   ecrRepositoryUri: process.argv[2],
   commitId: process.argv[3],
-  awsAccessKeyId: process.argv[4],
-  awsSecretAccessKey: process.argv[5],
+  awsProfileName: process.argv[4],
 };
 
 // 引数の存在チェック
@@ -54,22 +52,22 @@ Object.entries(vars).forEach(([key, value]) => {
 let currentProcess = "AWS CLI用の環境変数を設定";
 try {
   console.log(`${currentProcess}します...`);
-  process.env.AWS_ACCESS_KEY_ID = vars.awsAccessKeyId;
-  process.env.AWS_SECRET_ACCESS_KEY = vars.awsSecretAccessKey;
-  process.env.AWS_DEFAULT_REGION = vars.awsRegion;
 
   currentProcess = "ECRにログイン";
   console.log(`${currentProcess}します...`);
   execSync(
-    `aws ecr get-login-password | docker login --username AWS --password-stdin ${vars.ecrRepositoryUri}`
+    `aws ecr get-login-password --profile ${vars.awsProfileName}  | docker login --username AWS --password-stdin ${vars.ecrRepositoryUri}`
   );
 
   currentProcess = "Dockerイメージをビルド";
   console.log(`${currentProcess}します...`);
   const imageNameWithTag = `${vars.imageName}:${vars.commitId}`;
-  execSync(`docker build -t ${imageNameWithTag} -f Dockerfile .`);
+  // --platform linux/x86_64 をつけないと「exec format error」でECSが起動しない
+  execSync(
+    `docker build --platform linux/x86_64 -t ${imageNameWithTag} -f Dockerfile .`
+  );
 
-  currentProcess = "DockerイメージにコミットIDでタグを付与";
+  currentProcess = "ビルドしたDockerイメージにタグを付与";
   console.log(`${currentProcess}します...`);
   const newImageUrl = `${vars.ecrRepositoryUri}:${vars.commitId}`;
   execSync(`docker tag ${imageNameWithTag} ${newImageUrl}`);
@@ -86,6 +84,6 @@ try {
   const red = "\u001b[31m";
   console.error(`${red}[ERROR]${currentProcess}できませんでしたm(__)m`);
   // NOTE: エラーはGitHubにシークレット漏らしたくないので出さない
-  // console.error(error);
+  console.error(error);
   process.exit(1);
 }
