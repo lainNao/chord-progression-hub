@@ -3,6 +3,7 @@
     インフラ構成                //spec-20240205013412
     開発環境と本番環境の分け方    //spec-20240205013734
     Terraformで管理するリソースとしないリソース //spec-20240210142922
+    多言語化                           //spec-20240218195453
   ＜packages-main/infraマニュアル＞
     事前準備
     いざterraform apply
@@ -17,6 +18,13 @@
     無停止デプロイ      //spec-20240210184125
 
 ■詳細
+  ＜多言語化＞
+    geo locationで判断するやつでやっちゃおう…それでやってみてGoogle検索結果どうなるか見てみよう…
+      Pinterestがそっち系なので…（勝手に.jpに振り分けられる）
+    で、ドメインを見て英語、日本語を出し分ければいい。ログインしていてログインユーザーの設定言語があればそれを優先で
+      つまりサブドメインは不要だな…逆に「.com」と「.jp」が必要
+    同じ.comで、geo locationで言語を出し分けると、google検索結果がどうなるか不安なのでやめておこう…
+      https://vercel.com/guides/geo-ip-headers-geolocation-vercel-functions
   ＜いざterraform apply＞
     ・ちょっと準備が微妙で、container_definitionsのところを以下に最初だけ変えてからmake stage_applyして
           container_definitions = <<EOL
@@ -84,7 +92,7 @@
         共通リソース作っちゃう
       本番アカウント、ステージングアカウントの作成
         全アカウントのプロファイルを設定
-        本番、ステージングの環境を作っちゃう
+        本番、ステージングの環境を作っちゃう    //TODO: まだ書けてない
     ■詳細
       ＜全アカウントのプロファイルを設定＞
         いちいちaws configureで設定するのは面倒なので、プロファイルを設定しておく
@@ -183,28 +191,6 @@
 
 
 
-/////////////////////////////////////////////////////////////////////////////
-    次に、各環境の環境変数を作成
-      ■packages-main/infra-shared/.envrc
-      # meta
-      export TF_VAR_aws_access_key="XXX"
-      export TF_VAR_aws_secret_key="XXX"
-      export TF_VAR_aws_region="XXX"
-
-      # account
-      export TF_VAR_shared_resource_account_email="XXX"
-      export TF_VAR_prod_resource_account_email="XXX"
-      export TF_VAR_stage_resource_account_email="XXX"
-
-    次に、まず各環境の初期化
-      ■packages-main/infra-shared
-      cd packages-main/infra-shared && terraform init && terraform apply
-      cd packages-main/infra/envs/prod && terraform init && terraform apply
-      cd packages-main/infra/envs/stg && terraform init && terraform apply
-    これで各環境ができたはず？
-/////////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -234,21 +220,24 @@
         ・だけど環境毎に分けることが難しそうだったので（あまり調査はしてない）、やっぱり面倒だけどマルチアカウントにした
   ＜インフラ構成＞
     ■決定
+      ＜基本＞
+        Vercel
       ＜AWS周り＞
         ・AWS Organizations ・・・複数アカウント
         ・IAM ・・・権限管理
-        ・AWS Shield Standard ・・・DDoS対策
-        ・CloudFront ・・・キャッシュ
-        ・S3 ・・・ロゴ画像とか（画像にしなくていいか…？）
+        //・AWS Shield Standard ・・・DDoS対策（CloudFront使えば勝手に入る？） -> vercelがやる
+        //・CloudFront ・・・キャッシュ -> vercelがやる
+        //・S3 ・・・ロゴ画像とか（画像にしなくていいか…？）
+          -> Vercelメインに使うならcloudflareにする
         ・Route53 ・・・ドメイン
         ・VPC ・・・明示的なネットワーク設定（セキュリティの意図もあるとして）
-        ・ALB ・・・ロードバランサー（一応）
-        ・ECS(fargateモード), ECR ・・・コンテナ実行環境。Grunge Stackでやってるようにlambda+API Gatewayのようにしないのは、変にlambdaの環境の制限をあれこれ受けたくないから（Rustのwasmが面倒とか）＆別にECSそんなに高くないだろとなんとなく考えてるから
+        //・ALB ・・・ロードバランサー（一応） -> vercelがやる
+        //・ECS(fargateモード), ECR ・・・コンテナ実行環境。Grunge Stackでやってるようにlambda+API Gatewayのようにしないのは、変にlambdaの環境の制限をあれこれ受けたくないから（Rustのwasmが面倒とか）＆別にECSそんなに高くないだろとなんとなく考えてるから -> vercelがやる
         ・SES ・・・メール
-        ・CloudWatch ・・・ログ
+        //・CloudWatch ・・・ログ -> vercelがやる
         ・AWS Batch ・・・バッチ処理（あれば）
         ・CodeBuild ・・・CI/CD
-        ・Secrets Manager ・・・シークレット管理
+        //・Secrets Manager ・・・シークレット管理 -> vercelがやる
       ＜その他＞
         ・Upstash ・・・セッション管理
         ・Neon ・・・メインDB
