@@ -1,14 +1,18 @@
 # stage
+stage_init:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage init
+stage_init_upgrade:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage init -upgrade
 stage_plan:
 	AWS_PROFILE=cph-stage terraform -chdir=envs/stage plan
 stage_apply:
 	AWS_PROFILE=cph-stage terraform -chdir=envs/stage apply -auto-approve
-stage_init:
-	AWS_PROFILE=cph-stage terraform -chdir=envs/stage init
 stage_validate:
 	AWS_PROFILE=cph-stage terraform -chdir=envs/stage validate
 stage_destroy:
 	AWS_PROFILE=cph-stage terraform -chdir=envs/stage destroy -auto-approve
+
+# TODO: ドメインの設定はGUIで行ってもらう件を書いておく。AWSなどから、vercel指定のAレコード等を設定すればOK
 
 # prod
 prod_plan:

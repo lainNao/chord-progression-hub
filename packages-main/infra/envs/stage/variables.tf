@@ -1,35 +1,28 @@
-# aws
+# meta
 variable "domain" {
-  description = "Domain of the environment."
-  type        = string
+  sensitive = true
+
 }
-variable "route53_zone_id" {
-  description = "Route53 zone id."
-  type        = string
+
+# vercel
+variable "vercel_api_token" {
+  sensitive = true
 }
 
 # neon
 variable "neon_host" {
-  description = "Neon host."
-  type        = string
-}
+  sensitive = true
 
+}
 variable "neon_db_name" {
-  description = "Neon db name."
-  type        = string
+  sensitive = true
 }
-
 variable "neon_user_name" {
-  description = "Neon user name."
-  type        = string
+  sensitive = true
 }
-
 variable "neon_password" {
-  description = "Neon password."
-  type        = string
+  sensitive = true
 }
-
 variable "neon_endpoint_id" {
-  description = "Neon endpoint id."
-  type        = string
+  sensitive = true
 }
