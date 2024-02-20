@@ -25,12 +25,12 @@ data "vercel_project_directory" "app" {
   path = "../../../app"
 }
 
-resource "vercel_deployment" "main" {
-  project_id  = vercel_project.with_git.id
-  files       = data.vercel_project_directory.app.files
-  path_prefix = data.vercel_project_directory.app.path
-  production  = local.env == "production"
-}
+# resource "vercel_deployment" "main" {
+#   project_id  = vercel_project.with_git.id
+#   files       = data.vercel_project_directory.app.files
+#   path_prefix = data.vercel_project_directory.app.path
+#   production  = local.env == "production"
+# }
 
 resource "vercel_project_domain" "main" {
   project_id = vercel_project.with_git.id
