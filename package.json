@@ -2,21 +2,10 @@
   "name": "chord-progression-hub",
   "version": "1.0.0",
   "description": "Source code of chord progression hub.",
-  "private": true,
+  "author": "laiNao",
+  "license": "ISC",
   "scripts": {
-    "1ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー": "プロジェクトルートとしてのコマンド",
-    "test:all": "npm run common-test-case-runners:test && npm run ts-simple-result:test && npm run spec-checklist:test && npm run spec-checklist-parser-runner:test && npm run spec-checklist-parser-runner:test:ids-unique",
-    "2ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー": "packages-main周りのコマンド",
-    "ts-simple-result:test": "npm run test --workspace=ts-simple-result",
-    "3ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー": "packages-dev周りのツール系コマンド",
-    "qase-explorer:start": "npm run start --workspace=qase-explorer",
-    "spec-checklist-parser-runner:test:ids-unique": "npm run test:ids-unique --workspace=spec-checklist-parser-runner",
-    "spec-checklist-parser-runner:generate-specs-json": "npm run generate-specs-json --workspace=spec-checklist-parser-runner",
-    "4ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー": "packages-dev周りの単なる単体テスト用コマンド",
-    "common-test-case-runners:test": "npm run test --workspace=common-test-case-runners",
-    "spec-checklist:test": "npm run test --workspace=spec-checklist",
-    "spec-checklist-parser:test": "npm run test --workspace=spec-checklist-parser",
-    "spec-checklist-parser-runner:test": "npm run test --workspace=spec-checklist-parser-runner"
+    "": "please use makefile!"
   },
   "engines": {
     "node": ">=20.6.0"
@@ -31,8 +20,6 @@
     "hub",
     "analytics"
   ],
-  "author": "laiNao",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/lainNao/chord-progression-hub/issues"
   },
@@ -43,10 +30,9 @@
   "homepage": "https://github.com/lainNao/chord-progression-hub#readme",
   "devDependencies": {
     "@secretlint/secretlint-rule-preset-recommend": "^8.1.0",
-    "cspell": "^8.3.1",
-    "lefthook": "^1.5.5",
-    "markdownlint-cli2": "^0.11.0",
-    "secretlint": "^8.1.0",
-    "spec-checklist": "^1.0.0"
+    "cspell": "^8.3.2",
+    "lefthook": "^1.5.6",
+    "markdownlint-cli2": "^0.12.1",
+    "secretlint": "^8.1.0"
   }
 }

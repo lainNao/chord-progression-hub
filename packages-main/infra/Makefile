@@ -1,38 +1,36 @@
-# plan
-plan-prod:
-	terraform -chdir=environments/production plan
-plan-stag:
-	terraform -chdir=environments/staging plan
-plan-shared:
-	terraform -chdir=environments/shared plan
+# stage
+stage_init:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage init
+stage_init_upgrade:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage init -upgrade
+stage_plan:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage plan
+stage_apply:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage apply -auto-approve
+stage_validate:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage validate
+stage_destroy:
+	AWS_PROFILE=cph-stage terraform -chdir=envs/stage destroy -auto-approve
 
-# apply
-apply-prod:
-	terraform -chdir=environments/production apply -auto-approve
-apply-stag:
-	terraform -chdir=environments/staging apply -auto-approve
-apply-shared:
-	terraform -chdir=environments/shared apply -auto-approve
+# TODO: ドメインの設定はGUIで行ってもらう件を書いておく。AWSなどから、vercel指定のAレコード等を設定すればOK
 
-# init
-init-prod:
-	terraform -chdir=environments/production init
-init-stag:
-	terraform -chdir=environments/staging init
-init-shared:
-	terraform -chdir=environments/shared init
+# prod
+prod_plan:
+	AWS_PROFILE=cph-prod terraform -chdir=envs/prod plan
+prod_apply:
+	AWS_PROFILE=cph-prod terraform -chdir=envs/prod apply -auto-approve
+prod_init:
+	AWS_PROFILE=cph-prod terraform -chdir=envs/prod init
+prod_validate:
+	AWS_PROFILE=cph-prod terraform -chdir=envs/prod validate
+prod_destroy:
+	AWS_PROFILE=cph-prod terraform -chdir=envs/prod destroy -auto-approve
 
-# validate
-validate-prod:
-	terraform -chdir=environments/production validate
-validate-stag:
-	terraform -chdir=environments/staging validate
-validate-shared:
-	terraform -chdir=environments/shared validate
+
+# all
 validate-all:
 	make validate-prod
 	make validate-stag
-	make validate-shared
 
 # fmt
 fmt-all:
@@ -44,9 +42,3 @@ fmt-all:
 # docker run --rm -it -v "$(pwd):/src" aquasec/tfsec /src
 
 ###################### only use at specifig case ##################
-
-# TODO: これ、sharedにあるのとどっちかに寄せられそう？
-init-artifact-registry-prod:
-	terraform -chdir=environments/production apply -target=module.artifact_registry_for_container_image -auto-approve
-init-artifact-registry-stag:
-	terraform -chdir=environments/staging apply -target=module.artifact_registry_for_container_image -auto-approve

@@ -1,0 +1,258 @@
+■目次
+  ＜一般＞
+    インフラ構成                //spec-20240205013412
+    開発環境と本番環境の分け方    //spec-20240205013734
+    Terraformで管理するリソースとしないリソース //spec-20240210142922
+    多言語化                           //spec-20240218195453
+  ＜packages-main/infraマニュアル＞
+    事前準備
+    いざterraform apply
+  ＜IaC＞
+    インフラ変更操作の流れは`packages-main/infra`配下に記載していく      //spec-20240127160924
+      TODO: これ辞めたほうがいいかも。こっちに書いたほうが良さそう。インフラのディレクトリ構成をこうした理由とか結局失われてるわ
+  ＜GitHub管理＞
+    あれこれの設定ファイルを置いておく      //spec-20231221034913
+    クラウドリソースを使うCI/CDは、必ずコラボレータの承認が無いとできないようにする       //spec-20240210230957
+    クラウドリソースを使うCI/CDは、必ずCodeBuild等特定のユーザしか見れないサービス内でシークレットにアクセスする       //spec-20240210231805
+  ＜その他＞
+    無停止デプロイ      //spec-20240210184125
+
+■詳細
+  ＜多言語化＞
+    geo locationで判断するやつでやっちゃおう…それでやってみてGoogle検索結果どうなるか見てみよう…
+      Pinterestがそっち系なので…（勝手に.jpに振り分けられる）
+    で、ドメインを見て英語、日本語を出し分ければいい。ログインしていてログインユーザーの設定言語があればそれを優先で
+      つまりサブドメインは不要だな…逆に「.com」と「.jp」が必要
+    同じ.comで、geo locationで言語を出し分けると、google検索結果がどうなるか不安なのでやめておこう…
+      https://vercel.com/guides/geo-ip-headers-geolocation-vercel-functions
+  ＜いざterraform apply＞
+    ・ちょっと準備が微妙で、container_definitionsのところを以下に最初だけ変えてからmake stage_applyして
+          container_definitions = <<EOL
+        [
+          {
+            "name": "nginx",
+            "image": "nginx:1.14",
+            "portMappings": [
+              {
+                "containerPort": 80,
+                "hostPort": 80
+              }
+            ]
+          }
+        ]
+        EOL
+    ・終わったら、ECRのリポジトリができてるから適当なイメージを上げて、↑のソースをもとに戻して再度make stage_applyして
+      ・なんでこんなめんどくさいことやってるのかというのは、これやらないともう一つtfstateを作らないといけなくなる気がして、そっちのほうがもっとめんどいから（正しいやり方を知らない）
+        ・まあリソース取得できないならサンプルリソースを使うようにtf上でできたらいいのかもなのでリファクタできたら、
+    ・後は最新のコンテナイメージができれば次からそれがデプロイされるはず？
+  ＜クラウドリソースを使うCI/CDは、必ずCodeBuild等特定のユーザしか見れないサービスを使う＞
+    ・なぜなら、github actions上でデプロイとかすると、エラーメッセージなどを通してどんなインフラの情報が暴露させられちゃうかの管理ができなくなるから
+    ・だからGitHub Actionsには、CodeBuildとの連携部分以外は外部クラウドリソースのシークレットは乗せることは無いってことかな
+  ＜クラウドリソースを使うCI/CDは、必ずコラボレータの承認が無いとできないようにする＞
+    ・例えばプルリク送れば勝手にデプロイされるgithub actionsがあったら、攻撃できてしまう
+    ・なので、そういうクラウドリソースに影響の大きいgithub actionsは、必ずコラボレータの承認が必要にする
+      ■例
+      ・productionやstagingブランチにマージするのはコラボレータのみにし、それらブランチでないとクラウドリソースにアクセス基本的にしない
+      ・developに対するプルリクでどうしてもクラウドリソースにアクセスしたい物がある場合、コラボレータしかつけられない
+  ＜無停止デプロイ＞
+
+  ＜Terraformで管理するリソースとしないリソース＞
+    ■決定
+      ＜Terraformで管理するリソース＞
+        ・以下以外のやつ
+      ＜Terraformで管理しないリソース＞
+        ■AWSアカウント
+          ＜セキュリティ面＞
+            ・terraformで全部やるとステートにアカウント情報があれこれ入ってしまう懸念があるのもあり、大丈夫なのか完全に自身が持てない。
+              ref: https://blog.father.gedow.net/2016/12/16/terraform-iam-user-password/
+                > パスワードを暗号化してくれて、ちゃんと実装してくれたなーという印象ではあるのですが、aws_iam_access_key でアクセスキーも作成した場合、terraform.state にアクセスキーが平文で残ってしまうので、意味がないとは言いませんが、結局はTerraformコードを厳重管理する必要があるのは変わりないですね。
+          ＜手間面＞
+            ・アカウント作成は最初にしかほぼやらないと思うので、、、、
+            ・あと、そもそも知識が無く、3日かけてもやりたいことができなかった。作った情報でaws consoleにGUIからログインができなかった（そもそもそっちで使う値が取得できるのかすら確信が持てない）。gpg_keyの生成や復号化が間違っているせいなのかそうでないのかも分からず
+        ■その他、作ったら変更しないつもりだしたぶんtfコードの再利用もしないし、いちいちtfstateで状態管理する方が面倒だし、CI/CD時に適用しないといけないシークレット増えるのが面倒になるなと思うやつ
+          ＜対象＞
+            //外部DB
+            ・Upstash
+            ・Neon
+            //その他外部ツール
+            ・GitHub
+            ・Slack
+            //AWSの以下
+            ・各アカウント
+            ・Route53でのドメイン作成
+            ・ECR
+            ・Billingアラートの設定
+            ・CodeBuild
+  ＜事前準備＞
+    ■目次
+      ツールの準備
+      管理アカウント作成とCLIの設定
+        管理アカウントの詳細設定
+        Trusted Advisorを見ておく
+        共通リソース作っちゃう
+      本番アカウント、ステージングアカウントの作成
+        全アカウントのプロファイルを設定
+        本番、ステージングの環境を作っちゃう    //TODO: まだ書けてない
+    ■詳細
+      ＜全アカウントのプロファイルを設定＞
+        いちいちaws configureで設定するのは面倒なので、プロファイルを設定しておく
+        以下のようにし、それぞれセットする。defaultはスルーでもいいかも
+          ・~/.aws/credentials
+            [default]
+            aws_access_key_id = XXX
+            aws_secret_access_key = XXX
+            [cph-org-manager]
+            aws_access_key_id = XXX
+            aws_secret_access_key = XXX
+            [cph-prod]
+            aws_access_key_id = XXX
+            aws_secret_access_key = XXX
+            [cph-stage]
+            aws_access_key_id = XXX
+            aws_secret_access_key = XXX
+          ・~/.aws/config
+            [default]
+            region = us-east-1
+            output = json
+            [profile cph-org-manager]
+            region = us-east-1
+            output = json
+            [profile cph-prod]
+            region = us-east-1
+            output = json
+            [profile cph-stage]
+            region = us-east-1
+            output = json
+      ＜本番、ステージングの環境を作っちゃう＞
+        ・まず、
+      ＜共通リソース作っちゃう＞
+        ■まずそれ用のiamユーザーを一応作成
+          ・ECR管理用、CodeBuild管理用
+              AmazonEC2ContainerRegistryFullAccess
+              // AWSCodeBuildAdminAccess 
+              アクセスキーも取得しておく
+        ■ECR
+          // ↑で作成したユーザー情報にセットしておく
+          aws configure 
+          // プライベートリポジトリ作成。「--image-scanning-configuration」は一旦無しで
+          aws ecr create-repository \
+            --repository-name cph-docker-image-repository \
+            --region us-east-1
+          // docker login でログインしておく
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ユーザID.dkr.ecr.us-east-1.amazonaws.com
+        ■CodeBuild
+          適当に作っといて…設定が大変すぎるのでGUIで頑張って
+        ■Route53でドメイン取得
+          本番用とステージング用のを合計2つ取得して。
+            ・ちなみにホストゾーンは本番用、ステージング用でそれぞれ作成しておいて（ドメイン作った管理アカウントにもできるけど、そっちは放置でいい）
+            ・ちなみにたぶんどこか一箇所でも日本語を使うとエラーになるので全部アスキー文字で入力するように心がけて（住所のところであっても）
+          プライバシー設定はONにしておいてドメイン登録車の情報がWHOISで見えないようにしておく
+        ■それぞれワイルドカード証明書を取得しておく
+          ・certification managerで取得する
+          ・本番環境は、*.chord-progression-hub.comと、chord-progression-hub.comの2つ
+          ・開発環境も同じく「*.」をつけたのとつけないのの2つ
+            ・これもそれぞれのアカウントで作っといて
+          ・また、検証中から変わらないと思うので、CNAMEレコードをいい感じに作っといて https://qiita.com/yyqqzz/items/d0245a81824b11a2d2e5
+            ・また、作り直したりなんだりしてると「登録済みドメイン」から見れるドメインのネームサーバーの値と、ホストゾーンのNSレコードのネームサーバー（の最後のドットを抜いた値）が一致してないことが起こるので、その場合は前者を編集して後者の値にする（最後のドットは抜きで）。後者は変えない
+      ＜本番アカウント、ステージングアカウントの作成＞
+        ・管理アカウントのコンソールでorganizationsに行って、本番アカウントとステージングアカウントを作成
+          ・IAMロール名はよしなに、、
+          （ちなみにここで作ったアカウントでログインする時パスワードなんだってなったら、パスワードリセットから設定したらいけたのでそれでいいと思う）
+      ＜ツールの準備＞
+        以下をインストール
+          ・aws cli
+          ・direnv
+          ・terraform
+        あと
+          ・terraform cloudにアカウント作って、いい感じにorganizationとworkspace（prod, stage）を作っておく
+        terraform loginしておく
+      ＜管理アカウント作成とCLIの設定＞
+        まず組織管理をするためのAWSアカウントを作成
+        次に、aws configureをする。以下情報が必要になるけど、どっかから持ってきて
+          // iam > セキュリティ認証情報 > アクセスキーの作成 等
+          ・AWS Access Key ID
+          ・AWS Secret Access Key
+          ・Default region name       //安いのはue-east-1
+          ・Default output format     //これはNoneにしていいのでスルー
+      ＜管理アカウントの詳細設定＞
+        ■MFAの設定
+          ・IAM > セキュリティ認証情報 > MFAデバイスの設定
+        ■支払い通貨をドルから日本円へ変更
+          ・たぶんデフォで終わってるけど一応確認
+          ・Billing and const management > 支払い設定 にある
+        ■予算アラート
+          1$、10$、100$、1000$等でアラートしておく
+      ＜Trusted Advisorを見ておく＞
+        ピンどめしておく
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ＜開発環境と本番環境の分け方＞
+    ■決定
+      ＜AWS organizationsで本番とステージング用のアカウントを用意することで分離する＞
+        ・もしECRにあるイメージを共通利用したい等あれば、それもまた別アカウントにする
+        ・terraform的にはそれらアカウントごとに別ディレクトリで管理する
+        ・本番とステージングは基本的に同じリソース
+          ・ただしステージングは一般アクセスは禁止したいので、IP制限したり少し工夫する
+      ＜デプロイと停止のタイミング＞
+        ・デプロイ　・・・本番はproductionブランチに、ステージングはstagingブランチにマージされたら自動でデプロイされる
+        ・停止　・・・本番はAWS管理画面からポチポチでいいと思う。ステージングは気軽にterraformのコマンドで停止（というか削除）できるようにしたい。
+      ＜開発環境ではクラウドリソースを実際にはあまり使わずモックを有効活用＞ 
+        ・そうすることで自動テストもしやすいはず
+        ・例えばDBはNeonを使うが、開発環境ではdockerでPostgreSQLサーバを立てて使いたい
+        ・ただ、どうしても本番と似た環境をローカルで用意したいって時は、環境変数をステージングのに設定すれば本番同様の環境で開発できるようにもしておく
+          ・それはフラグON/OFF程度の環境変数を作りたい
+    ■他考えたこと
+      ＜複数アカウントじゃなく複数IAMも考えた＞
+        ・だけど環境毎に分けることが難しそうだったので（あまり調査はしてない）、やっぱり面倒だけどマルチアカウントにした
+  ＜インフラ構成＞
+    ■決定
+      ＜基本＞
+        Vercel
+      ＜AWS周り＞
+        ・AWS Organizations ・・・複数アカウント
+        ・IAM ・・・権限管理
+        //・AWS Shield Standard ・・・DDoS対策（CloudFront使えば勝手に入る？） -> vercelがやる
+        //・CloudFront ・・・キャッシュ -> vercelがやる
+        //・S3 ・・・ロゴ画像とか（画像にしなくていいか…？）
+          -> Vercelメインに使うならcloudflareにする
+        ・Route53 ・・・ドメイン
+        ・VPC ・・・明示的なネットワーク設定（セキュリティの意図もあるとして）
+        //・ALB ・・・ロードバランサー（一応） -> vercelがやる
+        //・ECS(fargateモード), ECR ・・・コンテナ実行環境。Grunge Stackでやってるようにlambda+API Gatewayのようにしないのは、変にlambdaの環境の制限をあれこれ受けたくないから（Rustのwasmが面倒とか）＆別にECSそんなに高くないだろとなんとなく考えてるから -> vercelがやる
+        ・SES ・・・メール
+        //・CloudWatch ・・・ログ -> vercelがやる
+        ・AWS Batch ・・・バッチ処理（あれば）
+        ・CodeBuild ・・・CI/CD
+        //・Secrets Manager ・・・シークレット管理 -> vercelがやる
+      ＜その他＞
+        ・Upstash ・・・セッション管理
+        ・Neon ・・・メインDB
+      ＜以下は任意＞
+        https://dev.classmethod.jp/articles/aws-baseline-setting-202206/ にあるやつ全般
+        CloudTrail　・・・ユーザーが何やったかのログ。結構事故ったら高いっぽくて怖いので
+        GuardDuty　・・・AWS上の不正走査の通知。料金的な意味でオプショナルに
+        WAF　・・・Webアプリケーションファイアウォール。DDoS対策は別で取るので
+    ■メモ
+      ・最初はわりと一般的なCloudRunにしようと思っていたけど、SES使うなら「GCPとAWS使うのだるいな」となり、AWSに基本的に統一することにした
+        ・ちなみにSendGridが結構高いっぽくて、SESは結構安いっぽい。これが結構違った
+          ・ちなみにCloudRunの方向で最初結構固めていたのでTerraformもゴリゴリ書いちゃっていたけど、書き換えることになる
+      ・DB周りはAWSよりGCPのほうが安いイメージあったけど、そもそもDBは料金がより安い外部のを使いたいので、そこは大丈夫そうだった
+  ＜インフラ変更操作の流れは`packages-main/infra`配下に記載していく＞
+    ・開発進めていって新しいインフラが必要になったらその都度追記でいい、と思う。
+      ・動作確認のコードも同時に書いていくケースが結構あると思うので
+  ＜あれこれの設定ファイルを置いておく＞
+    https://zenn.dev/morinokami/articles/dot-github-directory#%E3%81%9D%E3%81%AE%E4%BB%96

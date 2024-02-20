@@ -3,9 +3,7 @@
     "titleBar.activeBackground": "#202e45",
     "titleBar.inactiveBackground": "#202e45"
   },
-  // prettier
   "editor.formatOnSave": true,
 
-  // jsynowiec.vscode-insertdatestring
-  "insertDateString.format": "YYYY-MM-DDThh:mm:ss"
+  "css.lint.unknownAtRules": "ignore"
 }
