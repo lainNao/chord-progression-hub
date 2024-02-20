@@ -7,7 +7,7 @@ pre-push:
   commands:
     test-all:
       glob: "*"
-      run: npm run test:all
+      run: make test__all
 
 pre-commit:
   parallel: true

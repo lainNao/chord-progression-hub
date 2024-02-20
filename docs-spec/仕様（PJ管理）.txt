@@ -1,0 +1,110 @@
+■目次
+  ＜chord-progressoin-hubの基本プロフィール＞
+    方向性          //spec-20240203172111
+    競合サイト      //spec-20240203171736
+    対応ブラウザ    //spec-20240203171849
+  ＜一般＞
+    各品質的な指標を自動テストはせずとも意識していたい      //spec-20240203165003
+  ＜仕様管理＞
+    docs-spec配下のファイルの中で仕様を書いてコメントに仕様IDを書く      //spec-20240203170344
+    パースした仕様IDを自動テストのタイトルに含める（自動化できないのはskipつける）      //spec-20240203170611
+    仕様をパースして「自動テストの仕様網羅率」「完了していない仕様」を閲覧するページやCIを用意したい      //spec-20240203170837
+
+■詳細
+  ＜方向性＞
+    1. コード進行の検索に特化したサイトにする
+    2. このサービスは、単に著作権法上問題無い（はずな）だけで、あくまでも他人の著作物の上に成り立つものであることを忘れない
+    3. このサービスは誰よりもそもそも自分が使いたいものであり、誰にも使われなくても別にかまわないはずのものであることを忘れない
+    4. 逆に、何かしら有料の料金プランを用意するならば自分のアカウントもその有料プランに登録すること。登録したくないのならば、そもそもそんなプラン用意する必要ないかもしれない（自分向けのサービスのはずなので）
+  ＜対応ブラウザ＞
+    ・対応ブラウザは以下
+      ・デスクトップ＆モバイル
+      ・最新バージョン＆一個前のバージョン
+      ・Chrome、Safari、Firefox、Edge
+    ・ただし全部自動テストするのはコスト的に倍々になっていくので、工夫したい
+      ・例えば自動テストをchrome/safariだけにしておくとか（間のedgeとfirefoxはそれらがOKなら大抵OKなので）
+        ・そしてedgeとfirefoxはランタイムでのエラー監視に任せてしまうなど…
+  ＜競合サイト＞
+    ■日本
+      ・gakufu.me
+      ・ChordWiki
+      ・<https://rechord.cc/>
+    ■海外
+      ・ChordU
+      ・Chordify
+      ・Chord ai
+        ・AI類はむしろ提携したい
+      ・他音楽系サービス
+        ・Spotify
+        ・SoundCloud
+        ・Bandcamp  
+        ・Amazon Music
+        ・Apple Music
+
+  ＜仕様をパースして「自動テストの仕様網羅率」「完了していない仕様」を閲覧するページやCIを用意したい＞
+    便利なので
+  ＜パースした仕様IDを自動テストのタイトルに含める（自動化できないのはskipつける）＞
+    ・skipがついてるものはリリース前のPRで「これ自動テストしてないから手動テストしてね」ってコメントで書き出すようにする等する
+  ＜docs-spec配下のファイルの中で仕様を書いてコメントに仕様IDを書く＞
+    ・仕様IDは以下の形式で書く
+      ・文末に
+      ・//spec-数
+    ・それをパースして使うようにする
+      ・現状はscripts/parseSpecComments.jsでやっている 
+    ■ちなみに
+      ・仕様idは、`shift + cmd + i`押下で生成できるようにするなどして入力を簡単にするできる。以下は日時をつなげたものを生成する例
+        ```json
+          // vscodeの場合、~/Library/Application\ Support/Code/User/keybindings.jsonを以下のようにすると可能
+          [
+            {
+              "key": "cmd+shift+i",
+              "command": "editor.action.insertSnippet",
+              "when": "editorTextFocus",
+              "args": {
+                "snippet": "//spec-$CURRENT_YEAR$CURRENT_MONTH$CURRENT_DATE$CURRENT_HOUR$CURRENT_MINUTE$CURRENT_SECOND"
+              }
+            }
+          ]
+        ```
+
+  ＜各品質的な指標を自動テストはせずとも意識していたい＞
+    ・12factor https://12factor.net/
+      - [ ] Availability(可用性)
+      - [ ] Reliability(信頼性)
+      - [ ] Testability(テスト容易性)
+      - [ ] Scalability
+      - [ ] Security
+      - [ ] Agility
+      - [ ] Fault Tolerance(耐障害性)
+      - [ ] Elasticity(弾力性)
+      - [ ] Recoverability(回復性)
+      - [ ] Performance
+      - [ ] Deployability(デプロイ容易性)
+      - [ ] Learnability(学習容易性)
+    ・Operational Architecture Characteristics
+      - [ ] Availability(可用性)：　How long the system will need to be available(システムがどれくらいの期間利用できるか)(spec-20240127160924)
+      - [ ] Continuity(継続性)：　障害復旧能力(spec-20240127160926)
+      - [ ] Performance：　stress testing, peak analysis, capacity required, response timesなどの分析が含まれる(spec-20240127160928)
+      - [ ] Recoverability(回復性)：　Business continuity requirements. 災害発生時にどれだけ早くオンラインに戻す必要があるか(spec-20240127160930)
+      - [ ] Reliability/safety(信頼性/安全性)：　システムがフェイルセーフである必要があるか、人命に影響するか、障害が会社の多額の費用負担につながるか(spec-20240127160933)
+      - [ ] Robustness(堅牢性)：　Ability to handle error and boundary conditions(spec-20240127160935)
+      - [ ] Scalability：　ユーザやリクエスト数が増えてもシステムが動作する能力(spec-20240127160937)
+    ・Structural Architecture Characteristics
+    　- [ ] Configurability(構成容易性)：Softwareの設定をend userが簡単に変更できる(spec-20240127160754)
+    　- [ ] Extensibility(拡張容易性)：新機能をプラグインで追加できること(spec-20240127160756)
+    　- [ ] Installability(インストール容易性)：インストールの容易さ(spec-20240127160757)
+    　- [ ] Leverageability/Reuse(活用性/再利用性)：共通コンポーネントを複数プロダクトで再利用できること(spec-20240127160807)
+    　- [ ] Localization：多言語対応(spec-20240127160809)
+    　- [ ] Maintainability(メンテナンス容易性)：システムの変更や拡張を簡単に行えるか(spec-20240127160810)
+    　- [ ] Portability(可搬性)：一つ以上のプラットフォームで動作するか(spec-20240127160812)
+    　- [ ] Upgradeability(アップグレード容易性)：新versionへの移行を簡単に行えるか(spec-20240127160813)
+    ・Cross-Cutting Architectural Characteristics
+      - [ ]Accessibility：　色覚障害や難聴等のユーザを含めたすべてのユーザの使いやすさ(spec-20240127161043)
+      - [ ]Archivability(長期保存性)：　データの保持/削除要件。(spec-20240127161044)
+      - [ ]Authentication(認証)：　ユーザがユーザが主張する者であることに自信をもつこと(spec-20240127161046)
+      - [ ]Authorization(認可)：　ユーザが許可されたリソースにだけアクセスできること(spec-20240127161048)
+      - [ ]Legal(合法性)：　法的制約(データ保護、GDPR等)(spec-20240127161049)
+      - [ ]Privacy：　従業員からも情報を秘匿できているか(spec-20240127161050)
+      - [ ]Security：　暗号化、社内システムの認証等(spec-20240127161052)
+      - [ ]Supportability(サポート容易性)：　エラー対応時に必要になる情報をロギングできているか(spec-20240127161054)
+      - [ ]Usability/archievability(ユーザビリティ/達成容易性)：　ユーザが目標を達成するのにどれだけのトレーニングが必要か。他のarchitecture上の課題と同様に真剣に扱われる必要がある(spec-20240127161057)

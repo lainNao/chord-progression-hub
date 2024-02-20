@@ -1,4 +1,0 @@
-{
-  // ref: https://github.com/DavidAnson/markdownlint-cli2/blob/main/test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
-  "customRules": ["spec-checklist"]
-}

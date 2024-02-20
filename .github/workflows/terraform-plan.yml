@@ -1,0 +1,97 @@
+name: Terraform Plan
+
+on:
+  pull_request_target:
+    branches:
+      - staging
+      # TODO: production
+      # - production
+    paths:
+      - packages-main/infra/**
+
+env:
+  TF_VERSION: 1.6.6
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  plan-staging:
+    if: github.base_ref == 'staging'
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+    steps:
+      ############## Setup
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.STAGING_GCP_WORKLOAD_IDENTITY_PROVIDER_ID }}
+          service_account: ${{ secrets.STAGING_GCP_MAIN_SERVICE_ACCOUNT_EMAIL }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: ">= 363.0.0"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          cli_config_credentials_token: ${{ secrets.TF_TEAM_TOKEN }}
+          # below is workaround for issue https://github.com/hashicorp/setup-terraform/issues/152
+          terraform_wrapper: false
+
+      - name: Setup tfcmt
+        uses: shmokmt/actions-setup-tfcmt@v2
+        with:
+          version: v4.6.0
+
+      ############## Execute
+
+      - name: Terraform Init
+        working-directory: packages-main/infra
+        run: make init-stag
+        env:
+          # meta
+          TF_VAR_region: ${{ secrets.STAGING_GCP_REGION }}
+          TF_VAR_project_id: ${{ secrets.STAGING_GCP_PROJECT_ID }}
+          # artifact registry
+          TF_VAR_artifact_registry_repository_id: ${{ secrets.STAGING_GCP_ARTIFACT_REGISTRY_REPOSITORY_ID }}
+          # cloud run
+          TF_VAR_cloud_run_service_name: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_NAME }}
+          # TODO: 以下を動的にしないと、、
+          TF_VAR_cloud_run_service_container_image_path: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_CONTAINER_IMAGE_PATH }}
+          # neon
+          TF_VAR_neon_host: ${{ secrets.STAGING_NEON_HOST }}
+          TF_VAR_neon_db_name: ${{ secrets.NEON_DB_NAME }}
+          TF_VAR_neon_user_name: ${{ secrets.NEON_USER_NAME }}
+          TF_VAR_neon_password: ${{ secrets.STAGING_NEON_PASSWORD }}
+          TF_VAR_neon_endpoint_id: ${{ secrets.STAGING_NEON_ENDPOINT_ID }}
+
+      - name: Terraform plan
+        working-directory: packages-main/infra/environments/staging
+        run: tfcmt plan -patch -- terraform plan -no-color -input=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # meta
+          TF_VAR_region: ${{ secrets.STAGING_GCP_REGION }}
+          TF_VAR_project_id: ${{ secrets.STAGING_GCP_PROJECT_ID }}
+          # artifact registry
+          TF_VAR_artifact_registry_repository_id: ${{ secrets.STAGING_GCP_ARTIFACT_REGISTRY_REPOSITORY_ID }}
+          # cloud run
+          TF_VAR_cloud_run_service_name: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_NAME }}
+          # TODO: 以下を動的にしないと、、
+          TF_VAR_cloud_run_service_container_image_path: ${{ secrets.STAGING_GCP_CLOUD_RUN_SERVICE_CONTAINER_IMAGE_PATH }}
+          # neon
+          TF_VAR_neon_host: ${{ secrets.STAGING_NEON_HOST }}
+          TF_VAR_neon_db_name: ${{ secrets.NEON_DB_NAME }}
+          TF_VAR_neon_user_name: ${{ secrets.NEON_USER_NAME }}
+          TF_VAR_neon_password: ${{ secrets.STAGING_NEON_PASSWORD }}
+          TF_VAR_neon_endpoint_id: ${{ secrets.STAGING_NEON_ENDPOINT_ID }}

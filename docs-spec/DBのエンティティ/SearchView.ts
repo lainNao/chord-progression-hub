@@ -1,4 +1,4 @@
-import { ChordProgression, Music, Section } from "./Music";
+import { ChordProgression, Track, Section } from "./Music";
 import { CreatedInfo, IdField, UpdatedInfo } from "./_util";
 
 /**
@@ -8,7 +8,7 @@ export type LookupChordProgressionBySection = IdField &
   CreatedInfo &
   UpdatedInfo & {
     section?: Section;
-    music: Music;
+    track: Track;
     chordProgression: ChordProgression;
     /**
      * TSD等に変換した文字列
@@ -49,7 +49,7 @@ export type LookupChordProgressionBySection = IdField &
 export type LookupChordProgressionDegreesByFour = IdField &
   CreatedInfo &
   UpdatedInfo & {
-    music: Music;
+    track: Track;
     chordProgression: ChordProgression;
     /**
      * 4つ（無いならそれ未満）のディグリー（を意味する文字列）を保存するカラム

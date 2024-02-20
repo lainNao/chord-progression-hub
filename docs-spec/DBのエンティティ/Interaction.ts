@@ -1,5 +1,5 @@
 import { Emoji } from "./Resource";
-import { ChordProgression, Music } from "./Music";
+import { ChordProgression, Track } from "./Music";
 import { User } from "./User";
 import { CreatedInfo, IdField, UpdatedInfo } from "./_util";
 
@@ -60,6 +60,6 @@ export type ChordProgressionList = IdField &
 export type RelatedViewedChordProgression = IdField &
   CreatedInfo &
   UpdatedInfo & {
-    music: Music;
+    track: Track;
     chordProgressions: ChordProgression[];
   };
