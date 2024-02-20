@@ -10,6 +10,7 @@ export default function Home() {
           Get started by editing&nbsp;
           <code className="font-mono font-bold">src/app/page.tsx</code>
         </p>
+        test
         <Suspense fallback={<div>aaa</div>}>
           <ChordProgressionAst value={"C"} />
         </Suspense>
