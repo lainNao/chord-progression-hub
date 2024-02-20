@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/lainNao/chord-progression-hub#readme",
   "devDependencies": {
-    "@secretlint/secretlint-rule-preset-recommend": "^8.1.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
     "cspell": "^8.3.2",
-    "lefthook": "^1.5.6",
+    "lefthook": "^1.6.1",
     "markdownlint-cli2": "^0.12.1",
-    "secretlint": "^8.1.0"
+    "secretlint": "^8.1.2"
   }
 }
