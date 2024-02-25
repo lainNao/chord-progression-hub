@@ -105,6 +105,7 @@
         本番、ステージングの環境を作っちゃう    //TODO: まだ書けてない
     ■詳細
       ＜stripe準備＞
+        参考 https://github.com/hiroppy/app-router_nexauth_prisma_stripe_sample
       ＜aws準備＞
         一つアカウントを作っておく
         それで以下を作る
