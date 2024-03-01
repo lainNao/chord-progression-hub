@@ -4,17 +4,24 @@ export function SampleForm({
   onSubmit,
   onClick,
 }: {
-  onSubmit: (formData: FormData) => void;
-  onClick: () => void;
-}) {
+  readonly onSubmit: (formData: Readonly<FormData>) => Promise<void>;
+  readonly onClick: () => Promise<void>;
+}): JSX.Element {
   return (
     <form action={onSubmit}>
       <label>
         Name:
-        <input type="text" name="name" />
+        <input name="name" type="text" />
       </label>
       <input type="submit" value="Submit" />
-      <button type="button" onClick={() => onClick()}>button</button>
+      <button
+        onClick={() => {
+          onClick();
+        }}
+        type="button"
+      >
+        button
+      </button>
     </form>
   );
 }

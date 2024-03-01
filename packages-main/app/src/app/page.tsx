@@ -1,28 +1,24 @@
-import Image from "next/image";
-import { ChordProgressionAst } from "./ChordProgressionAst";
 import { Suspense } from "react";
+import { ChordProgressionAst } from "./ChordProgressionAst";
 import { SampleForm } from "./SampleForm";
 
-export default function Home() {
+const handleClick = async (): Promise<void> => {
+  "use server";
+  // console.log(222);
+};
 
-  const handleSubmit = async (formData: FormData) => {
-    'use server'
-    console.log(111, formData);
-  }
+const handleSubmit = async (formData: Readonly<FormData>): Promise<void> => {
+  "use server";
+  const aaa = 1;
+  console.log(aaa, formData);
+};
 
-  const handleClick = async () => {
-    'use server'
-    console.log(222);
-  }
-
-  console.log(333)
-
+export default function Home(): JSX.Element {
   return (
     <main>
-      aaaa
-      <SampleForm onSubmit={handleSubmit} onClick={handleClick} />
+      <SampleForm onClick={handleClick} onSubmit={handleSubmit} />
       <Suspense fallback={<div>aaa</div>}>
-        <ChordProgressionAst value={"C"} />
+        <ChordProgressionAst value="C" />
       </Suspense>
     </main>
   );

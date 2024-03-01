@@ -1,10 +1,5 @@
 # use makefile instead of npm scripts
 
-test__all:
-	make test__common-test-case-runners &
-	make test__ts-simple-result &
-	wait
-
 ############################################### common test case runners
 
 test__common-test-case-runners:

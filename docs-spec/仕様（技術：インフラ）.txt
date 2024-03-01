@@ -123,6 +123,7 @@
             ＜Git＞
               リポジトリを連携しておく
               Production Branch   //production
+              Ignored Build Stepで、Customで[ "$VERCEL_GIT_COMMIT_AUTHOR_LOGIN" == "dependabot[bot]" ]を指定（dependabotからのPRでデプロイいちいちしない）
             ＜Domains＞
               stagingブランチに一個設定
                 適当に。固定URLであればいい
