@@ -29,7 +29,6 @@ const ignorePatterns = [
   "*.mdx",
   "*.md",
   "*.txt",
-  "makefile",
 ];
 
 module.exports = {
