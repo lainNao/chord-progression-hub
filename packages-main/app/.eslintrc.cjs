@@ -70,7 +70,7 @@ module.exports = {
     "plugin:jsx-a11y/strict",
     // ref: https://github.com/vercel/next.js/blob/canary/packages/eslint-plugin-next/src/index.ts
     "next/core-web-vitals",
-    //
+    // ref: https://github.com/francoismassart/eslint-plugin-tailwindcss/blob/master/lib/index.js
     "plugin:tailwindcss/recommended",
 
     // Prettierとかぶるルールはオフる（最後のルールが最も優先度高いので最後に置く必要がある）
