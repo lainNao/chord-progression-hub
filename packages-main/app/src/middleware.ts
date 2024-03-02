@@ -1,3 +1,4 @@
+// ref: https://qiita.com/takumibv/items/25404be769e72afc9a19
 import { NextResponse, type NextRequest } from "next/server";
 import { appEnv } from "./appEnv";
 
