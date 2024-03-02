@@ -29,9 +29,7 @@
     "prettierrc.cjs",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.js",
-    // テストスクリプト内で使うファイル名。消さないで
-    "tmp-file-for-eslint-test.stories.tsx"
+    "**/*.js"
   ],
   "exclude": [
     "node_modules",
