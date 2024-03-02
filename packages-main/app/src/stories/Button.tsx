@@ -1,7 +1,7 @@
 import React from "react";
 import "./button.css";
 
-interface ButtonProperties {
+type ButtonProperties = {
   /**
    * Is this the principal call to action on the page?
    */
@@ -22,7 +22,7 @@ interface ButtonProperties {
    * Optional click handler
    */
   readonly onClick?: () => void;
-}
+};
 
 /**
  * Primary UI component for user interaction
