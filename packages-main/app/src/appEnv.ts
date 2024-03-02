@@ -13,10 +13,15 @@ function getValidatedEnvVarsOrThrowError(): ValidatedEnvVars {
     throw new Error("NEXT_PUBLIC_APP_HOST is not set");
   }
 
+  const isMaintenanceMode = Boolean(
+    process.env["NEXT_PUBLIC_MAINTENANCE_MODE"] !== undefined &&
+      process.env["NEXT_PUBLIC_MAINTENANCE_MODE"] !== "false"
+  );
+
   return {
     nodeEnv: process.env.NODE_ENV,
     appHost,
-    isMaintenanceMode: Boolean(process.env["NEXT_PUBLIC_MAINTENANCE_MODE"]),
+    isMaintenanceMode,
   };
 }
 
