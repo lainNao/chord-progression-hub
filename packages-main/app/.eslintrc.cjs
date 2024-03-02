@@ -19,11 +19,25 @@ const environment = {
     },
   };
 
+const ignorePatterns = [
+  "*.tsbuildinfo",
+  "*.snap",
+  "*.json",
+  "*.css",
+  "*.ico",
+  "*.svg",
+  "*.mdx",
+  "*.md",
+  "*.txt",
+  "makefile",
+];
+
 module.exports = {
   env: environment,
   parser,
   parserOptions,
   settings,
+  ignorePatterns,
   plugins: [
     "@typescript-eslint",
     "import",
@@ -77,6 +91,27 @@ module.exports = {
         "unicorn/prefer-module": "off", // Commonjsを使ってもOK
       },
     },
+    // src/appEnv.ts以外のファイルでprocess.envを使うのを禁止
+    {
+      files: ["!src/appEnv.ts"],
+      rules: {
+        "no-restricted-syntax": [
+          "error",
+          {
+            selector:
+              "MemberExpression[object.name='process'][property.name='env']",
+            message: "process.envはsrc/appEnv.tsからimportして使ってください",
+          },
+        ],
+      },
+    },
+    {
+      files: ["!**/*.d.ts"],
+      rules: {
+        // interfaceをwarnにし、typeに統一する
+        "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+      },
+    },
   ],
   rules: {
     /* ---------------- offにしたいルール ---------------- */
@@ -102,6 +137,8 @@ module.exports = {
         "import/prefer-default-export", // Prefer default exportというエラーは無効化
         "require-await",
         "unicorn/filename-case", // ファイル名にケバブケース矯正はしない
+        "unicorn/prevent-abbreviations", // 名前に短縮形等を使ってもOKにしたいのでOFF
+        "unicorn/no-abusive-eslint-disable", // eslint-disableを使ってもOKにしたい
         "@typescript-eslint/require-await", // Asyncな関数の中でawaitを使っていなくてもOK
         "@typescript-eslint/no-misused-promises", // サーバーアクションをpromiseで書いたらform側で怒られるので無効化
         "@typescript-eslint/naming-convention", // Reactコンポーネントの名前がPascalCaseで怒らるので無効化
@@ -133,16 +170,11 @@ module.exports = {
     ),
     "@typescript-eslint/no-unused-vars": ["warn"],
 
-    "@typescript-eslint/strict-boolean-expressions": [
-      "warn",
-      { allowString: false, allowNumber: false, allowNullableObject: false },
-    ],
-
     /* ---------------- errorにしたいルール ---------------- */
     ...Object.fromEntries(
       [
         "react-hooks/rules-of-hooks", // Hooksのルール違反はエラーにする
-      ].map((rule) => [rule, "warn"])
+      ].map((rule) => [rule, "error"])
     ),
 
     // Jsxを書ける拡張子を設定
@@ -171,6 +203,19 @@ module.exports = {
       {
         namedComponents: "function-declaration",
         unNamedComponents: "arrow-function",
+      },
+    ],
+
+    // classNameはhtml要素しか使えないようにするが、特定コンポーネントなら使ってOK
+    "react/forbid-component-props": [
+      "error",
+      {
+        forbid: [
+          {
+            propName: "className",
+            allowedFor: ["Image", "Link"],
+          },
+        ],
       },
     ],
 
