@@ -4,6 +4,18 @@ import { appEnv } from "./appEnv";
 // メンテナンスモードの除外ページ。今は空
 const maintenanceExclusionPaths = new Set<string>([]);
 
+export const config = {
+  /**
+   * 画面遷移以外のリクエストを除外するために以下のようなmatcherを設定する
+   *
+   * これをしないとAPIや静的リソース類（css,画像,ファビコン,svg,etc）などのリクエストもメンテナンス画面にリダイレクトされてしまう挙動をするので注意
+   *
+   * 逆にapi配下もスルーするようにしているので、画面はメンテナンスモードだけどAPIは使えるので注意
+   * それが嫌なら以下から api| を外してしまうか、apiの方では別途違うミドルウェアを作るかする
+   */
+  matcher: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+};
+
 export function middleware(request: NextRequest): NextResponse {
   // メンテナンスモードでない時は、/maintenance を404にする
   if (!appEnv.isMaintenanceMode) {
