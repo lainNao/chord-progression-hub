@@ -111,6 +111,20 @@ module.exports = {
         "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
       },
     },
+    // wrappersを使わせる
+    {
+      files: ["!src/wrappers/chordProgressionParser.ts"],
+      rules: {
+        "@typescript-eslint/no-restricted-imports": [
+          "error",
+          {
+            name: "@lainnao/chord-progression-parser-bundler",
+            message:
+              "ラッパーの @/wrappers/chordProgressionParser からimportしてください",
+          },
+        ],
+      },
+    },
   ],
   rules: {
     /* ---------------- offにしたいルール ---------------- */
@@ -236,21 +250,21 @@ module.exports = {
       },
     ],
 
-    /*
-     * 静的にimportに制約をつけてあげる
-     * "import/no-restricted-paths": [
-     *   "error",
-     *   {
-     *     zones: [
-     *       // {
-     *       //   from: 'このパスのコードを',
-     *       //   except: ['fromから例外的に除外したいパスがあればここに記載する。from からの相対パスである必要があることに注意'],
-     *       //   target: 'このパスからimportしたら',
-     *       //   message: 'このエラーメッセージを出す',
-     *       // },
-     *     ],
-     *   },
-     * ],
-     */
+    // // 静的にimportに制約をつけてあげる
+    // "import/no-restricted-paths": [
+    //   "error",
+    //   {
+    //     zones: [
+    //       /*
+    //        * {
+    //        *   from: 'このパスのコードを',
+    //        *   except: ['fromから例外的に除外したいパスがあればここに記載する。from からの相対パスである必要があることに注意'],
+    //        *   target: 'このパスからimportしたら',
+    //        *   message: 'このエラーメッセージを出す',
+    //        * },
+    //        */
+    //     ],
+    //   },
+    // ],
   },
 };
