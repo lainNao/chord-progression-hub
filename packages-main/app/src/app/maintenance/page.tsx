@@ -33,7 +33,7 @@ export default function Maintenance(): JSX.Element {
      * </main>
      */
     <section className="bg-primary-500/40 flex items-center justify-center py-20 lg:h-screen">
-      <div className="container bg-blue-700">
+      <div className="container">
         <div className="rounded-3xl lg:p-10 ">
           <div className="grid items-center lg:grid-cols-2">
             <div>
