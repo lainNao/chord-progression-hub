@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-abusive-eslint-disable */
 /* eslint-disable */
 
 // NOTE: wasmを読み込めるようにしたい
@@ -17,7 +16,7 @@ class WasmChunksFixPlugin {
             const info = compilation.assetsInfo.get(pathname);
             compilation.emitAsset(name, source, info);
           }
-        },
+        }
       );
     });
   }
