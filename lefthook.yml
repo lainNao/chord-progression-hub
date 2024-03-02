@@ -7,18 +7,6 @@
 #  - 何のgit-hookが使えるかは　ls -I "*.sample" .git/hooks　コマンドで分かるっぽい
 #  - CLIから直接実行したい時は npx lefthook run pre-commit とかでいけるっぽい
 
-pre-push:
-  commands:
-    test__common-test-case-runners:
-      glob: "packages-dev/common-test-case-runners/**/*"
-      run: make test__common-test-case-runners
-    test__ts-simple-result:
-      glob: "packages-main/ts-simple-result/**/*"
-      run: make test__ts-simple-result
-    test__app:
-      glob: "packages-main/app/**/*"
-      run: cd packages-main/app && make test__all
-
 pre-commit:
   parallel: true
   skip: #mergeやrebase時は無視する
@@ -38,6 +26,18 @@ pre-commit:
     parse-spec-comments:
       glob: "docs-spec/**/*"
       run: make parse-spec-comments
+
+pre-push:
+  commands:
+    test__common-test-case-runners:
+      glob: "packages-dev/common-test-case-runners/**/*"
+      run: make test__common-test-case-runners
+    test__ts-simple-result:
+      glob: "packages-main/ts-simple-result/**/*"
+      run: make test__ts-simple-result
+    test__app:
+      glob: "packages-main/app/**/*"
+      run: cd packages-main/app && make test__all
 
 # merge（pull時にも発火するらしい）後に発火
 post-merge:
