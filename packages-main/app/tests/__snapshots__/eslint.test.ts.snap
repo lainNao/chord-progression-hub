@@ -9,8 +9,19 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
   },
   "globals": {},
   "ignorePatterns": [
+    "*.tsbuildinfo",
+    "*.snap",
+    "*.json",
+    "*.css",
+    "*.ico",
+    "*.svg",
+    "*.mdx",
+    "*.md",
+    "*.txt",
     "coverage",
+    "makefile",
     "next-env.d.ts",
+    "tailwind.config.js",
   ],
   "noInlineConfig": undefined,
   "parser": "/Users/yk/data/projects/_self/chord-progression-hub/packages-main/app/node_modules/@typescript-eslint/parser/dist/index.js",
@@ -163,7 +174,8 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "error",
     ],
     "@typescript-eslint/consistent-type-definitions": [
-      "error",
+      "warn",
+      "type",
     ],
     "@typescript-eslint/consistent-type-exports": [
       "error",
@@ -496,7 +508,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "off",
     ],
     "@typescript-eslint/sort-type-constituents": [
-      "error",
+      "off",
     ],
     "@typescript-eslint/space-before-blocks": [
       "off",
@@ -508,12 +520,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "off",
     ],
     "@typescript-eslint/strict-boolean-expressions": [
-      "warn",
-      {
-        "allowNullableObject": false,
-        "allowNumber": false,
-        "allowString": false,
-      },
+      "error",
     ],
     "@typescript-eslint/switch-exhaustiveness-check": [
       "error",
@@ -1294,6 +1301,10 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
     ],
     "no-restricted-syntax": [
       "error",
+      {
+        "message": "process.envはsrc/appEnv.tsからimportして使ってください",
+        "selector": "MemberExpression[object.name='process'][property.name='env']",
+      },
     ],
     "no-return-assign": [
       "error",
@@ -1527,7 +1538,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "warn",
     ],
     "react-hooks/rules-of-hooks": [
-      "warn",
+      "error",
     ],
     "react/boolean-prop-naming": [
       2,
@@ -1545,7 +1556,18 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       2,
     ],
     "react/forbid-component-props": [
-      2,
+      "error",
+      {
+        "forbid": [
+          {
+            "allowedFor": [
+              "Image",
+              "Link",
+            ],
+            "propName": "className",
+          },
+        ],
+      },
     ],
     "react/forbid-dom-props": [
       2,
@@ -2004,7 +2026,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "error",
     ],
     "unicorn/no-abusive-eslint-disable": [
-      "error",
+      "off",
     ],
     "unicorn/no-array-callback-reference": [
       "error",
@@ -2265,7 +2287,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "error",
     ],
     "unicorn/prevent-abbreviations": [
-      "error",
+      "off",
     ],
     "unicorn/relative-url-style": [
       "error",

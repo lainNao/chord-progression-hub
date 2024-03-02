@@ -145,6 +145,7 @@ module.exports = {
         "@typescript-eslint/ban-types", // Type A = {} でも許す。それも型なので
         "@typescript-eslint/explicit-function-return-type", // 最後にsがつくやつとかぶってるので無効化
         "@typescript-eslint/prefer-readonly-parameter-types", // React関数コンポーネントでうまく以下ないケースがあるのでオフってしまう
+        "@typescript-eslint/sort-type-constituents", // ソート入らないと思うので無効化
         "react/jsx-no-bind", // onClickに直接関数式書いてOK
         "react/jsx-no-literals", // 文字列を直接書いてもOK
         "react/react-in-jsx-scope", // 「error 'React' must be in scope when using JSX」、を無効化

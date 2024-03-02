@@ -8,7 +8,6 @@ async function triggerAndGetAllInstalledEslintPluginIssues(): Promise<
   const temporaryFile = "tmp-file-for-eslint-test.stories.tsx";
 
   fs.writeFileSync(
-    // ファイル名が unicorn/prevent-abbreviations に引っかかる
     temporaryFile,
     `
     // import/no-anonymous-default-export に引っかかる
@@ -39,6 +38,9 @@ async function triggerAndGetAllInstalledEslintPluginIssues(): Promise<
         </div>
       )
     }
+
+    // unicorn/no-process-exit に引っかかる
+    process.exit(1);
   `
   );
   const [results] = await eslint.lintFiles([temporaryFile]),
@@ -65,7 +67,7 @@ describe("ESLint", () => {
     "react-hooks/exhaustive-deps", // eslint-plugin-react-hooks
     "storybook/story-exports", // eslint-plugin-storybook
     "@next/next/no-img-element", // @next/next
-    "unicorn/prevent-abbreviations", // eslint-plugin-unicorn
+    "unicorn/no-process-exit", // eslint-plugin-unicorn
     "tailwindcss/no-custom-classname", // eslint-plugin-tailwindcss
   ])(
     "インストールしているESLint関連のプラグインが動作しなくなったりしていない（それぞれ一つのルールは動作する） %s",
