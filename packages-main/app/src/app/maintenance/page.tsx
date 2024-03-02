@@ -1,4 +1,5 @@
 /* eslint-disable */
+// TODO: まともに作れてないので後でやる。とりあえず今はページが表示される程度にはしてる
 import Image from "next/image";
 import logo from "../../../public/next.svg";
 
