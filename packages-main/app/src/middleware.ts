@@ -36,7 +36,7 @@ export function middleware(request: NextRequest): NextResponse {
     if (request.nextUrl.pathname === "/maintenance") return NextResponse.next();
 
     // メンテナンス画面へリダイレクト
-    return NextResponse.redirect(`${appEnv.appHost}/maintenance`);
+    return NextResponse.redirect("/maintenance");
   }
 
   return NextResponse.next();
