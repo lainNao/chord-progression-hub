@@ -160,6 +160,7 @@ module.exports = {
         "@typescript-eslint/explicit-function-return-type", // 最後にsがつくやつとかぶってるので無効化
         "@typescript-eslint/prefer-readonly-parameter-types", // React関数コンポーネントでうまく以下ないケースがあるのでオフってしまう
         "@typescript-eslint/sort-type-constituents", // ソート入らないと思うので無効化
+        "react/jsx-sort-props", // propsのソートは無効化
         "react/jsx-no-bind", // onClickに直接関数式書いてOK
         "react/jsx-no-literals", // 文字列を直接書いてもOK
         "react/react-in-jsx-scope", // 「error 'React' must be in scope when using JSX」、を無効化
@@ -183,6 +184,7 @@ module.exports = {
       ].map((rule) => [rule, "warn"])
     ),
     "@typescript-eslint/no-unused-vars": ["warn"],
+    "react/jsx-max-depth": ["warn", { max: 5 }], // jsxのネストは5からwarn
 
     /* ---------------- errorにしたいルール ---------------- */
     ...Object.fromEntries(
