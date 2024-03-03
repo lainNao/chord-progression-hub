@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { ChordProgressionAst } from "./ChordProgressionAst";
 import { SampleForm } from "./SampleForm";
 
@@ -17,9 +16,7 @@ export default function Home(): JSX.Element {
   return (
     <main>
       <SampleForm onClick={handleClick} onSubmit={handleSubmit} />
-      <Suspense fallback={<div>aaa</div>}>
-        <ChordProgressionAst value="C" />
-      </Suspense>
+      <ChordProgressionAst value="C" />
     </main>
   );
 }
