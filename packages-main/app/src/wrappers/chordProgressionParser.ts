@@ -5,7 +5,7 @@ export { type ParsedResult } from "@lainnao/chord-progression-parser-bundler";
 export * from "@lainnao/chord-progression-parser-bundler/generatedTypes";
 
 const argumentIndex = 0;
-type ParserArgument = Parameters<
+type ParserFirstArgument = Parameters<
   typeof parser.parseChordProgressionString
 >[typeof argumentIndex];
 
@@ -16,7 +16,7 @@ type ParserArgument = Parameters<
  * parseChordProgressionStringは現状内部で使っているRust側でキャッチしないエラーが起こることがあるが、
  * それをキャッチするようにしたラッパー
  */
-export function parseChordProgressionString(value: ParserArgument):
+export function parseChordProgressionString(value: ParserFirstArgument):
   | parser.ParsedResult
   | {
       success: false;
