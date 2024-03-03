@@ -1,0 +1,19 @@
+{
+  // next.js用の設定を継承
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "out",
+    "dist",
+    "build",
+    "coverage",
+    ".next",
+    ".vercel",
+    ".next",
+    ".storybook",
+    "storybook-static"
+
+    // 以下がeslint.test.tsでのみ必要なので、オフる
+    // "tmp-file-for-eslint-test.stories.tsx"
+  ]
+}

@@ -4,11 +4,6 @@ variable "domain" {
 
 }
 
-# vercel
-variable "vercel_api_token" {
-  sensitive = true
-}
-
 # neon
 variable "neon_host" {
   sensitive = true

@@ -10,6 +10,7 @@
       HOME画面に追加 //spec-20231221003158
       もし広告用にクッキー使うなら、クッキー使いますよバナー  //spec-20231221003900
       ミューテーション類はリクエストとし、上の権限の人の承認が必要    //spec-20240208134107
+      支払い周りの機能     //spec-20240224221620
     ■他
       ユーザー系機能       //spec-20240203173706
       コード進行機能       //spec-20240203173523
@@ -37,6 +38,54 @@
     有料プランのページで言い訳のため「サーバー代」「破綻」とかで検索したツイッターへのリンクを書いておく
 
 ■詳細
+  ＜支払い周りの機能＞
+    ■サブスク
+      ・トライアル期間の設置      // 1週間
+      ・決済情報の登録、変更      // クレジットカード
+      ・決済の履行
+        ・プランの変更
+      ・決済できない場合のプラン強制変更
+      ・領収書の送付
+      ・決済履歴の表示
+      ・解約
+      ・返金                    // サポートから問い合わせてもらえれば30日以内ならOKとするかな。
+    ■実装の流れ
+      ＜管理画面で色々設定＞
+        ・サブスク用商品の作成
+        ・サブスクプランの作成
+      ＜DBでのあれこれ＞
+        usersテーブルに以下カラムを追加（または別テーブルにuserIdをキーに切り出す）
+          stripe_customer_id
+          stripe_subscription_id
+          stripe_subscription_status
+      ＜プログラムでのあれこれ＞
+        ■サブスク開始のwebhook
+          const stripeCustomer = await stripe.customers.create({...})
+          Stripe::Subscription.create(
+              customer: stripeCustomer.id,
+              items: [{
+                  plan: YOUR_PLAN_ID,
+              }],
+          )
+          user.update({stripe_customer_id: stripeCustomer.id})
+        ■サブスク変更のwebhook
+          case event.type
+          when 'customer.subscription.updated', 'customer.subscription.deleted'
+            subscription = event.data.object
+            user = User.find_by(stripe_customer_id: subscription.customer)
+            user.update(
+              stripe_subscription_status: subscription.status,
+            )
+          end
+          // 取りうるステータスは以下
+          // trialing: トライアル中
+          // active: 課金中
+          // past_due: 支払い期限超過
+          // unpaid: 未払い
+          // canceled: 定額課金のキャンセル
+
+
+
   ＜変更/削除リクエストページ＞
     ・一覧ページだけで、詳細ページは無し
       ・差分を簡単に見れるようにする

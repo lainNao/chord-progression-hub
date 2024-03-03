@@ -3,15 +3,48 @@
 #   Refer for explanation to following link:
 #   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
 #
-pre-push:
-  commands:
-    test-all:
-      glob: "*"
-      run: make test__all
+# NOTE:
+#  - 何のgit-hookが使えるかは　ls -I "*.sample" .git/hooks　コマンドで分かるっぽい
+#  - CLIから直接実行したい時は npx lefthook run pre-commit とかでいけるっぽい
 
 pre-commit:
   parallel: true
+  skip: #mergeやrebase時は無視する
+    - merge
+    - rebase
   commands:
+    # ブランチの命名規則っぽいものに従ってなかったらエラーにする
+    branch-name-convention:
+      run: "sh ./scripts/branch-name-convention.sh"
+      fail_text: "ブランチの命名規則に従ってください。 ref: ./scripts/branch-name-convention.sh"
+    # シークレットが含まれてたらエラーにする
     secretlint:
       glob: "*"
       run: npx secretlint {staged_files}
+      fail_text: 秘密鍵等のシークレットが書かれたファイルはコミットできません
+    # specコメントがあったら処理しておく
+    parse-spec-comments:
+      glob: "docs-spec/**/*"
+      run: make parse-spec-comments
+
+pre-push:
+  commands:
+    test__common-test-case-runners:
+      glob: "packages-dev/common-test-case-runners/**/*"
+      run: make test__common-test-case-runners
+    test__ts-simple-result:
+      glob: "packages-main/ts-simple-result/**/*"
+      run: make test__ts-simple-result
+    test__app:
+      glob: "packages-main/app/**/*"
+      run: cd packages-main/app && make test__all
+
+# merge（pull時にも発火するらしい）後に発火
+post-merge:
+  parallel: true
+  commands:
+    # developと現在のブランチの間にpackage-lock.jsonの差分があれば。自動でnpm ciを実行する
+    install-dependencies:
+      files: git diff --name-only HEAD develop
+      glob: "{package-lock.json}"
+      run: npm ci

@@ -69,6 +69,9 @@
           ＜手間面＞
             ・アカウント作成は最初にしかほぼやらないと思うので、、、、
             ・あと、そもそも知識が無く、3日かけてもやりたいことができなかった。作った情報でaws consoleにGUIからログインができなかった（そもそもそっちで使う値が取得できるのかすら確信が持てない）。gpg_keyの生成や復号化が間違っているせいなのかそうでないのかも分からず
+        ■そもそもterraform化がうまくいかないもの
+          ・Vercel      //なんかapplyする度にNode.jsのバージョンやRootDirectoryやProductionBranchが初期化されてしまうので、たぶんまだちゃんとしてないやつしかない
+          ・Neon        //なんかエラー出た気がする
         ■その他、作ったら変更しないつもりだしたぶんtfコードの再利用もしないし、いちいちtfstateで状態管理する方が面倒だし、CI/CD時に適用しないといけないシークレット増えるのが面倒になるなと思うやつ
           ＜対象＞
             //外部DB
@@ -85,6 +88,13 @@
             ・CodeBuild
   ＜事前準備＞
     ■目次
+      //新
+      aws準備
+      terraform準備
+      vercel準備
+      stripe準備        //ウェブサイトができてからじゃないと審査通らない
+
+      //旧
       ツールの準備
       管理アカウント作成とCLIの設定
         管理アカウントの詳細設定
@@ -94,6 +104,41 @@
         全アカウントのプロファイルを設定
         本番、ステージングの環境を作っちゃう    //TODO: まだ書けてない
     ■詳細
+      ＜stripe準備＞
+        参考 https://github.com/hiroppy/app-router_nexauth_prisma_stripe_sample
+      ＜aws準備＞
+        一つアカウントを作っておく
+        それで以下を作る
+          ドメイン            //chord-progression-hub.comとchor-progression-hub.jp
+                            //jpは高いならaws以外でやってもいい
+      ＜vercel準備＞
+        cph-teamというチームを作ってproプランに登録しておく
+        以下のように設定
+          ■Project Settings
+            ＜General＞
+              Project Name        //cph
+              Root Directory      //packages-main/app
+              Node.js Version     //20.x
+              Production Branch   //staging
+            ＜Git＞
+              リポジトリを連携しておく
+              Production Branch   //production
+              Ignored Build Stepで、Customで[ "$VERCEL_GIT_COMMIT_AUTHOR_LOGIN" == "dependabot[bot]" ]を指定（dependabotからのPRでデプロイいちいちしない）
+            ＜Domains＞
+              stagingブランチに一個設定
+                適当に。固定URLであればいい
+              ブランチ無指定で2個設定（するとプロダクション用になるので）。DNSの設定案内が出てくるのでその通りにやる
+                chord-progression-hub.com（wwwの方も）
+                chord-progression-hub.jp（wwwの方も）
+                //wwwの方は301でwww無しの方にリダイレクトさせる
+            ＜Deployment Protection＞
+              Vercel Authentication   //standard protection
+
+      ＜terraform準備＞
+        terraformをインストール
+        terraform cloudにアカウント作って、いい感じにorganizationとworkspace（prod, stage）を作っておく
+        terraform loginしておく
+
       ＜全アカウントのプロファイルを設定＞
         いちいちaws configureで設定するのは面倒なので、プロファイルを設定しておく
         以下のようにし、それぞれセットする。defaultはスルーでもいいかも

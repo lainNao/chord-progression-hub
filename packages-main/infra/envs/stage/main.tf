@@ -7,10 +7,4 @@ terraform {
       name = "stage"
     }
   }
-  required_providers {
-    vercel = {
-      source  = "vercel/vercel"
-      version = "1.1.0"
-    }
-  }
 }
