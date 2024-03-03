@@ -1,19 +1,22 @@
-//ref: https://github.com/vercel/next.js/issues/29362#issuecomment-971377869
+/* eslint-disable */
 
+// NOTE: wasmを読み込めるようにしたい
+// ref: https://github.com/vercel/next.js/issues/29362#issuecomment-971377869
 class WasmChunksFixPlugin {
   apply(compiler) {
     compiler.hooks.thisCompilation.tap("WasmChunksFixPlugin", (compilation) => {
       compilation.hooks.processAssets.tap(
         { name: "WasmChunksFixPlugin" },
-        (assets) =>
-          Object.entries(assets).forEach(([pathname, source]) => {
-            if (!pathname.match(/\.wasm$/)) return;
+        (assets) => {
+          for (const [pathname, source] of Object.entries(assets)) {
+            if (!/\.wasm$/.test(pathname)) continue;
             compilation.deleteAsset(pathname);
 
             const name = pathname.split("/")[1];
             const info = compilation.assetsInfo.get(pathname);
             compilation.emitAsset(name, source, info);
-          })
+          }
+        }
       );
     });
   }

@@ -1,0 +1,22 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#452042",
+    "titleBar.inactiveBackground": "#452042"
+  },
+  "css.lint.unknownAtRules": "ignore",
+
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // 不要そうなファイルは検索対象から除外する
+  "search.exclude": {
+    ".next": true,
+    ".coverage": true,
+    "node_modules": true
+  }
+}
