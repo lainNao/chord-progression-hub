@@ -7,7 +7,14 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    // NOTE: 拡張しているものがわかりやすくするため、appのようなprefixをつけたキャメルケースのキーにする
     extend: {
+      colors: {
+        appMain: {
+          top: "hsl(var(--colorAppMainTop) / <alpha-value>)",
+          bottom: "hsl(var(--colorAppMainBottom) / <alpha-value>)",
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
