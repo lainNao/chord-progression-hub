@@ -14,7 +14,8 @@
   }
 }
 
-* {
+html,
+body {
   /* text color */
   color: hsl(var(--colorAppMainTop));
   transition: color 0.3s ease;
