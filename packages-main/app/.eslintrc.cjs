@@ -147,6 +147,7 @@ module.exports = {
         "no-unused-vars", // 使わない引数指定NG、を無効化
         "no-irregular-whitespace", // 全角スペースを入れてもOK
         "no-lonely-if", // Elseの中にポツンとifを一つ置いてもOK
+        "id-length", // 変数名の長さに制限をつける、を無効化
         "import/prefer-default-export", // Prefer default exportというエラーは無効化
         "require-await",
         "unicorn/filename-case", // ファイル名にケバブケース矯正はしない
