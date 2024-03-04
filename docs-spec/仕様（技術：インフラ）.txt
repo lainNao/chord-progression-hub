@@ -116,10 +116,12 @@
         以下のように設定
           ■Project Settings
             ＜General＞
-              Project Name        //cph
+              Project Name        //chord-progression-hub
               Root Directory      //packages-main/app
               Node.js Version     //20.x
               Production Branch   //staging
+            ＜Environment Variables＞
+              appフォルダを見ていい感じに設定
             ＜Git＞
               リポジトリを連携しておく
               Production Branch   //production
