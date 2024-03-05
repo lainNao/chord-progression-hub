@@ -28,11 +28,11 @@ export const defaultThemes: Theme[] = [
 ];
 
 export function changeTheme(themeName: string): void {
-  const setting = defaultThemes.find((theme) => theme.id === themeName);
-  if (!setting) {
+  const targetTheme = defaultThemes.find((theme) => theme.id === themeName);
+  if (!targetTheme) {
     return;
   }
-  for (const [key, value] of Object.entries(setting.values)) {
+  for (const [key, value] of Object.entries(targetTheme.values)) {
     document.documentElement.style.setProperty(`--${key}`, value);
   }
 }
