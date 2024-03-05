@@ -1,7 +1,7 @@
 import React from "react";
 import "./button.css";
 
-type ButtonProperties = {
+type ButtonProps = {
   /**
    * Is this the principal call to action on the page?
    */
@@ -13,7 +13,7 @@ type ButtonProperties = {
   /**
    * How large should the button be?
    */
-  readonly size?: "large" | "medium" | "small";
+  readonly size?: "small" | "medium" | "large";
   /**
    * Button contents
    */
@@ -32,18 +32,18 @@ export function Button({
   size = "medium",
   backgroundColor,
   label,
-  ...properties
-}: ButtonProperties): JSX.Element {
+  ...props
+}: ButtonProps): JSX.Element {
   const mode = primary
     ? "storybook-button--primary"
     : "storybook-button--secondary";
   return (
     <button
+      type="button"
       className={["storybook-button", `storybook-button--${size}`, mode].join(
         " "
       )}
-      type="button"
-      {...properties}
+      {...props}
     >
       {label}
       <style jsx>{`

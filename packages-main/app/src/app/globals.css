@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* TODO: デフォでダークモード、ライトモードを切り分けててあげたい。今は同じ */
 :root {
   --colorAppMainTop: 300deg 100% 90%;
   --colorAppMainBottom: 300deg 100% 10%;
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
     --colorAppMainTop: 300deg 100% 90%;

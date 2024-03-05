@@ -37,3 +37,4 @@ next-env.d.ts
 
 # test file
 tmp-file-for-eslint-test.stories.tsx
+*storybook.log

@@ -7,11 +7,11 @@ const themes: Record<
     ["colorAppMainBottom"]: string;
   }
 > = {
-  "dark-blue": {
+  darkBlue: {
     colorAppMainTop: "200deg 100% 90%",
     colorAppMainBottom: "200deg 100% 10%",
   },
-  "dark-green": {
+  darkGreen: {
     colorAppMainTop: "100deg 100% 90%",
     colorAppMainBottom: "100deg 100% 10%",
   },
@@ -40,20 +40,20 @@ export function SampleForm({
         <button
           type="button"
           onClick={() => {
-            changeTheme("dark-blue");
+            changeTheme("darkBlue");
           }}
           className="bg-blue-800 p-4"
         >
-          dark-blue
+          darkBlue
         </button>
         <button
           type="button"
           onClick={() => {
-            changeTheme("dark-green");
+            changeTheme("darkGreen");
           }}
           className="bg-green-800 p-4"
         >
-          dark-green
+          darkGreen
         </button>
       </div>
       <form action={onSubmit}>
