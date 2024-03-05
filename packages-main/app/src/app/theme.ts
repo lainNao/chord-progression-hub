@@ -27,6 +27,7 @@ export const defaultThemes: Theme[] = [
   },
 ];
 
+/** TODO: デフォルトテーマしか対応してないのでデータと切り替えの処理を分離するなどする */
 export function changeTheme(themeName: string): void {
   const targetTheme = defaultThemes.find((theme) => theme.id === themeName);
   if (!targetTheme) {
