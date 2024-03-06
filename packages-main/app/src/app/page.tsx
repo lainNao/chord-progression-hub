@@ -1,5 +1,6 @@
 import { ChordProgressionAst } from "./ChordProgressionAst";
 import { SampleForm } from "./SampleForm";
+import { t } from "@/locales/dictionaries";
 
 const handleClick = async (): Promise<void> => {
   "use server";
@@ -13,8 +14,10 @@ const handleSubmit = async (formData: Readonly<FormData>): Promise<void> => {
 };
 
 export default function Home(): JSX.Element {
+  const tmpLang = "ja";
   return (
     <main>
+      {t[tmpLang].hello_world}
       <SampleForm onClick={handleClick} onSubmit={handleSubmit} />
       <ChordProgressionAst value="C" />
     </main>

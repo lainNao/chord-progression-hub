@@ -125,6 +125,21 @@ module.exports = {
         ],
       },
     },
+    // 翻訳キーはスネークケース
+    {
+      files: ["src/locales/dictionaries/**/*.ts"],
+      rules: {
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            selector: "objectLiteralProperty",
+            format: ["snake_case"],
+            leadingUnderscore: "allow",
+            trailingUnderscore: "allow",
+          },
+        ],
+      },
+    },
   ],
   rules: {
     /* ---------------- offにしたいルール ---------------- */
@@ -148,6 +163,8 @@ module.exports = {
         "no-irregular-whitespace", // 全角スペースを入れてもOK
         "no-lonely-if", // Elseの中にポツンとifを一つ置いてもOK
         "id-length", // 変数名の長さに制限をつける、を無効化
+        "camelcase", // どうしても辞書ファイルのキーとかはスネークにしたいので…
+        "no-warning-comments", // TODOとかFIXMEとかを使ってもOK
         "import/prefer-default-export", // Prefer default exportというエラーは無効化
         "require-await",
         "unicorn/filename-case", // ファイル名にケバブケース矯正はしない
@@ -169,7 +186,7 @@ module.exports = {
         "react/prop-types", // Tsを使うのでprop typesに関する設定は無効化
         "react/destructuring-assignment", // デストラクチャリングを必須、を無効化
         "react/require-default-props", // オプショナルなpropsにデフォルト値を毎回セット、しなくてもよくする
-      ].map((rule) => [rule, "off"])
+      ].map((rule) => [rule, "off"]),
     ),
 
     /* ---------------- warnにしたいルール ---------------- */
@@ -182,7 +199,7 @@ module.exports = {
         "no-else-return", // Elseを使ってもOK
         "prefer-template", // 文字列結合を使ってもOK
         "unicorn/no-new-array",
-      ].map((rule) => [rule, "warn"])
+      ].map((rule) => [rule, "warn"]),
     ),
     "@typescript-eslint/no-unused-vars": ["warn"],
     "react/jsx-max-depth": ["warn", { max: 5 }], // jsxのネストは5からwarn
@@ -191,7 +208,7 @@ module.exports = {
     ...Object.fromEntries(
       [
         "react-hooks/rules-of-hooks", // Hooksのルール違反はエラーにする
-      ].map((rule) => [rule, "error"])
+      ].map((rule) => [rule, "error"]),
     ),
 
     // Jsxを書ける拡張子を設定
