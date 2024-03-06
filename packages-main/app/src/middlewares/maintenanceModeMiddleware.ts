@@ -26,11 +26,10 @@ export const maintenanceModeMiddleware: MiddlewareFactory = (next) => {
   // eslint-disable-next-line max-statements
   return async (request: NextRequest, _next) => {
     // 対象外パスの時はそのまま次のミドルウェアへ
-    if (
-      maintenanceExclusionPaths.some((target) =>
-        request.nextUrl.pathname.startsWith(target),
-      )
-    ) {
+    const isExclusionPath = maintenanceExclusionPaths.some((target) =>
+      request.nextUrl.pathname.startsWith(target),
+    );
+    if (isExclusionPath) {
       return next(request, _next);
     }
 
