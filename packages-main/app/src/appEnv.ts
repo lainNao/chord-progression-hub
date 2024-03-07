@@ -1,3 +1,6 @@
+/**
+ * 環境変数をバリデーションした値
+ */
 type ValidatedEnvVars = {
   readonly nodeEnv: NodeJS.ProcessEnv["NODE_ENV"];
   readonly isMaintenanceMode: boolean;
@@ -9,7 +12,7 @@ type ValidatedEnvVars = {
 function getValidatedEnvVarsOrThrowError(): ValidatedEnvVars {
   const isMaintenanceMode = Boolean(
     process.env["NEXT_PUBLIC_MAINTENANCE_MODE"] !== undefined &&
-      process.env["NEXT_PUBLIC_MAINTENANCE_MODE"] !== "false"
+      process.env["NEXT_PUBLIC_MAINTENANCE_MODE"] !== "false",
   );
 
   return {

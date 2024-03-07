@@ -13,6 +13,8 @@ const config: Config = {
       colors: {
         appMain: {
           top: "hsl(var(--colorAppMainTop) / <alpha-value>)",
+          midTop: "hsl(var(--colorAppMainMidTop) / <alpha-value>)",
+          midBottom: "hsl(var(--colorAppMainMidBottom) / <alpha-value>)",
           bottom: "hsl(var(--colorAppMainBottom) / <alpha-value>)",
         },
       },

@@ -5,11 +5,15 @@
 /* TODO: デフォでダークモード、ライトモードを切り分けててあげたい。今は同じ */
 :root {
   --colorAppMainTop: 300deg 100% 90%;
+  --colorAppMainMidTop: 300deg 100% 80%;
+  --colorAppMainMidBottom: 300deg 100% 20%;
   --colorAppMainBottom: 300deg 100% 10%;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --colorAppMainTop: 300deg 100% 90%;
+    --colorAppMainMidTop: 300deg 100% 80%;
+    --colorAppMainMidBottom: 300deg 100% 20%;
     --colorAppMainBottom: 300deg 100% 10%;
   }
 }

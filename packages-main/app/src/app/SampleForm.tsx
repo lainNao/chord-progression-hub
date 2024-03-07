@@ -1,31 +1,6 @@
 "use client";
 
-const themes: Record<
-  string,
-  {
-    ["colorAppMainTop"]: string;
-    ["colorAppMainBottom"]: string;
-  }
-> = {
-  darkBlue: {
-    colorAppMainTop: "200deg 100% 90%",
-    colorAppMainBottom: "200deg 100% 10%",
-  },
-  darkGreen: {
-    colorAppMainTop: "100deg 100% 90%",
-    colorAppMainBottom: "100deg 100% 10%",
-  },
-};
-
-const changeTheme = (themeName: string): void => {
-  const setting = themes[themeName];
-  if (!setting) {
-    return;
-  }
-  for (const [key, value] of Object.entries(setting)) {
-    document.documentElement.style.setProperty(`--${key}`, value);
-  }
-};
+import { changeTheme } from "./theme";
 
 export function SampleForm({
   onSubmit,
