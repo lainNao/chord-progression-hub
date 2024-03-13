@@ -11,13 +11,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { changeTheme, defaultThemes } from "@/app/theme";
 
-export function ThemeToggle(): JSX.Element {
-  const setAppTheme = (theme: string) => {
-    // htmlタグのCSS変数とcolor-schemeの値をセット
-    changeTheme(theme);
-    // TODO: API通す、またはformのsubmitなど通してDBにも保存
-  };
+// htmlタグのCSS変数とcolor-schemeの値をセット（楽観更新）
+/*
+ * TODO: API通す、またはformのsubmitなど通してサーバー側のusersテーブルにtheme_idとして保存（これだけでは正規化しないほうがいいのかなと思うので）
+ * 失敗したらクライアント側で元のテーマに戻す
+ */
+const setAppTheme = (theme: string) => changeTheme(theme);
 
+export function ThemeToggle(): JSX.Element {
   const themes = defaultThemes.map((theme) => theme.id);
 
   return (
