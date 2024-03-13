@@ -587,7 +587,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "off",
     ],
     "camelcase": [
-      "error",
+      "off",
     ],
     "capitalized-comments": [
       "off",
@@ -1449,7 +1449,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "error",
     ],
     "no-warning-comments": [
-      "error",
+      "off",
     ],
     "no-whitespace-before-property": [
       "off",
@@ -1560,18 +1560,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       2,
     ],
     "react/forbid-component-props": [
-      "error",
-      {
-        "forbid": [
-          {
-            "allowedFor": [
-              "Image",
-              "Link",
-            ],
-            "propName": "className",
-          },
-        ],
-      },
+      "off",
     ],
     "react/forbid-dom-props": [
       2,
@@ -1766,7 +1755,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       2,
     ],
     "react/no-multi-comp": [
-      2,
+      "off",
     ],
     "react/no-namespace": [
       2,
@@ -2075,7 +2064,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "error",
     ],
     "unicorn/no-keyword-prefix": [
-      "error",
+      "off",
     ],
     "unicorn/no-lonely-if": [
       "error",
@@ -2228,7 +2217,7 @@ exports[`ESLint 設定に不要な変更が無い 1`] = `
       "error",
     ],
     "unicorn/prefer-module": [
-      "off",
+      "error",
     ],
     "unicorn/prefer-native-coercion-functions": [
       "error",
