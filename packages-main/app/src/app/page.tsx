@@ -1,7 +1,6 @@
+import { HamburgerMenuIcon, CameraIcon } from "@radix-ui/react-icons";
 import { ChordProgressionAst } from "./ChordProgressionAst";
 import { SampleForm } from "./SampleForm";
-import { CameraIcon } from "@/components/icons/CameraIcon";
-import { HamburgerIcon } from "@/components/icons/HambugerIcon";
 import { t } from "@/locales/dictionaries";
 
 const handleClick = async (): Promise<void> => {
@@ -20,7 +19,7 @@ export default function Home(): JSX.Element {
   return (
     <main>
       {t[tmpLang].hello_world}
-      <HamburgerIcon />
+      <HamburgerMenuIcon />
       <CameraIcon />
       <SampleForm onClick={handleClick} onSubmit={handleSubmit} />
       <ChordProgressionAst value="C" />
