@@ -1,6 +1,7 @@
 "use client";
 
-import { changeTheme } from "./theme";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { Calendar } from "@/components/ui/calendar";
 
 export function SampleForm({
   onSubmit,
@@ -11,26 +12,13 @@ export function SampleForm({
 }): JSX.Element {
   return (
     <div>
-      <div className="m-4">
-        <button
-          type="button"
-          onClick={() => {
-            changeTheme("darkBlue");
-          }}
-          className="bg-blue-800 p-4"
-        >
-          darkBlue
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            changeTheme("darkGreen");
-          }}
-          className="bg-green-800 p-4"
-        >
-          darkGreen
-        </button>
-      </div>
+      <Calendar
+        mode="single"
+        selected={new Date()}
+        className="rounded-md border"
+      />
+      <ThemeToggle />
+
       <form action={onSubmit}>
         <label>
           Name:

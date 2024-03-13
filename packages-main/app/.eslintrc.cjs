@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 const environment = {
     browser: true,
     es2024: true,
@@ -79,13 +81,7 @@ module.exports = {
   overrides: [
     {
       // 設定ファイル達
-      files: [
-        "jest.config.js",
-        ".eslintrc.js",
-        "next.config.js",
-        "prettier.config.js",
-        "tailwind.config.js",
-      ],
+      files: ["jest.config.js", "tailwind.config.ts"],
       rules: {
         "unicorn/prefer-module": "off", // Commonjsを使ってもOK
       },
@@ -140,6 +136,13 @@ module.exports = {
         ],
       },
     },
+    // 関数コンポーネントの場合は行数が長くてもOK
+    {
+      files: ["**/*.tsx"],
+      rules: {
+        "max-lines-per-function": ["off"],
+      },
+    },
   ],
   rules: {
     /* ---------------- offにしたいルール ---------------- */
@@ -186,8 +189,33 @@ module.exports = {
         "react/prop-types", // Tsを使うのでprop typesに関する設定は無効化
         "react/destructuring-assignment", // デストラクチャリングを必須、を無効化
         "react/require-default-props", // オプショナルなpropsにデフォルト値を毎回セット、しなくてもよくする
+        "react/no-multi-comp", // 1ファイルに複数のコンポーネントを書いてもOK
       ].map((rule) => [rule, "off"]),
     ),
+    // コンポーネントにclassName使ってもいいし、classから始まるprops作ってもOK
+    "react/forbid-component-props": ["off"],
+    "unicorn/no-keyword-prefix": ["off"],
+    /*
+     * TODO: !!を使ってもOKにしたい
+     * "no-implicit-coercion": [
+     *   "error",
+     *   {
+     *     boolean: false, //「!!」を使ってもOK化
+     *     number: true,
+     *     string: true,
+     *   },
+     * ],
+     *
+     * TODO: Boolean(...)を禁止。なぜかうまくいかない
+     * "no-restricted-syntax": [
+     *   "error",
+     *   {
+     *     selector: 'CallExpression[callee.name="Boolean"]',
+     *     message:
+     *       "`Boolean(...)` の代わりに `!!` を使用してください。",
+     *   },
+     * ],
+     */
 
     /* ---------------- warnにしたいルール ---------------- */
     ...Object.fromEntries(
@@ -237,19 +265,6 @@ module.exports = {
       {
         namedComponents: "function-declaration",
         unNamedComponents: "arrow-function",
-      },
-    ],
-
-    // classNameはhtml要素しか使えないようにするが、特定コンポーネントなら使ってOK
-    "react/forbid-component-props": [
-      "error",
-      {
-        forbid: [
-          {
-            propName: "className",
-            allowedFor: ["Image", "Link"],
-          },
-        ],
       },
     ],
 
