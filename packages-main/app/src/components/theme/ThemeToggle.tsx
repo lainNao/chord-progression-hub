@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { changeTheme, defaultThemes } from "@/app/theme";
+import { changeTheme, defaultThemes } from "@/theme";
 
 // htmlタグのCSS変数とcolor-schemeの値をセット（楽観更新）
 /*

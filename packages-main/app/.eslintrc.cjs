@@ -86,9 +86,9 @@ module.exports = {
         "unicorn/prefer-module": "off", // Commonjsを使ってもOK
       },
     },
-    // src/appEnv.ts以外のファイルでprocess.envを使うのを禁止
+    // src/wrappers/processEnv.ts以外のファイルでprocess.envを使うのを禁止
     {
-      files: ["!src/appEnv.ts"],
+      files: ["!src/wrappers/processEnv.ts"],
       rules: {
         "no-restricted-syntax": [
           "error",

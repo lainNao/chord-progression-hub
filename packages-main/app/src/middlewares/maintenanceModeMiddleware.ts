@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { appEnv } from "../appEnv";
+import { appEnv } from "../wrappers/processEnv";
 import type { MiddlewareFactory } from "./stackMiddlewares";
 
 /**
