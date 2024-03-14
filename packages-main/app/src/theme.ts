@@ -149,8 +149,8 @@ function setHtmlTagCssColorSchema(colorSchema: "light" | "dark") {
 }
 
 /** CSS変数と、cssのcolor-schemeの値をセットする */
-export function changeTheme(themeName: string): Result<undefined> {
-  const targetTheme = defaultThemes.find((theme) => theme.id === themeName);
+export function changeTheme(themeId: string): Result<undefined> {
+  const targetTheme = defaultThemes.find((theme) => theme.id === themeId);
   if (!targetTheme) {
     return {
       isSuccess: false,

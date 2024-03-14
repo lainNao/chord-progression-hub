@@ -1,6 +1,6 @@
 import { HamburgerMenuIcon, CameraIcon } from "@radix-ui/react-icons";
-import { ChordProgressionAst } from "./components/ChordProgressionAst";
-import { SampleForm } from "./components/SampleForm";
+import { ChordProgressionAst } from "./_ChordProgressionAst";
+import { SampleForm } from "./_SampleForm";
 import { t } from "@/locales/dictionaries";
 
 const handleClick = async (): Promise<void> => {
