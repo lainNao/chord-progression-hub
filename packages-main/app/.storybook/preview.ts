@@ -1,12 +1,13 @@
 import type { Preview } from "@storybook/react";
-import "../src/app/globals.css";
-import "./preview.css";
 import { ThemeSelectorDecorator } from "./decorators/ThemeSelectorDecorator";
-import { defaultThemes } from "../src/app/theme";
+import { defaultThemes } from "../src/theme";
+
+import "../src/app/globals.css";
+
+const themeIds = defaultThemes.map((theme) => theme.id);
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -16,8 +17,8 @@ const preview: Preview = {
   },
   decorators: [
     ThemeSelectorDecorator({
-      themeIds: defaultThemes.map((theme) => theme.id),
-      defaultThemeId: "appLight",
+      themeIds,
+      defaultThemeId: themeIds[0],
     }),
   ],
 };
