@@ -1,7 +1,7 @@
 "use client";
 
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/shadcnui/calendar";
 
 export function SampleForm({
   onSubmit,

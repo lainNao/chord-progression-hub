@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcnui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/shadcnui/dropdown-menu";
 import { changeTheme, defaultThemes } from "@/theme";
 
 // htmlタグのCSS変数とcolor-schemeの値をセット（楽観更新）

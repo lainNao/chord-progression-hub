@@ -1,5 +1,5 @@
 import { GearIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcnui/button";
 
 export function SiteHeader(): JSX.Element {
   return (
